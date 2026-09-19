@@ -1,0 +1,173 @@
+{
+ "_meta": {
+  "deck": "ics-ot",
+  "method": "vision image-reading of shared/decks/ics-ot scenario card faces",
+  "note": "Keys use the printed card title (uppercase as printed). build_card_details.py resolves them to carddb names via normalization.",
+  "rekeyed": "byImage (physical card file) to avoid name collisions"
+ },
+ "byImage": {
+  "decks/ics-ot/c2-1.webp": [
+   "Consequence-Driven Threat Hunting",
+   "Protocol Analysis",
+   "Endpoint Analysis"
+  ],
+  "decks/ics-ot/c2-2.webp": [
+   "SIEM Log Analysis",
+   "Protocol Analysis"
+  ],
+  "decks/ics-ot/c2-3.webp": [
+   "Endpoint Analysis",
+   "Site Walkthrough"
+  ],
+  "decks/ics-ot/c2-4.webp": [
+   "Consequence-Driven Threat Hunting",
+   "Firewall Log Review"
+  ],
+  "decks/ics-ot/c2-5.webp": [
+   "Consequence-Driven Threat Hunting",
+   "Firewall Log Review",
+   "SIEM Log Analysis"
+  ],
+  "decks/ics-ot/c2-6.webp": [
+   "Consequence-Driven Threat Hunting",
+   "Firewall Log Review",
+   "SIEM Log Analysis",
+   "Endpoint Analysis"
+  ],
+  "decks/ics-ot/initial-1.webp": [
+   "Shodan Review",
+   "Protocol Analysis",
+   "Site Walkthrough"
+  ],
+  "decks/ics-ot/initial-2.webp": [
+   "SIEM Log Analysis",
+   "Shodan Review",
+   "Endpoint Analysis",
+   "User and Entity Behavior Analytics (UEBA)"
+  ],
+  "decks/ics-ot/initial-3.webp": [
+   "SIEM Log Analysis",
+   "Endpoint Analysis",
+   "User and Entity Behavior Analytics (UEBA)",
+   "Firewall Log Review"
+  ],
+  "decks/ics-ot/initial-4.webp": [
+   "SIEM Log Analysis",
+   "Endpoint Analysis",
+   "User and Entity Behavior Analytics (UEBA)",
+   "Protocol Analysis"
+  ],
+  "decks/ics-ot/initial-5.webp": [
+   "Endpoint Analysis",
+   "User and Entity Behavior Analytics (UEBA)",
+   "Consequence-Driven Threat Hunting"
+  ],
+  "decks/ics-ot/initial-6.webp": [
+   "Endpoint Analysis",
+   "SIEM Log Analysis",
+   "Consequence-Driven Threat Hunting",
+   "Firewall Log Review"
+  ],
+  "decks/ics-ot/initial-7.webp": [
+   "Consequence-Driven Threat Hunting",
+   "SIEM Log Analysis",
+   "Protocol Analysis",
+   "Endpoint Analysis"
+  ],
+  "decks/ics-ot/initial-8.webp": [
+   "User and Entity Behavior Analytics (UEBA)",
+   "Sequence of Events (SOE) Analysis"
+  ],
+  "decks/ics-ot/persist-1.webp": [
+   "Memory Analysis",
+   "Endpoint Analysis",
+   "Consequence-Driven Threat Hunting"
+  ],
+  "decks/ics-ot/persist-2.webp": [
+   "User and Entity Behavior Analytics (UEBA)",
+   "Endpoint Analysis",
+   "SIEM Log Analysis",
+   "Consequence-Driven Threat Hunting",
+   "Cyber Deception"
+  ],
+  "decks/ics-ot/persist-3.webp": [
+   "Endpoint Analysis",
+   "Memory Analysis",
+   "Consequence-Driven Threat Hunting",
+   "SIEM Log Analysis"
+  ],
+  "decks/ics-ot/persist-4.webp": [
+   "Memory Analysis",
+   "Endpoint Analysis",
+   "SIEM Log Analysis",
+   "Consequence-Driven Threat Hunting"
+  ],
+  "decks/ics-ot/persist-5.webp": [
+   "Memory Analysis",
+   "Endpoint Analysis",
+   "Consequence-Driven Threat Hunting"
+  ],
+  "decks/ics-ot/persist-6.webp": [
+   "Consequence-Driven Threat Hunting",
+   "Endpoint Analysis",
+   "Memory Analysis",
+   "Protocol Analysis"
+  ],
+  "decks/ics-ot/persist-7.webp": [
+   "Memory Analysis",
+   "Endpoint Analysis",
+   "Consequence-Driven Threat Hunting"
+  ],
+  "decks/ics-ot/persist-8.webp": [
+   "Endpoint Analysis"
+  ],
+  "decks/ics-ot/persist-9.webp": [
+   "Endpoint Analysis"
+  ],
+  "decks/ics-ot/pivot-1.webp": [
+   "Endpoint Analysis",
+   "User and Entity Behavior Analytics (UEBA)",
+   "Protocol Analysis",
+   "Consequence-Driven Threat Hunting",
+   "Sequence of Events (SOE) Analysis"
+  ],
+  "decks/ics-ot/pivot-2.webp": [
+   "Consequence-Driven Threat Hunting",
+   "Protocol Analysis",
+   "SIEM Log Analysis",
+   "Sequence of Events (SOE) Analysis"
+  ],
+  "decks/ics-ot/pivot-3.webp": [
+   "User and Entity Behavior Analytics (UEBA)",
+   "Consequence-Driven Threat Hunting",
+   "Endpoint Analysis"
+  ],
+  "decks/ics-ot/pivot-4.webp": [
+   "SIEM Log Analysis",
+   "User and Entity Behavior Analytics (UEBA)",
+   "Consequence-Driven Threat Hunting",
+   "Cyber Deception"
+  ],
+  "decks/ics-ot/pivot-5.webp": [
+   "User and Entity Behavior Analytics (UEBA)",
+   "Firewall Log Review",
+   "Protocol Analysis",
+   "Cyber Deception"
+  ],
+  "decks/ics-ot/pivot-6.webp": [
+   "Endpoint Analysis",
+   "Consequence-Driven Threat Hunting",
+   "SIEM Log Analysis"
+  ],
+  "decks/ics-ot/pivot-7.webp": [
+   "Endpoint Analysis",
+   "Consequence-Driven Threat Hunting",
+   "User and Entity Behavior Analytics (UEBA)"
+  ],
+  "decks/ics-ot/pivot-8.webp": [
+   "Endpoint Analysis",
+   "SIEM Log Analysis",
+   "Consequence-Driven Threat Hunting"
+  ]
+ }
+}

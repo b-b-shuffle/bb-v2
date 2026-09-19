@@ -1,0 +1,252 @@
+{
+  "title": "Expansion 1",
+  "revdate": "01-01-2023",
+  "link": "",
+  "data": [
+    {
+      "name": "Initial Access 1",
+      "image": "../../shared/decks/expansion1/initial-1.webp",
+      "type": "initial",
+      "id": "001",
+      "details": ""
+    },
+    {
+      "name": "Initial Access 2",
+      "image": "../../shared/decks/expansion1/initial-2.webp",
+      "type": "initial",
+      "id": "002",
+      "details": ""
+    },
+    {
+      "name": "Initial Access 3",
+      "image": "../../shared/decks/expansion1/initial-3.webp",
+      "type": "initial",
+      "id": "003",
+      "details": ""
+    },
+    {
+      "name": "Pivot 1",
+      "image": "../../shared/decks/expansion1/pivot-1.webp",
+      "type": "pivot",
+      "id": "004",
+      "details": ""
+    },
+    {
+      "name": "Pivot 2",
+      "image": "../../shared/decks/expansion1/pivot-2.webp",
+      "type": "pivot",
+      "id": "005",
+      "details": ""
+    },
+    {
+      "name": "Pivot 3",
+      "image": "../../shared/decks/expansion1/pivot-3.webp",
+      "type": "pivot",
+      "id": "006",
+      "details": ""
+    },
+    {
+      "name": "Pivot 4",
+      "image": "../../shared/decks/expansion1/pivot-4.webp",
+      "type": "pivot",
+      "id": "007",
+      "details": ""
+    },
+    {
+      "name": "Pivot 5",
+      "image": "../../shared/decks/expansion1/pivot-5.webp",
+      "type": "pivot",
+      "id": "008",
+      "details": ""
+    },
+    {
+      "name": "Persist 1",
+      "image": "../../shared/decks/expansion1/persist-1.webp",
+      "type": "persist",
+      "id": "009",
+      "details": ""
+    },
+    {
+      "name": "Persist 2",
+      "image": "../../shared/decks/expansion1/persist-2.webp",
+      "type": "persist",
+      "id": "010",
+      "details": ""
+    },
+    {
+      "name": "Persist 3",
+      "image": "../../shared/decks/expansion1/persist-3.webp",
+      "type": "persist",
+      "id": "011",
+      "details": ""
+    },
+    {
+      "name": "Persist 4",
+      "image": "../../shared/decks/expansion1/persist-4.webp",
+      "type": "persist",
+      "id": "012",
+      "details": ""
+    },
+    {
+      "name": "Persist 5",
+      "image": "../../shared/decks/expansion1/persist-5.webp",
+      "type": "persist",
+      "id": "013",
+      "details": ""
+    },
+    {
+      "name": "Procedure 1",
+      "image": "../../shared/decks/expansion1/procedure-1.webp",
+      "type": "procedure",
+      "id": "014",
+      "details": ""
+    },
+    {
+      "name": "Inject 1",
+      "image": "../../shared/decks/expansion1/inject-1.webp",
+      "type": "inject",
+      "id": "015",
+      "details": ""
+    },
+    {
+      "name": "Inject 2",
+      "image": "../../shared/decks/expansion1/inject-2.webp",
+      "type": "inject",
+      "id": "016",
+      "details": ""
+    },
+    {
+      "name": "Inject 3",
+      "image": "../../shared/decks/expansion1/inject-3.webp",
+      "type": "inject",
+      "id": "017",
+      "details": ""
+    },
+    {
+      "name": "Inject 4",
+      "image": "../../shared/decks/expansion1/inject-4.webp",
+      "type": "inject",
+      "id": "018",
+      "details": ""
+    },
+    {
+      "name": "Inject 5",
+      "image": "../../shared/decks/expansion1/inject-5.webp",
+      "type": "inject",
+      "id": "019",
+      "details": ""
+    },
+    {
+      "name": "Inject 6",
+      "image": "../../shared/decks/expansion1/inject-6.webp",
+      "type": "inject",
+      "id": "020",
+      "details": ""
+    },
+    {
+      "name": "Inject 7",
+      "image": "../../shared/decks/expansion1/inject-7.webp",
+      "type": "inject",
+      "id": "021",
+      "details": ""
+    },
+    {
+      "name": "Inject 8",
+      "image": "../../shared/decks/expansion1/inject-8.webp",
+      "type": "inject",
+      "id": "022",
+      "details": ""
+    },
+    {
+      "name": "Inject 9",
+      "image": "../../shared/decks/expansion1/inject-9.webp",
+      "type": "inject",
+      "id": "023",
+      "details": ""
+    },
+    {
+      "name": "Inject 10",
+      "image": "../../shared/decks/expansion1/inject-10.webp",
+      "type": "inject",
+      "id": "024",
+      "details": ""
+    },
+    {
+      "name": "Consultant 1",
+      "image": "../../shared/decks/expansion1/consultant-1.webp",
+      "type": "consultant",
+      "id": "025",
+      "details": ""
+    },
+    {
+      "name": "Consultant 2",
+      "image": "../../shared/decks/expansion1/consultant-2.webp",
+      "type": "consultant",
+      "id": "026",
+      "details": ""
+    },
+    {
+      "name": "Consultant 3",
+      "image": "../../shared/decks/expansion1/consultant-3.webp",
+      "type": "consultant",
+      "id": "027",
+      "details": ""
+    },
+    {
+      "name": "Consultant 4",
+      "image": "../../shared/decks/expansion1/consultant-4.webp",
+      "type": "consultant",
+      "id": "028",
+      "details": ""
+    },
+    {
+      "name": "Consultant 5",
+      "image": "../../shared/decks/expansion1/consultant-5.webp",
+      "type": "consultant",
+      "id": "029",
+      "details": ""
+    },
+    {
+      "name": "Consultant 6",
+      "image": "../../shared/decks/expansion1/consultant-6.webp",
+      "type": "consultant",
+      "id": "030",
+      "details": ""
+    },
+    {
+      "name": "Consultant 7",
+      "image": "../../shared/decks/expansion1/consultant-7.webp",
+      "type": "consultant",
+      "id": "031",
+      "details": ""
+    },
+    {
+      "name": "Consultant 8",
+      "image": "../../shared/decks/expansion1/consultant-8.webp",
+      "type": "consultant",
+      "id": "032",
+      "details": ""
+    },
+    {
+      "name": "Consultant 9",
+      "image": "../../shared/decks/expansion1/consultant-9.webp",
+      "type": "consultant",
+      "id": "033",
+      "details": ""
+    },
+    {
+      "name": "Exfiltration 1",
+      "image": "../../shared/decks/expansion1/exfil-1.webp",
+      "type": "exfil",
+      "id": "034",
+      "details": ""
+    },
+    {
+      "name": "Exfiltration 2",
+      "image": "../../shared/decks/expansion1/exfil-2.webp",
+      "type": "exfil",
+      "id": "035",
+      "details": ""
+    }
+  ]
+}

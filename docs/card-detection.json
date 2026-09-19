@@ -1,0 +1,146 @@
+{
+  "_meta": {
+    "description": "Detection lists read from the card faces of B&B Shuffle scenario cards. Each scenario card prints a 'DETECTION' section naming the Procedure cards (and sometimes non-procedure notes) that detect that attack. Keyed as '<type>:<exact scenario card name>' -> [detection entries as printed]. build_card_details.py merges these into docs/card-details.json and canonicalizes each entry to the deck's real Procedure-card name when possible.",
+    "schemaVersion": "1.0",
+    "method": "Card-face reading (image OCR / multimodal) of shared/decks/*/*.png; scenario cards only.",
+    "coverage": "Currently populated for deck=core (32 scenario cards). Other decks will be added incrementally.",
+    "notes": [
+      "Detection lists are transcribed exactly as printed, including humorous/non-procedure entries (e.g. 'DLP (Ha! Ha! Kidding. DLP never works.)', 'Working with HR', 'Prayers to an Engaged and Merciful God'). Those will not resolve to a deck Procedure card and are reported under card-details.json detection.unresolvedProcedureMatches.",
+      "CORE DECK C2 IMAGE-PATH BUG: shared/decks/core/carddb.json maps the 6 C2 cards to wrong PNG files. Actual art per file is: exfil-2=DNS as C2, exfil-3=BITS, exfil-4=Gmail/Tumblr/Salesforce/Twitter as C2, exfil-5=Domain Fronting as C2, exfil-6=HTTP as Exfil, exfil-7=HTTPS as Exfil. Detection entries below are keyed to the card NAME (authoritative), not to the carddb image pointer."
+    ]
+  },
+  "cards": {
+    "initial:Phish": [
+      "Firewall Log Review",
+      "Endpoint Security Protection Analysis"
+    ],
+    "initial:Web Server Compromise": [
+      "Server Analysis",
+      "SIEM Log Analysis",
+      "NetFlow, Zeek/Bro, RITA Analysis"
+    ],
+    "initial:External Cloud Access": [
+      "SIEM Log Analysis"
+    ],
+    "initial:Insider Threat": [
+      "User and Entity Behavior Analytics",
+      "DLP (Ha! Ha! Kidding. DLP never works.)",
+      "Working with HR"
+    ],
+    "initial:Password Spray": [
+      "SIEM Log Analysis",
+      "User and Entity Behavior Analytics",
+      "Firewall Log Review"
+    ],
+    "initial:Trusted Relationship": [
+      "SIEM Log Analysis",
+      "User and Entity Behavior Analytics"
+    ],
+    "initial:Social Engineering": [
+      "Endpoint Security Protection Analysis",
+      "User Awareness Training"
+    ],
+    "initial:Bring Your Own (Exploited) Device": [
+      "Firewall Log Review",
+      "NetFlow, Zeek/Bro, RITA Analysis"
+    ],
+    "initial:Exploitable External Service": [
+      "Firewall Log Review",
+      "Server Analysis"
+    ],
+    "initial:Credential Stuffing": [
+      "Server Analysis",
+      "User and Entity Behavior Analytics"
+    ],
+    "pivot:Internal Password Spray": [
+      "User and Entity Behavior Analytics",
+      "SIEM Log Analysis"
+    ],
+    "pivot:Kerberoasting": [
+      "SIEM Log Analysis",
+      "User and Entity Behavior Analytics",
+      "Honey Services",
+      "Internal Segmentation"
+    ],
+    "pivot:Broadcast/Multicast Protocol Poisoning": [
+      "CredDefense Toolkit",
+      "User and Entity Behavior Analytics",
+      "Firewall Log Review"
+    ],
+    "pivot:Weaponizing Active Directory": [
+      "SIEM Log Analysis",
+      "User and Entity Behavior Analytics",
+      "Internal Segmentation"
+    ],
+    "pivot:Credential Stuffing": [
+      "SIEM Log Analysis",
+      "User and Entity Behavior Analytics",
+      "Internal Segmentation"
+    ],
+    "pivot:New Service Creation": [
+      "Endpoint Analysis",
+      "Endpoint Security Protection Analysis"
+    ],
+    "pivot:Local Privilege Escalation": [
+      "Endpoint Analysis",
+      "Endpoint Security Protection Analysis"
+    ],
+    "persist:Malicious Service/Just Malware": [
+      "Endpoint Security Protection Analysis",
+      "Endpoint Analysis"
+    ],
+    "persist:DLL Attacks": [
+      "Endpoint Security Protection Analysis",
+      "Endpoint Analysis"
+    ],
+    "persist:Malicious Driver": [
+      "Endpoint Security Protection Analysis",
+      "Endpoint Analysis"
+    ],
+    "persist:New User Added": [
+      "Endpoint Security Protection Analysis",
+      "Endpoint Analysis"
+    ],
+    "persist:Application Shimming": [
+      "Endpoint Security Protection Analysis",
+      "Endpoint Analysis"
+    ],
+    "persist:Malicious Browser Plugins": [
+      "Endpoint Security Protection Analysis",
+      "Endpoint Analysis",
+      "Web Proxy (Firewall Log Review)",
+      "NetFlow, Zeek/Bro, RITA Analysis"
+    ],
+    "persist:Logon Scripts": [
+      "Endpoint Security Protection Analysis",
+      "Endpoint Analysis"
+    ],
+    "persist:Evil Firmware": [
+      "Endpoint Security Protection Analysis",
+      "Endpoint Analysis",
+      "Prayers to an Engaged and Merciful God"
+    ],
+    "persist:Accessibility Features": [
+      "Endpoint Analysis",
+      "Endpoint Security Protection Analysis"
+    ],
+    "c2:HTTP as Exfil": [
+      "NetFlow, Zeek/Bro, RITA Analysis"
+    ],
+    "c2:HTTPS as Exfil": [
+      "NetFlow, Zeek/Bro, RITA Analysis"
+    ],
+    "c2:DNS as C2": [
+      "NetFlow, Zeek/Bro, RITA Analysis"
+    ],
+    "c2:Windows Background Intelligent Transfer Service (BITS)": [
+      "NetFlow, Zeek/Bro, RITA Analysis"
+    ],
+    "c2:Gmail, Tumblr, Salesforce, Twitter as C2": [
+      "NetFlow, Zeek/Bro, RITA Analysis"
+    ],
+    "c2:Domain Fronting as C2": [
+      "NetFlow, Zeek/Bro, RITA Analysis"
+    ]
+  }
+}

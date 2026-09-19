@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="dark">
+    <title>B&amp;B Shuffle — Card Catalogue</title>
+    <link rel="icon" href="img/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" href="img/favicon.png">
+    <link rel="stylesheet" href="css/base.css">
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: var(--color-bg);
+            color: var(--color-text);
+        }
+
+        .cat { flex: 1 0 auto; width: 100%; max-width: 1200px; margin: 0 auto; padding: 24px 20px 36px; }
+
+        .cat-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 18px; }
+        .cat-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
+        .cat-brand img { height: 52px; width: auto; }
+        .cat-brand h1 { margin: 0; font-size: 22px; }
+        .cat-brand .sub { display: block; font-size: 12px; color: var(--color-text-secondary); }
+        .cat-home { color: var(--color-primary); text-decoration: none; font-size: 13px; font-weight: 600; }
+
+        .cat-decks { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+        .deck-btn {
+            padding: 8px 14px;
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            color: var(--color-text);
+            font-size: 13px;
+            cursor: pointer;
+            transition: border-color .15s ease, background .15s ease;
+        }
+        .deck-btn:hover { border-color: var(--color-primary); }
+        .deck-btn.active { background: var(--color-primary); border-color: var(--color-primary); color: var(--color-bg); font-weight: 600; }
+
+        .deck-note { font-size: 13px; color: var(--color-text-secondary); margin: 0 0 6px; }
+        .deck-summary { font-size: 12px; color: var(--color-text-secondary); margin: 0 0 14px; }
+
+        .type-group { margin-bottom: 22px; }
+        .type-head {
+            display: flex; align-items: baseline; gap: 8px;
+            border-bottom: 1px solid var(--color-border); padding-bottom: 5px; margin-bottom: 10px;
+        }
+        .type-head h2 { margin: 0; font-size: 15px; }
+        .type-head .count { font-size: 12px; color: var(--color-text-secondary); }
+
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; }
+        .card-tile { display: flex; flex-direction: column; gap: 6px; cursor: zoom-in; }
+        .card-tile .frame {
+            aspect-ratio: 2.5 / 3.5; overflow: hidden; border-radius: var(--radius-sm);
+            border: 1px solid var(--color-border); background: var(--color-bg-tertiary);
+            transition: transform .15s ease, border-color .15s ease;
+        }
+        .card-tile:hover .frame { transform: translateY(-2px); border-color: var(--color-primary); }
+        .card-tile img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .card-tile .name { font-size: 11px; line-height: 1.35; color: var(--color-text-secondary); }
+
+        .cat-empty { padding: 40px; text-align: center; color: var(--color-text-secondary); }
+        .loading { padding: 30px; text-align: center; color: var(--color-text-secondary); }
+
+        /* ===== Card-table polish (felt surface + tactile tiles) ===== */
+        .cat-brand img { filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.5)); }
+        .cat-top { padding-bottom: 14px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+        .deck-btn {
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+            transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease, background .15s ease;
+        }
+        .deck-btn:hover { transform: translateY(-1px); box-shadow: var(--shadow-card); }
+        .deck-btn.active {
+            background: linear-gradient(180deg, var(--color-primary), var(--color-primary-dark));
+            box-shadow: 0 6px 16px color-mix(in srgb, var(--color-primary) 40%, transparent);
+        }
+        .card-tile .frame {
+            box-shadow: var(--shadow-card);
+            transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+        }
+        .card-tile:hover .frame {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-card-hover), 0 0 0 1px color-mix(in srgb, var(--color-primary) 30%, transparent);
+        }
+        .card-tile .name { transition: color .15s ease; }
+        .card-tile:hover .name { color: var(--color-text); }
+
+        /* ===== Tools: search + type filter ===== */
+        .cat-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 0 0 8px; }
+        .cat-search { position: relative; display: flex; align-items: center; flex: 1 1 240px; max-width: 380px; }
+        .cat-search-icon { position: absolute; left: 11px; color: var(--color-text-muted); pointer-events: none; }
+        .cat-search .form-input { padding-left: 34px; padding-right: 32px; }
+        .cat-search-clear {
+            position: absolute; right: 6px; width: 22px; height: 22px;
+            display: flex; align-items: center; justify-content: center;
+            background: transparent; border: 0; border-radius: 50%;
+            color: var(--color-text-muted); font-size: 16px; line-height: 1; cursor: pointer;
+        }
+        .cat-search-clear:hover { color: var(--color-text); background: rgba(255, 255, 255, 0.08); }
+
+        .cat-filters { display: flex; flex-wrap: wrap; gap: 6px; }
+        .type-chip {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 6px 11px; font-size: 12px; font-family: inherit;
+            color: var(--color-text-secondary); background: var(--color-bg-secondary);
+            border: 1px solid var(--color-border); border-radius: 999px; cursor: pointer;
+            transition: border-color .15s ease, color .15s ease, background .15s ease;
+        }
+        .type-chip span { color: var(--color-text-muted); font-variant-numeric: tabular-nums; }
+        .type-chip:hover { border-color: var(--color-primary); color: var(--color-text); }
+        .type-chip.active {
+            background: color-mix(in srgb, var(--color-primary) 22%, var(--color-bg-secondary));
+            border-color: var(--color-primary); color: var(--color-text); font-weight: 600;
+        }
+        .type-chip.active span { color: inherit; }
+
+        /* Detection-count badge on the tile itself */
+        .card-tile .frame { position: relative; }
+        .tile-badge {
+            position: absolute; right: 5px; bottom: 5px;
+            padding: 1px 6px; border-radius: 999px; font-size: 10px; line-height: 1.6;
+            color: var(--color-text); background: rgba(0, 0, 0, 0.66);
+            border: 1px solid rgba(255, 255, 255, 0.16); backdrop-filter: blur(3px);
+        }
+
+        /* ===== CardViewer panels (Details / Detections) ===== */
+        .cv-list { margin: 0 0 10px; padding-left: 18px; font-size: 13px; line-height: 1.6; }
+        .cv-list li { margin-bottom: 4px; }
+        .cv-list a { color: var(--color-primary); word-break: break-all; }
+        .cv-meta { margin: 8px 0 6px; font-size: 12px; color: var(--color-text-muted); }
+    </style>
+</head>
+<body class="surface-felt">
+    <div class="cat">
+        <!-- Header -->
+        <div class="cat-top">
+            <a class="cat-brand" href="../index.html">
+                <img src="img/bb-logo-transparent-w.png" alt="Backdoors &amp; Breaches logo">
+                <span>
+                    <h1>Card Catalogue</h1>
+                    <span class="sub">B&amp;B Shuffle · every deck &amp; card (shared)</span>
+                </span>
+            </a>
+            <a class="cat-home" href="../index.html">← Project Home</a>
+        </div>
+
+        <!-- Deck picker -->
+        <div class="cat-decks" id="deck-buttons"></div>
+        <p class="deck-note" id="deck-note"></p>
+        <p class="deck-summary" id="deck-summary"></p>
+
+        <!-- Tools: search + type filter. Every view is linkable (see syncUrl). -->
+        <div class="cat-tools">
+            <div class="cat-search">
+                <svg class="cat-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="M21 21l-4.35-4.35" />
+                </svg>
+                <input type="search" id="card-search" class="form-input" autocomplete="off"
+                    placeholder="Search cards — name, text or detection…" aria-label="Search cards">
+                <button type="button" id="card-search-clear" class="cat-search-clear" hidden
+                    aria-label="Clear search">×</button>
+            </div>
+            <div class="cat-filters" id="type-filters" role="group" aria-label="Filter by card type"></div>
+        </div>
+        <p class="deck-summary" id="match-summary"></p>
+
+        <!-- Cards -->
+        <div id="cards" class="loading">Loading…</div>
+    </div>
+
+    <!-- Legal footer -->
+    <footer class="app-legal">
+        <div class="app-legal-content">
+            <a class="app-legal-classic" href="https://www.blackhillsinfosec.com/tools/backdoorsandbreaches/classic" target="_blank" rel="noopener noreferrer" title="Backdoors &amp; Breaches — Classic (official site)">
+                <img class="app-legal-logo" src="img/bb-logo-transparent-w.png" alt="Backdoors &amp; Breaches logo">
+                <span>B&amp;B Classic — play on the official site</span>
+            </a>
+            <p class="app-legal-disclaimer">Unofficial community project. Backdoors &amp; Breaches is a game by Black Hills Information Security &amp; Antisyphon Training. This project is not affiliated with, endorsed by, or sponsored by Black Hills Information Security or Antisyphon Training.</p>
+            <a class="app-legal-gh" href="https://github.com/Jonesckevin" target="_blank" rel="noopener noreferrer" title="Jonesckevin on GitHub" aria-label="Jonesckevin on GitHub">
+                <svg class="app-legal-gh-logo" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                <span>Jonesckevin</span>
+            </a>
+        </div>
+    </footer>
+
+    <script src="js/card-viewer.js"></script>
+    <script>
+        const DECKS = [
+            { key: 'core',               name: 'Core Deck',     note: 'The original Core deck, and Engine-V2\u2019s default.' },
+            { key: 'core31',             name: 'Core 3.1',      note: 'Official Core Deck v3.1 — downloaded from backdoorsandbreaches.com.' },
+            { key: 'green-expansion-v2', name: 'Green Expansion v2', note: 'Expansion set — toggle it on in the Engine-V2 Scenario Editor to merge into any loaded deck.', expansion: true },
+            { key: 'expansion1',         name: 'Expansion 1',   note: 'Expansion pack — toggle it on in the Engine-V2 Scenario Editor to merge into any loaded deck.', expansion: true },
+            { key: 'ics-ot',             name: 'ICS-OT',        note: 'ICS/OT focused deck.' },
+            { key: 'core-v1',            name: 'Core v1',       note: 'Original v1 Core deck (dev-site archive).' },
+            { key: 'core-v3',            name: 'Core v3',       note: 'Core v3 deck (dev-site archive).' },
+            { key: 'core-v22',           name: 'Core v2.2',     note: 'Core v2.2 deck (dev-site archive).' },            { key: 'core-v31-expansion', name: 'CoreV3 Plus Expansion', note: 'Core v3 with its expansion cards merged in (dev-site archive).' },            { key: 'core-spanish',       name: 'Core Spanish 1.0', note: 'Spanish-language Core deck.' },
+            { key: 'cloud-security',     name: 'Cloud Security', note: 'Cloud-focused sponsor expansion.' },
+            { key: 'datadog',            name: 'DataDog',       note: 'DataDog sponsor expansion.' },
+            { key: 'huntress',           name: 'Huntress',      note: 'Huntress sponsor expansion.' },
+            { key: 'red-canary',         name: 'Red Canary',    note: 'Red Canary sponsor expansion.' },
+            { key: 'densecure',          name: 'DenSecure',     note: 'DenSecure sponsor expansion.' },
+            { key: 'trimarc',            name: 'Trimarc',       note: 'Trimarc sponsor expansion.' },
+            { key: 'electrical-co-op',   name: 'Electrical Co-Op', note: 'Energy-sector / NRECA deck.' },
+            { key: 'mega-deck',          name: 'The MEGA Deck', note: 'Every deck merged into one huge deck.' }
+        ];
+
+        const TYPE_ORDER = ['initial', 'pivot', 'c2', 'persist', 'procedure', 'inject', 'consultant', 'exfil'];
+        const TYPE_LABEL = {
+            initial: 'Initial Compromise', pivot: 'Pivot & Escalate', c2: 'C2 / Exfiltration',
+            persist: 'Persistence', procedure: 'Procedure', inject: 'Inject',
+            consultant: 'Consultant', exfil: 'Exfiltration'
+        };
+
+        const buttonsEl = document.getElementById('deck-buttons');
+        const noteEl = document.getElementById('deck-note');
+        const summaryEl = document.getElementById('deck-summary');
+        const cardsEl = document.getElementById('cards');
+        const searchEl = document.getElementById('card-search');
+        const searchClearEl = document.getElementById('card-search-clear');
+        const filtersEl = document.getElementById('type-filters');
+        const matchEl = document.getElementById('match-summary');
+
+        let activeKey = DECKS[0].key;
+        let activeType = '';        // '' = every type
+        let activeQuery = '';       // '' = no search
+        let currentDeck = null;     // raw carddb for the active deck
+        let detailsPromise = null;  // in-flight docs/card-details.json load
+        let detailsIndex = null;    // { deckKey: { 'type\0name': card } }
+        let pendingCard = '';       // ?card= waiting for its deck to render
+
+        function imgUrl(image) {
+            // carddb image fields can use a few relative forms pointing into shared/decks:
+            //   ../../shared/decks/<deck>/<file>.png   (current schema)
+            //   ../shared/decks/<deck>/<file>.png      (legacy)
+            //   shared/decks/<deck>/<file>.png         (legacy/cached)
+            // Normalize each to a /shared/-relative "decks/<deck>/<file>.png" URL.
+            const v = String(image || '');
+            if (/^(https?:)?\/\//i.test(v) || v.startsWith('data:') || v.startsWith('/')) return v;
+            let p = v.replace(/^(\.\.\/)+/, '');
+            if (p.startsWith('shared/')) p = p.slice('shared/'.length);
+            return p; // -> decks/<deck>/<file>.png (relative to /shared/)
+        }
+
+        function esc(s) {
+            return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
+        /* ===== docs/card-details.json =====================================
+           carddb.json carries art and names; the per-card reference text and each
+           scenario card's printed DETECTION list live in docs/card-details.json
+           (built by build_card_details.py). Load it once, index it by deck + type
+           + lowercased name. If it is missing the catalogue still works — the
+           tiles just lose their Details tab. */
+        function detailKey(type, name) {
+            return String(type || '').toLowerCase() + '\u0000' + String(name || '').trim().toLowerCase();
+        }
+
+        function loadDetails() {
+            if (detailsPromise) return detailsPromise;
+            detailsPromise = fetch('../docs/card-details.json', { cache: 'no-store' })
+                .then(res => {
+                    if (!res.ok) throw new Error('HTTP ' + res.status);
+                    return res.json();
+                })
+                .then(doc => {
+                    const index = {};
+                    (doc.decks || []).forEach(deck => {
+                        const bucket = index[deck.deck] = {};
+                        Object.keys(deck.cards || {}).forEach(type => {
+                            (deck.cards[type] || []).forEach(card => {
+                                if (card && card.name) bucket[detailKey(type, card.name)] = card;
+                            });
+                        });
+                    });
+                    detailsIndex = index;
+                    return index;
+                })
+                .catch(err => {
+                    console.warn('Card details unavailable — names only:', err.message);
+                    detailsIndex = {};
+                    return detailsIndex;
+                });
+            return detailsPromise;
+        }
+
+        function detailFor(type, name) {
+            return (detailsIndex && detailsIndex[activeKey] && detailsIndex[activeKey][detailKey(type, name)]) || null;
+        }
+
+        /** CardViewer tabs for one card: reference text, then its detections. */
+        function sectionsFor(type, name) {
+            const card = detailFor(type, name);
+            if (!card) return [];
+
+            const body = [];
+            if (card.description) body.push(`<p>${esc(card.description)}</p>`);
+            const links = (card.details || []).filter(l => l && l.url);
+            if (links.length) {
+                body.push('<ul class="cv-list">' + links.map(l =>
+                    `<li><a href="${esc(l.url)}" target="_blank" rel="noopener noreferrer">${esc(l.text || l.url)}</a></li>`
+                ).join('') + '</ul>');
+            }
+            body.push(`<p class="cv-meta">${esc(TYPE_LABEL[type] || type)} · card ${esc(card.id || '—')}</p>`);
+
+            const sections = [{ label: 'Details', html: body.join('') }];
+            const detection = Array.isArray(card.detection) ? card.detection : [];
+            if (detection.length) {
+                sections.push({
+                    label: `Detections (${detection.length})`,
+                    html: '<p class="cv-meta">Procedure cards printed in this card\u2019s DETECTION section.</p>' +
+                          '<ul class="cv-list">' + detection.map(d => `<li>${esc(d)}</li>`).join('') + '</ul>'
+                });
+            }
+            return sections;
+        }
+
+        function renderDeckButtons() {
+            buttonsEl.innerHTML = DECKS.map(d =>
+                `<button type="button" class="deck-btn${d.key === activeKey ? ' active' : ''}" data-key="${d.key}">${esc(d.name)}${d.expansion ? ' ⚡' : ''}</button>`
+            ).join('');
+            buttonsEl.querySelectorAll('.deck-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    activeKey = btn.dataset.key;
+                    activeType = '';     // a type filter rarely survives a deck change
+                    renderDeckButtons();
+                    loadDeck(activeKey);
+                });
+            });
+        }
+
+        async function loadDeck(key) {
+            const deck = DECKS.find(d => d.key === key);
+            cardsEl.className = 'loading';
+            cardsEl.textContent = 'Loading…';
+            noteEl.textContent = deck ? deck.note + (deck.expansion ? ' (This is an expansion deck — its cards merge into a base deck rather than stand alone.)' : '') : '';
+            summaryEl.textContent = '';
+            matchEl.textContent = '';
+            filtersEl.innerHTML = '';
+
+            const details = loadDetails();
+
+            try {
+                // Never serve a stale carddb from cache (older schemas break image paths)
+                const res = await fetch('decks/' + encodeURIComponent(key) + '/carddb.json', { cache: 'no-store' });
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                const db = await res.json();
+                currentDeck = db;
+                renderTypeFilters(db);
+                renderCards();
+
+                // The Details / Detections tabs need docs/card-details.json. The
+                // grid is already usable without it, so re-render when it lands.
+                details.then(index => {
+                    if (currentDeck !== db) return;   // deck changed under us
+                    if (index && Object.keys(index).length) renderCards();
+                    flushPendingCard();
+                });
+            } catch (err) {
+                console.error('Failed to load deck ' + key, err);
+                currentDeck = null;
+                cardsEl.className = 'cat-empty';
+                cardsEl.textContent = 'Could not load this deck (' + err.message + ').';
+            }
+        }
+
+        /* ===== Filtering ===== */
+        function matchesFilters(card) {
+            if (activeType && (card.type || '').toLowerCase() !== activeType) return false;
+            if (!activeQuery) return true;
+            const detail = detailFor(card.type, card.name);
+            const haystack = [
+                card.name, card.id, card.type,
+                detail && detail.description,
+                detail && (detail.detection || []).join(' '),
+                detail && (detail.details || []).map(l => l.text || l.url).join(' ')
+            ].filter(Boolean).join(' ').toLowerCase();
+            return haystack.indexOf(activeQuery) !== -1;
+        }
+
+        function renderTypeFilters(db) {
+            const data = db.data || [];
+            const counts = {};
+            data.forEach(c => {
+                const t = (c.type || '').toLowerCase();
+                if (t) counts[t] = (counts[t] || 0) + 1;
+            });
+
+            const chips = [`<button type="button" class="type-chip" data-type="">All <span>${data.length}</span></button>`]
+                .concat(TYPE_ORDER.filter(t => counts[t]).map(t =>
+                    `<button type="button" class="type-chip" data-type="${esc(t)}">${esc(TYPE_LABEL[t] || t)} <span>${counts[t]}</span></button>`
+                ));
+            filtersEl.innerHTML = chips.join('');
+            syncTypeChips();
+
+            filtersEl.querySelectorAll('.type-chip').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    activeType = btn.dataset.type || '';
+                    syncTypeChips();
+                    renderCards();
+                });
+            });
+        }
+
+        function syncTypeChips() {
+            filtersEl.querySelectorAll('.type-chip').forEach(btn => {
+                btn.classList.toggle('active', (btn.dataset.type || '') === activeType);
+            });
+        }
+
+        function renderCards() {
+            if (!currentDeck) return;
+            const all = currentDeck.data || [];
+            const data = all.filter(matchesFilters);
+            const byType = {};
+            data.forEach(card => {
+                const t = (card.type || '').toLowerCase();
+                (byType[t] = byType[t] || []).push(card);
+            });
+
+            summaryEl.textContent = currentDeck.title + ' — ' + all.length + ' cards';
+            matchEl.textContent = (activeQuery || activeType)
+                ? `Showing ${data.length} of ${all.length} cards${activeQuery ? ` matching “${activeQuery}”` : ''}`
+                : '';
+
+            cardsEl.className = '';
+            cardsEl.innerHTML = TYPE_ORDER.filter(t => byType[t]).map(type => {
+                const list = byType[type];
+                return `
+                    <div class="type-group">
+                        <div class="type-head"><h2>${esc(TYPE_LABEL[type] || type)}</h2><span class="count">${list.length}</span></div>
+                        <div class="card-grid">${list.map(card => {
+                            const detail = detailFor(card.type, card.name);
+                            const n = (detail && detail.detection) ? detail.detection.length : 0;
+                            const badge = n ? `<span class="tile-badge" title="${esc(n + ' detecting procedures')}">${n}</span>` : '';
+                            return `
+                            <div class="card-tile" data-type="${esc((card.type || '').toLowerCase())}" data-name="${esc(card.name || '')}" title="${esc(card.name || '')} — click to enlarge">
+                                <div class="frame"><img loading="lazy" src="${imgUrl(card.image)}" alt="${esc(card.name || 'Card')}" onerror="this.style.opacity=0.15">${badge}</div>
+                                <span class="name">${esc(card.name || '')}</span>
+                            </div>`;
+                        }).join('')}
+                        </div>
+                    </div>`;
+            }).join('') || `<div class="cat-empty">No cards match this filter. <button type="button" class="type-chip" id="clear-filters">Clear filters</button></div>`;
+
+            syncUrl();
+        }
+
+        /**
+         * `?card=` is opened only once the details index is in, so its tabs are
+         * populated on the first render instead of arriving empty.
+         */
+        function flushPendingCard() {
+            if (!pendingCard) return;
+            const wanted = pendingCard;
+            pendingCard = '';
+            openCardByName(wanted);
+        }
+
+        /* ===== URL state ==================================================
+           Every view is linkable — ?deck=core31&type=procedure&q=dns&card=Phish
+           — so a card can be quoted in a report or pasted into a chat. */
+        function syncUrl() {
+            const params = new URLSearchParams();
+            if (activeKey !== DECKS[0].key) params.set('deck', activeKey);
+            if (activeType) params.set('type', activeType);
+            if (activeQuery) params.set('q', activeQuery);
+            const qs = params.toString();
+            history.replaceState(null, '', window.location.pathname + (qs ? '?' + qs : ''));
+        }
+
+        function applyUrl() {
+            const params = new URLSearchParams(window.location.search);
+            const deck = params.get('deck');
+            if (deck && DECKS.some(d => d.key === deck)) activeKey = deck;
+            activeType = (params.get('type') || '').toLowerCase();
+            activeQuery = (params.get('q') || '').trim().toLowerCase();
+            pendingCard = params.get('card') || '';
+            if (searchEl) searchEl.value = params.get('q') || '';
+            if (searchClearEl) searchClearEl.hidden = !searchEl.value;
+        }
+
+        /** Open the CardViewer for a card in the active deck, by name. */
+        function openCardByName(name) {
+            const tile = Array.from(cardsEl.querySelectorAll('.card-tile'))
+                .find(t => (t.dataset.name || '').toLowerCase() === String(name).toLowerCase());
+            if (tile) openCard(tile);
+        }
+
+        function openCard(tile) {
+            const img = tile.querySelector('img');
+            if (!img || typeof CardViewer === 'undefined') return;
+            const name = tile.dataset.name || img.alt || '';
+            CardViewer.open(img.currentSrc || img.src, {
+                name: name,
+                type: tile.dataset.type || '',
+                sections: sectionsFor(tile.dataset.type || '', name)
+            });
+        }
+
+        function resetFilters() {
+            activeType = '';
+            activeQuery = '';
+            if (searchEl) searchEl.value = '';
+            if (searchClearEl) searchClearEl.hidden = true;
+            syncTypeChips();
+            renderCards();
+        }
+
+        // Click any card tile to view it large (shared CardViewer overlay)
+        cardsEl.addEventListener('click', (e) => {
+            if (e.target.closest('#clear-filters')) {
+                resetFilters();
+                return;
+            }
+            const tile = e.target.closest('.card-tile');
+            if (tile) openCard(tile);
+        });
+
+        // Search as you type, debounced so the grid is not re-rendered per keystroke
+        let searchTimer = null;
+        searchEl?.addEventListener('input', () => {
+            clearTimeout(searchTimer);
+            searchTimer = setTimeout(() => {
+                activeQuery = (searchEl.value || '').trim().toLowerCase();
+                if (searchClearEl) searchClearEl.hidden = !searchEl.value;
+                renderCards();
+            }, 150);
+        });
+        searchClearEl?.addEventListener('click', () => {
+            resetFilters();
+            searchEl.focus();
+        });
+
+        // Deep links are applied first, so the deck buttons and the grid agree
+        // with the URL from the very first paint.
+        applyUrl();
+        renderDeckButtons();
+        loadDeck(activeKey);
+    </script>
+    <!-- Site navigation FAB (shared radial menu) -->
+    <script src="js/fab.js"></script>
+</body>
+</html>

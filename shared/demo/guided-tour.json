@@ -1,0 +1,165 @@
+{
+  "id": "7a1c4f60-2b93-4d18-9e77-5c0ab3d81f24",
+  "version": "1.0",
+  "exportDate": "2026-09-15T00:00:00.000Z",
+  "deck": {
+    "key": "core31",
+    "name": "Core 3.1",
+    "path": "../shared/decks/core31/carddb.json"
+  },
+  "scenario": {
+    "initial": {
+      "name": "Credential Stuffing",
+      "image": "../../shared/decks/core31/initial-1.webp",
+      "type": "initial",
+      "id": "001",
+      "description": "The attackers used stolen username and password pairs (obtained from data breaches) and gained access to accounts on different systems.",
+      "details": "<li><a target=\"_blank\" href=\"https://freelabfridays.com/labs/decks/core-v31/ic/credential-stuffing/\">https://freelabfridays.com/labs/decks/core-v31/ic/credential-stuffing/</a></li>"
+    },
+    "pivot": {
+      "name": "Weaponizing Active Directory",
+      "image": "../../shared/decks/core31/pivot-4.webp",
+      "type": "pivot",
+      "id": "014",
+      "description": "The attackers map Domain Trust Relationships, Group Policies, user/group privileges, and Object Access Control Lists (ACLs) in order to take full control of the Domain or network infrastructure.",
+      "details": "<li><a target=\"_blank\" href=\"https://freelabfridays.com/labs/decks/core-v31/pe/weaponizing-active-directory/\">https://freelabfridays.com/labs/decks/core-v31/pe/weaponizing-active-directory/</a></li>"
+    },
+    "c2": {
+      "name": "Domain Fronting as C2",
+      "image": "../../shared/decks/core31/c2-1.webp",
+      "type": "c2",
+      "id": "027",
+      "description": "The attackers route requests destined for their server through legitimate web services like Content Delivery Networks (CDNs).",
+      "details": "<li><a target=\"_blank\" href=\"https://freelabfridays.com/labs/decks/core-v31/c2e/domain-fronting-as-c2/\">https://freelabfridays.com/labs/decks/core-v31/c2e/domain-fronting-as-c2/</a></li>"
+    },
+    "persist": {
+      "name": "Malicious Driver",
+      "image": "../../shared/decks/core31/persist-7.webp",
+      "type": "persist",
+      "id": "024",
+      "description": "The attackers install or modify a device driver on a compromised system to retain control even after the system reboots.",
+      "details": "<li><a target=\"_blank\" href=\"https://freelabfridays.com/labs/decks/core-v31/per/malicious-driver/\">https://freelabfridays.com/labs/decks/core-v31/per/malicious-driver/</a></li>"
+    }
+  },
+  "procedures": [
+    {
+      "name": "Server Analysis",
+      "image": "../../shared/decks/core31/procedure-13.webp",
+      "type": "procedure",
+      "id": "045",
+      "description": "The Defenders monitor sever activity, logs, and configurations to detect abnormal behaviors, such as unauthorized access, unusual traffic, or process anomalies.",
+      "details": "<li><a target=\"_blank\" href=\"https://freelabfridays.com/labs/decks/core-v31/det/server-analysis/\">https://freelabfridays.com/labs/decks/core-v31/det/server-analysis/</a></li>"
+    },
+    {
+      "name": "User and Entity Behavior Analytics (UEBA)",
+      "image": "../../shared/decks/core31/procedure-7.webp",
+      "type": "procedure",
+      "id": "039",
+      "description": "The Defenders leverage advanced analytics to detect anomalies in user behavior, identifying potential insider threats, compromised accounts, or unusual activity patterns.",
+      "details": "<li><a target=\"_blank\" href=\"https://freelabfridays.com/labs/decks/core-v31/det/ueba-analytics/\">https://freelabfridays.com/labs/decks/core-v31/det/ueba-analytics/</a></li>"
+    },
+    {
+      "name": "Security Information and Event Management (SIEM) Log Analysis",
+      "image": "../../shared/decks/core31/procedure-12.webp",
+      "type": "procedure",
+      "id": "044",
+      "description": "The Defenders use SIEM to aggregate logs from systems and devices to identify abnormal patterns, such as unusual access, traffic, or attack signatures.",
+      "details": "<li><a target=\"_blank\" href=\"https://freelabfridays.com/labs/decks/core-v31/det/security-informations-and-event-management-log-analysis/\">https://freelabfridays.com/labs/decks/core-v31/det/security-informations-and-event-management-log-analysis/</a></li>"
+    },
+    {
+      "name": "Endpoint Security Protection Analysis",
+      "image": "../../shared/decks/core31/procedure-8.webp",
+      "type": "procedure",
+      "id": "040",
+      "description": "The Defenders deploy and monitor endpoint security solutions to detect and prevent unauthorized access and activity on endpoints.",
+      "details": "<li><a target=\"_blank\" href=\"https://freelabfridays.com/labs/decks/core-v31/det/endpoint-security-protection-analysis/\">https://freelabfridays.com/labs/decks/core-v31/det/endpoint-security-protection-analysis/</a></li>"
+    },
+    {
+      "name": "Endpoint Analysis",
+      "image": "../../shared/decks/core31/procedure-6.webp",
+      "type": "procedure",
+      "id": "038",
+      "description": "The Defenders investigate endpoint devices to identify indicators of compromise, unauthorized changes, or suspicious activities.",
+      "details": "<li><a target=\"_blank\" href=\"https://freelabfridays.com/labs/decks/core-v31/det/endpoint-analysis/\">https://freelabfridays.com/labs/decks/core-v31/det/endpoint-analysis/</a></li>"
+    },
+    {
+      "name": "Network Threat Hunting",
+      "image": "../../shared/decks/core31/procedure-10.webp",
+      "type": "procedure",
+      "id": "042",
+      "description": "The Defenders analyze network traffic to actively hunt for signs of malicious activity, such as unusual protocols, C2 communication, or data exfil.",
+      "details": "<li><a target=\"_blank\" href=\"https://freelabfridays.com/labs/decks/core-v31/det/network-threat-hunting/\">https://freelabfridays.com/labs/decks/core-v31/det/network-threat-hunting/</a></li>"
+    },
+    {
+      "name": "Crisis Management",
+      "image": "../../shared/decks/core31/procedure-4.webp",
+      "type": "procedure",
+      "id": "036",
+      "description": "The Defenders coordinate response efforts during cybersecurity incidents, ensuring effective communication and swift containment.",
+      "details": "<li><a target=\"_blank\" href=\"https://freelabfridays.com/labs/decks/core-v31/det/crisis-management/\">https://freelabfridays.com/labs/decks/core-v31/det/crisis-management/</a></li>"
+    }
+  ],
+  "startingInject": {
+    "name": "It was a Pentest",
+    "image": "../../shared/decks/core31/inject-2.webp",
+    "type": "inject",
+    "id": "049",
+    "details": "<a target=\"_blank\" href=\"https://www.blackhillsinfosec.com\">https://www.blackhillsinfosec.com</a>"
+  },
+  "injects": [
+    {
+      "name": "It was a Pentest",
+      "image": "../../shared/decks/core31/inject-2.webp",
+      "type": "inject",
+      "id": "049",
+      "details": "<a target=\"_blank\" href=\"https://www.blackhillsinfosec.com\">https://www.blackhillsinfosec.com</a>"
+    },
+    {
+      "name": "Take One Procedure Card Away",
+      "image": "../../shared/decks/core31/inject-5.webp",
+      "type": "inject",
+      "id": "052"
+    },
+    {
+      "name": "Bobby the Intern Kills the System You are Reviewing",
+      "image": "../../shared/decks/core31/inject-8.webp",
+      "type": "inject",
+      "id": "055"
+    }
+  ],
+  "gameConfig": {
+    "initialTurns": 10,
+    "maxStrikes": 3,
+    "procedureCount": 7,
+    "enhancedCount": 2,
+    "injectCount": 3,
+    "successTarget": 11
+  },
+  "gameState": {
+    "turnsRemaining": 7,
+    "strikesUsed": 1,
+    "cardsRevealed": {
+      "initial": false,
+      "pivot": false,
+      "c2": false,
+      "persist": false
+    },
+    "diceHistory": [],
+    "injectHistory": []
+  },
+  "metadata": {
+    "name": "Guided Tour",
+    "author": "B&B Shuffle",
+    "description": "A curated Core 3.1 board for first-time visitors: a vendor-facing password-reuse breach, escalated through Active Directory, beaconing out over domain fronting, and settling in as a malicious kernel driver. The hand is picked so every attack card on the board has at least one Procedure that detects it.",
+    "difficulty": 2,
+    "estimatedDuration": "30-45",
+    "tags": [
+      "guided-tour",
+      "walkthrough",
+      "starter"
+    ],
+    "createdAt": "2026-09-15T00:00:00.000Z",
+    "modifiedAt": "2026-09-15T00:00:00.000Z"
+  },
+  "notes": "WHY THIS BOARD. Credential Stuffing (initial) is detected by Server Analysis and UEBA; Weaponizing Active Directory (pivot) by SIEM Log Analysis and UEBA; Malicious Driver (persist) by Endpoint Security Protection Analysis and Endpoint Analysis. Domain Fronting as C2 is the deliberate gap: its printed detection is NetFlow/Zeek/RITA, which is tooling rather than a Procedure card, so Network Threat Hunting is the honest stand-in and the tour says so out loud. Crisis Management is included as the non-detection card that keeps the table talking during a bad round.\n\nMID-SESSION STATE. The scenario opens at turn 4 of 10 with one strike already on the board, so the Player looks like a game in progress rather than an empty template. Reset turns and strikes in the Scenario Editor if you want a clean start."
+}

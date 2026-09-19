@@ -1,0 +1,26 @@
+{
+  "name": "bb-shuffle-engine-v2",
+  "version": "2",
+  "description": "Cyber Defense Tabletop Simulator - Engine V2",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "dev": "python -m http.server 8000"
+  },
+  "keywords": [
+    "cybersecurity",
+    "tabletop",
+    "simulator",
+    "training",
+    "incident-response"
+  ],
+  "author": "B&B Shuffle Team",
+  "license": "GPL-3.0-only",
+  "engines": {
+    "python": ">=3.8.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jonesckevin/B-B-Shuffle.git"
+  }
+}

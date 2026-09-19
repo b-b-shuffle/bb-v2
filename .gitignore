@@ -1,0 +1,41 @@
+
+# ---------------------------------------------------------------------------
+# GitHub Pages branch.
+#
+# Everything the app needs at runtime is committed and served from the repo
+# root: index.html, Engine-V2/, shared/ (decks, css, js), docs/rules.pdf,
+# docs/card-details.json, LICENSE and NOTICE. Pages publishes the whole root,
+# so keep that list deliberate - anything committed here is also downloadable
+# from the public site.
+# ---------------------------------------------------------------------------
+
+# --- OS / editor ---
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.vscode/
+
+# --- Local runtime data ---
+# The Python API server (gone from this branch) used this tree for scenarios,
+# uploads and the Custom Cards deck envelope. The static build keeps user
+# content in the browser instead (IndexedDB - see shared/js/local-api.js).
+data/
+
+# --- Contributor notes (deliberately not published) ---
+AGENTS.md
+
+# --- Developer docs: ship the data and the rule book, not the prose ---
+docs/*
+!docs/*.pdf
+!docs/*.json
+# git will not descend into a directory excluded by docs/*, so a !*.json
+# negation on its own misses the nested detection files.
+!docs/detection/
+
+# --- Dependencies (this branch has no build step) ---
+node_modules/
+
+# --- Logs ---
+logs/
+*.log

@@ -1,0 +1,9 @@
+{
+  "title": "Engine V2 demo library",
+  "note": "Read-only content served by shared/js/local-api.js. To publish another demo scenario, drop the JSON in this folder and add its filename below.",
+  "scenarios": [
+    "guided-tour.json",
+    "vendor-veil-apt-campaign.json",
+    "silent-architect.json"
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "id": "d852124e-a9e4-451c-8685-55b14b31eed2",
+  "version": "1.0",
+  "exportDate": "2026-09-06T02:52:45.191Z",
+  "deck": {
+    "key": "core31",
+    "name": "Core 3.1",
+    "path": "../shared/decks/core31/carddb.json"
+  },
+  "scenario": {
+    "initial": {
+      "name": "Compromised Trusted Relationship",
+      "image": "../../shared/decks/core31/initial-5.webp",
+      "type": "initial",
+      "id": "005",
+      "description": "The attackers exploited a relationship between your organization and a third-party (e.g., vendor, partner, contractor) that has a service-level account within your organization and gained unauthorized access.",
+      "details": "<li><a target=\"_blank\" href=\"https://freelabfridays.com/labs/decks/core-v31/ic/compromised-trusted-relationship/\">https://freelabfridays.com/labs/decks/core-v31/ic/compromised-trusted-relationship/</a></li>"
+    },
+    "pivot": {
+      "name": "Weaponizing Active Directory",
+      "image": "../../shared/decks/core31/pivot-4.webp",
+      "type": "pivot",
+      "id": "014",
+      "description": "The attackers map Domain Trust Relationships, Group Policies, user/group privileges, and Object Access Control Lists (ACLs) in order to take full control of the Domain or network infrastructure.",
+      "details": "<li><a target=\"_blank\" href=\"https://freelabfridays.com/labs/decks/core-v31/pe/weaponizing-active-directory/\">https://freelabfridays.com/labs/decks/core-v31/pe/weaponizing-active-directory/</a></li>"
+    },
+    "c2": {
+      "name": "Domain Name System (DNS) as C2",
+      "image": "../../shared/decks/core31/c2-4.webp",
+      "type": "c2",
+      "id": "030",
+      "description": "The attackers maintain communication with compromised systems and exfiltrate data using the standard DNS protocol.",
+      "details": "<li><a target=\"_blank\" href=\"https://freelabfridays.com/labs/decks/core-v31/c2e/domain-name-system-as-c2/\">https://freelabfridays.com/labs/decks/core-v31/c2e/domain-name-system-as-c2/</a></li>"
+    },
+    "persist": {
+      "name": "Malicious Driver",
+      "image": "../../shared/decks/core31/persist-7.webp",
+      "type": "persist",
+      "id": "024",
+      "description": "The attackers install or modify a device driver on a compromised system to retain control even after the system reboots.",
+      "details": "<li><a target=\"_blank\" href=\"https://freelabfridays.com/labs/decks/core-v31/per/malicious-driver/\">https://freelabfridays.com/labs/decks/core-v31/per/malicious-driver/</a></li>"
+    }
+  },
+  "procedures": [],
+  "startingInject": null,
+  "gameConfig": {
+    "initialTurns": 10,
+    "maxStrikes": 3,
+    "procedureCount": 7,
+    "enhancedCount": 2,
+    "injectCount": 3,
+    "successTarget": 11
+  },
+  "gameState": {
+    "turnsRemaining": 10,
+    "strikesUsed": 0,
+    "cardsRevealed": {
+      "initial": false,
+      "pivot": false,
+      "c2": false,
+      "persist": false
+    },
+    "diceHistory": [],
+    "injectHistory": []
+  },
+  "metadata": {
+    "name": "The Silent Architect",
+    "author": "",
+    "description": "An advanced threat actor gains initial access via a compromised trusted vendor relationship, pivots through Active Directory manipulation to harvest credentials, establishes covert C2 via DNS tunneling, and installs a malicious driver for persistent low-level access.",
+    "difficulty": 3,
+    "estimatedDuration": "",
+    "tags": [],
+    "createdAt": "2026-09-06T02:52:45.191Z",
+    "modifiedAt": "2026-09-06T03:44:14.932112"
+  },
+  "notes": "The attack begins when a third-party IT service provider, who has legitimate remote access privileges, is compromised. The attacker leverages this trusted relationship (Initial Access) to bypass perimeter defenses. Once inside the network, they do not immediately exfiltrate data but instead focus on lateral movement and privilege escalation. They exploit misconfigured delegation in Active Directory (Pivot) to obtain Kerberos tickets for high-value accounts without triggering standard brute-force alerts. To maintain command and control without signature-based detection, they use DNS queries to a legitimate public domain to tunnel encrypted commands (C2). Finally, to ensure persistence that survives reboots and standard malware scans, they install a signed but malicious kernel-mode driver (Persistence) that hooks into the boot process, allowing them to re-establish presence if the system is reimaged or cleaned.",
+  "injects": []
+}

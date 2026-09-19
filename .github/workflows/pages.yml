@@ -1,0 +1,50 @@
+# Publish this branch to GitHub Pages.
+#
+# The site is plain HTML/CSS/JS with no build step, so the repository root is
+# uploaded as-is. Enable it once under Settings -> Pages -> Build and
+# deployment -> Source: "GitHub Actions"; after that every push deploys.
+#
+# Publishing from a different branch? Change `branches` below (or push to
+# `main`). The alternative is Settings -> Pages -> "Deploy from a branch",
+# which needs no workflow at all.
+
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+      - master
+      - Engine-V2-pages
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Check out the site
+        uses: actions/checkout@v4
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload the repository root
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
