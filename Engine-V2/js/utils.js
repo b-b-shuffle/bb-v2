@@ -490,6 +490,51 @@ const Utils = {
     },
 
     /**
+     * CANONICAL, ordered card-type list. The order is user-visible (card viewer
+     * tabs, filter chips), so it is not to be reordered. Everything in Engine-V2
+     * that can reach `Utils` derives its own copy from here.
+     */
+    CARD_TYPES: ['initial', 'pivot', 'c2', 'persist', 'procedure', 'inject', 'consultant'],
+
+    /** The scenario-card subset of CARD_TYPES (the four board slots). */
+    SCENARIO_TYPES: ['initial', 'pivot', 'c2', 'persist'],
+
+    /**
+     * Card-back generation used when a deck names none (or an unknown one) - the
+     * 2.0 art, which is also what the Player's static board markup ships and the
+     * only generation with a Procedure and a Consultant back.
+     */
+    DEFAULT_CARD_BACK_SET: 'v2',
+
+    /**
+     * Card-back art for a deck's card type.
+     *
+     * The Player's card backs follow the deck in play: a deck names its card-back
+     * generation with `cardbackPath` (…/cardbacks/<set>/) and `CONFIG.cardbackSets`
+     * holds the art per generation, keyed by card type. A deck may also override a
+     * single type (`cardbackOverrides`, e.g. the ICS/OT deck's C2 back).
+     *
+     * The 1.0 generation has no Procedure or Consultant back, so those two fall back
+     * to the 2.0 set; an unknown/missing deck falls back to the same default the
+     * static board markup ships.
+     * @param {string} deckKey - CONFIG.decks key (may be falsy)
+     * @param {string} type - initial|pivot|c2|persist|procedure|inject|consultant
+     * @returns {string} Page-relative URL ('' when there is nothing to resolve)
+     */
+    cardbackFor(deckKey, type) {
+        if (typeof CONFIG === 'undefined' || !CONFIG.cardbackSets) return '';
+        const deck = (CONFIG.decks && CONFIG.decks[deckKey]) || {};
+        const override = deck.cardbackOverrides && deck.cardbackOverrides[type];
+        if (override) return override;
+
+        const path = deck.cardbackPath || '';
+        const set = path.includes('/v2/') ? 'v2' : (path.includes('/v1/') ? 'v1' : this.DEFAULT_CARD_BACK_SET);
+        const sets = CONFIG.cardbackSets;
+        const fallback = sets[this.DEFAULT_CARD_BACK_SET] || {};
+        return (sets[set] && sets[set][type]) || fallback[type] || '';
+    },
+
+    /**
      * Card type -> human label. Single source of truth: CardRenderer.TYPE_LABELS
      * aliases this, so the Player's CardViewer tabs and the Custom Cards library
      * cannot drift apart.
@@ -503,6 +548,9 @@ const Utils = {
         inject: 'Inject',
         consultant: 'Consultant'
     },
+
+    /** Canonical name for TYPE_LABELS (js/print-sheet.js reads the CARD_* names). */
+    get CARD_TYPE_LABELS() { return this.TYPE_LABELS; },
 
     /**
      * Turn free text into a safe filename stem.

@@ -132,6 +132,25 @@
         .cv-list li { margin-bottom: 4px; }
         .cv-list a { color: var(--color-primary); word-break: break-all; }
         .cv-meta { margin: 8px 0 6px; font-size: 12px; color: var(--color-text-muted); }
+        /* ===== Deck box art (shared/img/decks/<key>.webp) ===== */
+        .deck-btn { display: inline-flex; align-items: center; gap: 8px; }
+        .deck-btn-cover { display: block; height: 22px; width: auto; border-radius: 3px; }
+        .deck-btn.active .deck-btn-cover { box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.4); }
+
+        .deck-hero { display: flex; align-items: flex-start; gap: 18px; margin: 0 0 16px; }
+        .deck-hero-cover {
+            flex: 0 0 auto; width: 260px; height: auto;
+            border: 1px solid var(--color-border); border-radius: var(--radius-md);
+            background: var(--color-surface); box-shadow: var(--shadow-card);
+        }
+        .deck-hero-text { flex: 1 1 auto; min-width: 0; }
+        .deck-hero-name { margin: 0 0 6px; font-size: 18px; }
+        .deck-hero-text .deck-summary { margin-bottom: 0; }
+
+        @media (max-width: 720px) {
+            .deck-hero { flex-direction: column; gap: 12px; }
+            .deck-hero-cover { width: 100%; max-width: 320px; }
+        }
     </style>
 </head>
 <body class="surface-felt">
@@ -150,8 +169,15 @@
 
         <!-- Deck picker -->
         <div class="cat-decks" id="deck-buttons"></div>
-        <p class="deck-note" id="deck-note"></p>
-        <p class="deck-summary" id="deck-summary"></p>
+        <!-- Deck header: box art (when the deck has one), name, note. -->
+        <div class="deck-hero">
+            <img class="deck-hero-cover hidden" id="deck-cover" alt="" decoding="async">
+            <div class="deck-hero-text">
+                <h2 class="deck-hero-name" id="deck-hero-name"></h2>
+                <p class="deck-note" id="deck-note"></p>
+                <p class="deck-summary" id="deck-summary"></p>
+            </div>
+        </div>
 
         <!-- Tools: search + type filter. Every view is linkable (see syncUrl). -->
         <div class="cat-tools">
@@ -192,23 +218,30 @@
     <script src="js/card-viewer.js"></script>
     <script>
         const DECKS = [
-            { key: 'core',               name: 'Core Deck',     note: 'The original Core deck, and Engine-V2\u2019s default.' },
-            { key: 'core31',             name: 'Core 3.1',      note: 'Official Core Deck v3.1 — downloaded from backdoorsandbreaches.com.' },
+            { key: 'core',               name: 'Core Deck',     note: 'The original Core deck, and Engine-V2\u2019s default.', cover: 'core.webp' },
+            { key: 'core31',             name: 'Core 3.1',      note: 'Official Core Deck v3.1 — downloaded from backdoorsandbreaches.com.', cover: 'core31.webp' },
             { key: 'green-expansion-v2', name: 'Green Expansion v2', note: 'Expansion set — toggle it on in the Engine-V2 Scenario Editor to merge into any loaded deck.', expansion: true },
-            { key: 'expansion1',         name: 'Expansion 1',   note: 'Expansion pack — toggle it on in the Engine-V2 Scenario Editor to merge into any loaded deck.', expansion: true },
-            { key: 'ics-ot',             name: 'ICS-OT',        note: 'ICS/OT focused deck.' },
+            { key: 'expansion1',         name: 'Expansion 1',   note: 'Expansion pack — toggle it on in the Engine-V2 Scenario Editor to merge into any loaded deck.', expansion: true, cover: 'expansion1.webp' },
+            { key: 'ics-ot',             name: 'ICS-OT',        note: 'ICS/OT focused deck.', cover: 'ics-ot.webp' },
             { key: 'core-v1',            name: 'Core v1',       note: 'Original v1 Core deck (dev-site archive).' },
-            { key: 'core-v3',            name: 'Core v3',       note: 'Core v3 deck (dev-site archive).' },
-            { key: 'core-v22',           name: 'Core v2.2',     note: 'Core v2.2 deck (dev-site archive).' },            { key: 'core-v31-expansion', name: 'CoreV3 Plus Expansion', note: 'Core v3 with its expansion cards merged in (dev-site archive).' },            { key: 'core-spanish',       name: 'Core Spanish 1.0', note: 'Spanish-language Core deck.' },
-            { key: 'cloud-security',     name: 'Cloud Security', note: 'Cloud-focused sponsor expansion.' },
-            { key: 'datadog',            name: 'DataDog',       note: 'DataDog sponsor expansion.' },
-            { key: 'huntress',           name: 'Huntress',      note: 'Huntress sponsor expansion.' },
-            { key: 'red-canary',         name: 'Red Canary',    note: 'Red Canary sponsor expansion.' },
-            { key: 'densecure',          name: 'DenSecure',     note: 'DenSecure sponsor expansion.' },
-            { key: 'trimarc',            name: 'Trimarc',       note: 'Trimarc sponsor expansion.' },
-            { key: 'electrical-co-op',   name: 'Electrical Co-Op', note: 'Energy-sector / NRECA deck.' },
-            { key: 'mega-deck',          name: 'The MEGA Deck', note: 'Every deck merged into one huge deck.' }
+            { key: 'core-v3',            name: 'Core v3',       note: 'Core v3 deck (dev-site archive).', cover: 'core-v3.webp' },
+            { key: 'core-v22',           name: 'Core v2.2',     note: 'Core v2.2 deck (dev-site archive).', cover: 'core-v22.webp' },
+            { key: 'core-v31-expansion', name: 'CoreV3 Plus Expansion', note: 'Core v3 with its expansion cards merged in (dev-site archive).' },
+            { key: 'core-spanish',       name: 'Core Spanish 1.0', note: 'Spanish-language Core deck.', cover: 'core-spanish.webp' },
+            { key: 'cloud-security',     name: 'Cloud Security', note: 'Cloud-focused sponsor expansion.', cover: 'cloud-security.webp' },
+            { key: 'datadog',            name: 'DataDog',       note: 'DataDog sponsor expansion.', cover: 'datadog.webp' },
+            { key: 'huntress',           name: 'Huntress',      note: 'Huntress sponsor expansion.', cover: 'huntress.webp' },
+            { key: 'red-canary',         name: 'Red Canary',    note: 'Red Canary sponsor expansion.', cover: 'red-canary.webp' },
+            { key: 'densecure',          name: 'DenSecure',     note: 'DenSecure sponsor expansion.', cover: 'densecure.webp' },
+            { key: 'trimarc',            name: 'Trimarc',       note: 'Trimarc sponsor expansion.', cover: 'trimarc.webp' },
+            { key: 'electrical-co-op',   name: 'Electrical Co-Op', note: 'Energy-sector / NRECA deck.', cover: 'electrical-co-op.webp' },
+            { key: 'mega-deck',          name: 'The MEGA Deck', note: 'Every deck merged into one huge deck.', cover: 'mega-deck.webp' }
         ];
+
+        // Deck box art, generated into shared/img/decks/<key>.webp. Decks with no
+        // `cover` have no box art upstream — the pills and the header just omit
+        // the image rather than showing a placeholder.
+        const COVER_BASE = 'img/decks/';
 
         const TYPE_ORDER = ['initial', 'pivot', 'c2', 'persist', 'procedure', 'inject', 'consultant', 'exfil'];
         const TYPE_LABEL = {
@@ -220,6 +253,8 @@
         const buttonsEl = document.getElementById('deck-buttons');
         const noteEl = document.getElementById('deck-note');
         const summaryEl = document.getElementById('deck-summary');
+        const coverEl = document.getElementById('deck-cover');
+        const heroNameEl = document.getElementById('deck-hero-name');
         const cardsEl = document.getElementById('cards');
         const searchEl = document.getElementById('card-search');
         const searchClearEl = document.getElementById('card-search-clear');
@@ -321,9 +356,14 @@
         }
 
         function renderDeckButtons() {
-            buttonsEl.innerHTML = DECKS.map(d =>
-                `<button type="button" class="deck-btn${d.key === activeKey ? ' active' : ''}" data-key="${d.key}">${esc(d.name)}${d.expansion ? ' ⚡' : ''}</button>`
-            ).join('');
+            buttonsEl.innerHTML = DECKS.map(d => {
+                // Eager on purpose: these are ~20 KB each and the row is the first
+                // thing on the page, so lazy loading only risked them popping in.
+                const cover = d.cover
+                    ? `<img class="deck-btn-cover" src="${COVER_BASE}${d.cover}" alt="" decoding="async">`
+                    : '';
+                return `<button type="button" class="deck-btn${d.key === activeKey ? ' active' : ''}" data-key="${d.key}">${cover}${esc(d.name)}${d.expansion ? ' ⚡' : ''}</button>`;
+            }).join('');
             buttonsEl.querySelectorAll('.deck-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
                     activeKey = btn.dataset.key;
@@ -334,10 +374,26 @@
             });
         }
 
+        /** Deck header: box art (only when the deck has one) + name. */
+        function renderDeckHero(deck) {
+            if (heroNameEl) heroNameEl.textContent = deck ? deck.name : '';
+            if (!coverEl) return;
+            if (deck && deck.cover) {
+                const src = COVER_BASE + deck.cover;
+                if (coverEl.getAttribute('src') !== src) coverEl.setAttribute('src', src);
+                coverEl.alt = deck.name + ' box art';
+                coverEl.classList.remove('hidden');
+            } else {
+                coverEl.removeAttribute('src');
+                coverEl.classList.add('hidden');
+            }
+        }
+
         async function loadDeck(key) {
             const deck = DECKS.find(d => d.key === key);
             cardsEl.className = 'loading';
             cardsEl.textContent = 'Loading…';
+            renderDeckHero(deck);
             noteEl.textContent = deck ? deck.note + (deck.expansion ? ' (This is an expansion deck — its cards merge into a base deck rather than stand alone.)' : '') : '';
             summaryEl.textContent = '';
             matchEl.textContent = '';

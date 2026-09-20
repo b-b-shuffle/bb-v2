@@ -74,6 +74,26 @@ const ScenarioLibrary = {
         if (deckFilter) deckFilter.addEventListener('change', () => this.filterScenarios());
         if (difficultyFilter) difficultyFilter.addEventListener('change', () => this.filterScenarios());
 
+        // Box art for the filtered deck, beside the filter itself (the art comes
+        // from CONFIG.decks[].cover — shared/img/decks/<key>.webp). "All Decks"
+        // has no key, so the image simply hides.
+        const deckCover = Utils.getElement('deck-filter-cover');
+        const updateDeckCover = () => {
+            if (!deckCover) return;
+            const key = deckFilter ? deckFilter.value : '';
+            const cfg = (key && typeof CONFIG !== 'undefined' && CONFIG.decks) ? CONFIG.decks[key] : null;
+            if (cfg && cfg.cover) {
+                if (deckCover.getAttribute('src') !== cfg.cover) deckCover.setAttribute('src', cfg.cover);
+                deckCover.alt = (cfg.name || key) + ' box art';
+                Utils.showElement(deckCover);
+            } else {
+                deckCover.removeAttribute('src');
+                Utils.hideElement(deckCover);
+            }
+        };
+        if (deckFilter) deckFilter.addEventListener('change', updateDeckCover);
+        updateDeckCover();
+
         // View toggle
         Utils.$$('.view-toggle-btn').forEach(btn => {
             btn.addEventListener('click', () => this.setView(btn.dataset.view));

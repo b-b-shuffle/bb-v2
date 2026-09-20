@@ -1647,153 +1647,350 @@ body.fx-enabled .card-wrapper[data-type="consultant"] .flip-card { --fx-c1: #ec4
 }
 
 /* ============================================================
-   Guided tour coach panel — shown only with ?tour=1, driven by
-   js/guided-tour.js. Sits above the board like a table card so it
-   reads as part of the layout rather than a modal to dismiss.
+   Printable session sheet (#print-sheet, built by js/print-sheet.js)
+
+   The sheet is an independent DOM tree, so the board's 3D flip
+   transforms and `backface-visibility` never have to survive print,
+   and the whole inject queue can be listed (only the current inject
+   is ever in the board DOM).
+
+   The FRAME - both logos, the rules and the notes box - is static
+   markup in player.html; only #ps-head-text and #ps-body are
+   rewritten per print. An <img> created at print time has not
+   decoded yet and paints blank, which is why the artwork is not
+   built here.
+
+   COLOURS: these are PAPER colours, not theme tokens. The app is
+   dark-only and base.css has no print palette, so taking
+   `--color-text` here would print near-white text on white paper.
    ============================================================ */
-.tour-panel {
-    position: relative;
-    margin: 12px 16px 0;
-    padding: 13px 16px 12px;
-    background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0) 60%),
-        var(--color-bg-secondary);
-    border: 1px solid var(--color-border);
-    border-left: 3px solid var(--color-primary);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-card);
-}
 
-.tour-head {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-}
+#print-sheet { display: none; }
 
-.tour-chip {
-    flex: 0 0 auto;
-    padding: 2px 8px;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--color-bg);
-    background: var(--color-primary);
-    border-radius: 999px;
-}
-
-.tour-head h2 { margin: 0; font-size: 15px; }
-
-.tour-close {
-    margin-left: auto;
-    width: 26px;
-    height: 26px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: transparent;
-    border: 0;
-    border-radius: 50%;
-    color: var(--color-text-muted);
-    font-size: 18px;
-    line-height: 1;
-    cursor: pointer;
-}
-.tour-close:hover { color: var(--color-text); background: rgba(255, 255, 255, 0.08); }
-
-.tour-body {
-    margin: 8px 0 11px;
-    max-width: 82ch;
-    font-size: 13px;
-    line-height: 1.6;
-    color: var(--color-text-secondary);
-}
-
-.tour-foot { display: flex; gap: 8px; }
-.tour-foot .btn:disabled { opacity: 0.45; cursor: default; }
-
-@media (max-width: 700px) {
-    .tour-panel { margin: 10px 10px 0; }
-    .tour-head h2 { font-size: 14px; }
-}
-
-/* ============================================================
-   Printable session sheet (the header's Print button).
-
-   A prep sheet wants the board, the hand and the inject on paper, so
-   every control, overlay and decoration is screen-only, and the page
-   is un-constrained from the viewport heights the screen layout uses.
-   ============================================================ */
+/* Nothing to print yet (no game on the board) — leave the page alone and
+   fall back to the browser's normal print behaviour. */
 @media print {
-    @page { margin: 12mm; }
+    /* Zero page margin on purpose: the sheet supplies it as padding, so its own
+       height is exactly one page. With a non-zero @page margin the 100vh below
+       resolves against the page *box* and the sheet overflows the printable
+       area by the margins, which pushed the notes and the footer onto a second
+       page. Board-only prints get their margin from the body padding here. */
+    @page { size: portrait; margin: 0; }
+    body { padding: 12mm; }
 
-    /* Screen-only chrome */
-    .tour-panel,
-    .player-header .header-right,
-    .controls-bar,
-    .app-legal,
-    #site-fab,
-    #site-fab-menu,
-    .toast,
-    #quickstart-modal,
-    #consultant-modal,
-    #gameover-modal,
-    #dice-mod,
-    #load-menu { display: none !important; }
+    body.print-has-sheet { padding: 0; }
+    body.print-has-sheet .player-layout,
+    body.print-has-sheet .modal-backdrop,
+    body.print-has-sheet .cv-backdrop,
+    body.print-has-sheet .fab-container,
+    body.print-has-sheet #site-fab-menu,
+    /* A game queued from the Editor/FAB toasts as the sheet is printed; without
+       this it lands on the paper. */
+    body.print-has-sheet .toast { display: none !important; }
 
-    /* Paper is light: drop the felt, the glow and the shadows. */
-    html, body {
-        background: #fff !important;
-        color: #111 !important;
+    body.print-has-sheet { background: #fff !important; color: #111827 !important; }
+    /* The felt surface + spotlight vignette live on body pseudo-elements. */
+    body.print-has-sheet::before,
+    body.print-has-sheet::after { display: none !important; }
+
+    /* Empty or half-built sheet: print nothing rather than a blank page. */
+    body.print-has-sheet #print-sheet:not(.is-ready) { display: none !important; }
+
+    body.print-has-sheet #print-sheet {
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+        /* 100vh, not a percentage: in paged media the viewport is the page box,
+           so with the zero @page margin above this is exactly one sheet of
+           paper. A `height: 100%` chain looks equivalent but resolves against
+           an indefinite height when printing, which lets the content-sized
+           sheet overflow. */
+        height: 100vh;
+        padding: 12mm;
+        font-family: var(--font-family);
+        color: #0f172a;
+        text-align: left;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+    .ps-frame {
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 auto;
+        box-sizing: border-box;
+        padding: 6mm;
+        border: 1px solid #94a3b8;
     }
 
-    .player-layout,
-    .player-main,
-    .scenario-row,
-    .procedure-row,
-    .procedure-body .procedure-cards {
-        display: block !important;
-        height: auto !important;
-        max-height: none !important;
-        overflow: visible !important;
-        background: none !important;
+    /* ---- Masthead: logo mark, eyebrow, title, meta ---- */
+    .ps-head {
+        display: grid;
+        /* Side columns are as wide as the logo so the title stays optically centred. */
+        grid-template-columns: 158px 1fr 158px;
+        align-items: center;
+        padding-bottom: 3mm;
+        border-bottom: 2px solid #111827;
+    }
+    .ps-mark img {
+        display: block;
+        width: auto;
+    }
+    /* shared/img/bb-logo-print.png: the app's own logo with the white wordmark
+       inked, so the full lockup reads on paper. Its two-line wordmark needs the
+       height - smaller than this and it turns to mush. */
+    .ps-mark-logo { height: 60px; }
+    /* The deck's box art, which takes the logo's place in the masthead (see
+       player.html + print-sheet.js syncCover). Box art is landscape, so it is
+       sized a little larger - the printed logo inside it has to stay legible. */
+    .ps-mark .ps-cover {
+        height: 74px;
+        border: 1px solid #94a3b8;
+        border-radius: 1mm;
+        background: #f8fafc;
+    }
+    /* The session's uploaded logo (Theme -> logo), opposite the masthead logo. */
+    .ps-custom-mark { justify-self: end; max-width: 158px; }
+    .ps-custom-mark img {
+        display: block;
+        max-height: 60px;
+        max-width: 158px;
+        width: auto;
+        height: auto;
+    }
+    .ps-custom-mark:not(.has-logo) img { display: none; }
+    .ps-head-text { grid-column: 2; text-align: center; }
+    .ps-eyebrow {
+        margin: 0;
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 2.6px;
+        text-transform: uppercase;
+        color: #6b7280;
+    }
+    .ps-title {
+        margin: 0.5mm 0 1mm;
+        font-size: 22px;
+        line-height: 1.15;
+        font-weight: 700;
+        color: #5b6472;      /* the board's silver-gradient title, flattened */
+    }
+    .ps-meta { margin: 0; font-size: 10px; color: #6b7280; }
+
+    /* ---- Stats strip ---- */
+    .ps-stats {
+        display: flex;
+        gap: 10mm;
+        padding: 2.5mm 0;
+        border-bottom: 1px solid #cbd5e1;
+    }
+    .ps-stat { display: flex; flex-direction: column; }
+    .ps-stat + .ps-stat {
+        padding-left: 10mm;
+        border-left: 1px solid #e2e8f0;
+    }
+    .ps-stat-value { font-size: 19px; font-weight: 700; line-height: 1.1; color: #0f172a; }
+    .ps-stat-label { font-size: 9px; color: #6b7280; }
+
+    /* ---- Section headings ---- */
+    .ps-h {
+        margin: 4mm 0 0;
+        padding-bottom: 1mm;
+        border-bottom: 1px solid #cbd5e1;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 1.7px;
+        text-transform: uppercase;
+        color: #475569;
+    }
+    .ps-count { color: #64748b; }
+
+    /* ---- Scenario cards (+ their DETECTION lists) ---- */
+    .ps-cards {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+    }
+    .ps-card {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5mm;
+        padding: 3mm 3mm 1mm 0;
+    }
+    .ps-card + .ps-card {
+        padding-left: 3mm;
+        border-left: 1px solid #e2e8f0;
+    }
+    .ps-card-head {
+        display: flex;
+        align-items: flex-start;
+        gap: 2.5mm;
+        min-width: 0;
+        /* One thumbnail tall, so the DETECTION lists below start on the same line
+           however many lines each card name takes. */
+        min-height: 58px;
+    }
+    .ps-thumb {
+        flex: 0 0 auto;
+        width: 40px;
+        height: 56px;
+        object-fit: cover;
+        border: 1px solid #94a3b8;
+        border-radius: 3px;
+    }
+    .ps-card-title {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8mm;
+        min-width: 0;
+    }
+    .ps-type {
+        padding-bottom: 0.6mm;
+        border-bottom: 1px dotted #cbd5e1;
+        font-size: 8px;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        color: #6b7280;
+    }
+    .ps-name {
+        font-size: 11px;
+        font-weight: 700;
+        line-height: 1.2;
+        color: #0f172a;
+    }
+    .ps-detection { margin-top: 0.5mm; }
+    .ps-detection-label {
+        font-size: 7.5px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        color: #64748b;
+    }
+    .ps-detection ul {
+        margin: 0.6mm 0 0;
+        padding-left: 3mm;
+    }
+    .ps-detection li {
+        font-size: 8px;
+        line-height: 1.35;
+        color: #334155;
+    }
+    /* The catalog key is absent for roughly half of the printed scenario cards,
+       so an unread list says so instead of printing nothing. */
+    .ps-detection-none {
+        margin: 0.6mm 0 0;
+        font-size: 8px;
+        font-style: italic;
+        color: #94a3b8;
     }
 
-    .player-header {
-        position: static !important;
-        background: none !important;
-        border-bottom: 1px solid #ccc !important;
-        box-shadow: none !important;
+    /* ---- Procedures + inject queue ---- */
+    .ps-cols {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        gap: 8mm;
+    }
+    .ps-list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+    .ps-row {
+        display: grid;
+        grid-template-columns: auto auto minmax(0, 1fr) auto;
+        align-items: baseline;
+        gap: 2mm;
+        padding: 1.5mm 0;
+        border-bottom: 1px dashed #cbd5e1;
+    }
+    .ps-row.is-empty { color: #6b7280; font-style: italic; }
+    .ps-index { font-size: 9.5px; color: #6b7280; }
+    .ps-check {
+        align-self: center;
+        width: 10px;
+        height: 10px;
+        border: 1px solid #475569;
+        border-radius: 2px;
+    }
+    .ps-row-name {
+        font-size: 10.5px;
+        line-height: 1.25;
+        color: #0f172a;
+    }
+    .ps-row.is-enhanced .ps-row-name { font-weight: 700; }
+    .ps-badge {
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        white-space: nowrap;
+        color: #2563eb;
     }
 
-    .game-title,
-    .stat-label,
-    .stat-value,
-    .badge { color: #111 !important; }
-
-    /* Keep each card whole and print it flat — no tilt, holo or shadow. */
-    .scenario-row .card-wrapper,
-    .procedure-row .procedure-body .procedure-cards .flip-card {
-        break-inside: avoid;
-        page-break-inside: avoid;
-    }
-    .flip-card,
-    .flip-card-front,
-    .flip-card-back { transform: none !important; box-shadow: none !important; }
-
-    /* Face-up cards print the readable band, so give them room. */
-    .scenario-row .card-wrapper[data-type] .flip-card { width: 150px !important; }
-    .procedure-row .procedure-body .procedure-cards .flip-card { width: 118px !important; }
-    .procedure-row .procedure-body .procedure-cards .flip-card.flipped {
-        --card-ar: 3.5714 !important;
-        width: 210px !important;
+    /* ---- Consultant + notes ---- */
+    .ps-consultant {
+        margin: 2.5mm 0 0;
+        font-size: 10.5px;
+        font-style: italic;
+        color: #6b7280;
     }
 
-    .scenario-name,
-    .type-label,
-    h1, h2, h3 { color: #111 !important; }
+    /* Notes sit directly above the footer, and the ruled lines share out whatever
+       height the paper leaves between the two. */
+    .ps-notes {
+        display: flex;
+        flex-direction: column;
+        margin-top: 4mm;
+    }
+    .ps-note-lines {
+        /* One column, so the lines can share the height exactly. flex-basis 0, not
+           auto: the box takes the space left above the footer instead of being
+           sized by how many lines are in it. */
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 0;
+        min-height: 25mm;
+        margin-top: 1mm;
+        overflow: hidden;   /* belt and braces; the flex maths never overflows */
+    }
+    /* A ruled writing line. `height: 7mm` is the preferred pitch; grow *and*
+       shrink are allowed (min-height: 0 overrides the automatic minimum that
+       would otherwise make the specified height a floor) so however many lines
+       there are they share out exactly the height the paper leaves. That matters
+       for print: in-flow content taller than its box becomes extra pages - 60
+       lines of 7mm overflowed onto two further sheets. */
+    .ps-note-line {
+        flex: 1 1 auto;
+        height: 7mm;
+        min-height: 0;
+        border-bottom: 1px solid #dbe2ea;
+    }
+
+    /* ---- Credits ---- */
+    .ps-foot {
+        display: flex;
+        align-items: flex-start;
+        gap: 5mm;
+        margin-top: 3mm;
+        padding-top: 2.5mm;
+        border-top: 1px solid #cbd5e1;
+    }
+    .ps-bhis {
+        flex: 0 0 auto;
+        height: 22px;
+        width: auto;
+        /* shared/img/blackhills-logo-print.png: the light-background variant, so
+           the wordmark is already black and the rule under it its proper red -
+           no filter (the dark-background asset needed brightness(0), which also
+           killed the red). */
+    }
+    .ps-foot p {
+        margin: 0 0 1mm;
+        font-size: 7.5px;
+        line-height: 1.45;
+        color: #6b7280;
+    }
+    .ps-foot a { color: #1d4ed8; text-decoration: underline; }
+    /* The notes box takes whatever is left above the footer. */
+    .ps-notes { flex: 1 1 auto; }
 }
-
 
 

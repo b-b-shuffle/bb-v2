@@ -386,7 +386,10 @@ const AdminController = {
             this.deck = {
                 key: deckKey,
                 name: title,
-                path: deckConfig.path
+                path: deckConfig.path,
+                // Box art, when the deck has one (see CONFIG.decks[].cover /
+                // shared/img/decks). Decks with no art upstream leave it empty.
+                cover: deckConfig.cover || ''
             };
 
             this.baseCardLists = byType;
@@ -408,6 +411,17 @@ const AdminController = {
 
             // Update UI
             Utils.getElement('deck-name').textContent = this.deck.name;
+            const deckCover = Utils.getElement('deck-cover');
+            if (deckCover) {
+                if (this.deck.cover) {
+                    deckCover.src = this.deck.cover;
+                    deckCover.alt = this.deck.name + ' box art';
+                    Utils.showElement(deckCover);
+                } else {
+                    deckCover.removeAttribute('src');
+                    Utils.hideElement(deckCover);
+                }
+            }
             Utils.showElement('deck-info');
             Utils.showElement('deck-expansion');
 

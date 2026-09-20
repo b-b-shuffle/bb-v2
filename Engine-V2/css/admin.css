@@ -1120,3 +1120,29 @@
 .consultant-hint {
     margin-top: var(--space-2);
 }
+
+/* ===== Deck box art on the loaded-deck panel (shared/img/decks/<key>.webp) =====
+   Only decks that have art upstream show it; the <img> ships with the `hidden`
+   class and admin.js flips it (and drops the src) for decks with no cover.
+   Sized off the HEIGHT on purpose: the panel is about which deck is loaded, so
+   the cover is a thumbnail beside the name, not a poster — and the covers are
+   not all the same aspect ratio, so a fixed height keeps the row even. */
+.deck-info .deck-cover {
+    flex: 0 0 auto;
+    height: 54px;
+    width: auto;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-surface);
+}
+
+.deck-info-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+@media (max-width: 700px) {
+    .deck-info .deck-cover { height: 44px; }
+}

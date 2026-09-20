@@ -592,3 +592,12 @@
 .import-dropzone {
   background: rgba(255, 255, 255, 0.012);
 }
+
+/* ===== Deck box art beside the deck filter (shared/img/decks/<key>.webp) ===== */
+.deck-filter-cover {
+  height: 36px;
+  width: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+}

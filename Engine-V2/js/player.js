@@ -120,9 +120,6 @@ const PlayerController = {
         // Reveal / hide all procedure cards (GM quick view of the hand)
         Utils.getElement('reveal-procedures-btn')?.addEventListener('click', () => this.toggleRevealProcedures());
 
-        // Printable session sheet (board + hand + inject, face-up)
-        Utils.getElement('print-sheet-btn')?.addEventListener('click', () => this.printSessionSheet());
-
         // Keyboard shortcuts
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
@@ -692,6 +689,9 @@ const PlayerController = {
         this.renderConsultantCard();
         this.closeConsultantPicker();
         this.syncRevealControl();
+
+        // Card backs follow the deck (the hand re-rendered above already used it)
+        this.applyDeckCardbacks();
     },
 
     /**
@@ -701,6 +701,47 @@ const PlayerController = {
         const badge = Utils.getElement('deck-badge');
         if (badge && this.scenario?.deck?.name) {
             badge.textContent = this.scenario.deck.name;
+        }
+    },
+
+    /**
+     * Card-back art for the Procedure hand.
+     * @returns {string} Page-relative URL
+     */
+    procedureBackUrl() {
+        const deckKey = this.scenario?.deck?.key;
+        return Utils.cardbackFor(deckKey, 'procedure') || '../shared/decks/cardbacks/v2/procedure.webp';
+    },
+
+    /**
+     * Point the board's card backs at the deck in play.
+     *
+     * The static markup ships the 2.0 art; a deck that names another generation
+     * (`CONFIG.decks[].cardbackPath` — resolved by Utils.cardbackFor) gets its own
+     * backs for the four scenario slots and the inject rail, and the Procedure hand
+     * picks it up when it is rendered. The CONSULTANT back is only swapped when the
+     * deck actually has consultant cards: a deck without them (core 3.1, for one)
+     * keeps the default rather than advertising a card that cannot be drawn.
+     */
+    applyDeckCardbacks() {
+        const deckKey = this.scenario?.deck?.key;
+        if (!deckKey) return;
+
+        const setBack = (cardId, type, alt) => {
+            const url = Utils.cardbackFor(deckKey, type);
+            const img = Utils.getElement(cardId)?.querySelector('.flip-card-front img');
+            if (!img || !url || img.getAttribute('src') === url) return;
+            img.src = url;
+            if (alt) img.alt = alt;
+        };
+
+        setBack('initial-card', 'initial', 'Initial Card Back');
+        setBack('pivot-card', 'pivot', 'Pivot Card Back');
+        setBack('c2-card', 'c2', 'C2 Card Back');
+        setBack('persist-card', 'persist', 'Persist Card Back');
+        setBack('inject-card', 'inject', 'Inject Card Back');
+        if (this.consultants && this.consultants.length) {
+            setBack('consultant-card', 'consultant', 'Consultant Card Back');
         }
     },
 
@@ -746,7 +787,7 @@ const PlayerController = {
                 <div class="flip-card${card.enhanced ? ' enhanced' : ''}${isActive ? ' active' : ''}" data-procedure-index="${index}">
                     <div class="flip-card-inner">
                         <div class="flip-card-front">
-                            <img src="../shared/decks/cardbacks/v2/procedure.webp" alt="Procedure Card Back">
+                            <img src="${this.procedureBackUrl()}" alt="Procedure Card Back">
                         </div>
                         <div class="flip-card-back">
                             <img src="${Utils.assetPath(card.image)}" alt="${Utils.escapeHtml(card.name || 'Procedure')}" onerror="Utils.onImgError(event)">
@@ -1423,29 +1464,6 @@ const PlayerController = {
         if (!opts.silent) {
             Utils.showToast(show ? 'Procedure hand revealed' : 'Procedure cards hidden', 'info');
         }
-    },
-
-    /**
-     * Print a session sheet: the board, the hand and the inject.
-     *
-     * A prep sheet is only useful face-up, so every card is revealed first and
-     * the table is put back exactly as the GM left it afterwards. window.print()
-     * blocks until the dialog closes, so the restore below runs in the right
-     * order. The layout itself is the @media print block in css/player.css.
-     */
-    printSessionSheet() {
-        const scenarioBtn = Utils.getElement('reveal-cards-btn');
-        const procsBtn = Utils.getElement('reveal-procedures-btn');
-        const scenarioWasShown = !!scenarioBtn && scenarioBtn.dataset.state === 'shown';
-        const procsWereShown = !!procsBtn && procsBtn.dataset.state === 'shown';
-
-        this.toggleRevealScenario({ force: true, silent: true });
-        this.toggleRevealProcedures({ force: true, silent: true });
-
-        window.print();
-
-        if (!scenarioWasShown) this.toggleRevealScenario({ force: false, silent: true });
-        if (!procsWereShown) this.toggleRevealProcedures({ force: false, silent: true });
     },
 
     /**
