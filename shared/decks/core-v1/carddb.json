@@ -5,6 +5,7 @@
   "data": [
     {
       "name": "Phish",
+      "description": "The attackers send a malicious email targeting users. Because users are super easy to attack. Feel free to add a narrative of a CEO getting phished. Or maybe the Help Desk!",
       "image": "../../shared/decks/core-v1/BNB_CARDS_IC-1.webp",
       "type": "initial",
       "id": "001",
@@ -12,6 +13,7 @@
     },
     {
       "name": "Web Server Compromise",
+      "description": "The attackers take over an external web server. They use it to pivot to your internal network.",
       "image": "../../shared/decks/core-v1/BNB_CARDS_IC-2.webp",
       "type": "initial",
       "id": "002",
@@ -19,6 +21,7 @@
     },
     {
       "name": "External Cloud Access",
+      "description": "The attackers gain access to your cloud resources. They use this access to pivot.",
       "image": "../../shared/decks/core-v1/BNB_CARDS_IC-3.webp",
       "type": "initial",
       "id": "003",
@@ -26,6 +29,7 @@
     },
     {
       "name": "Insider Threat",
+      "description": "An internal disgruntled user exfiltrates information from your network.",
       "image": "../../shared/decks/core-v1/BNB_CARDS_IC-4.webp",
       "type": "initial",
       "id": "004",
@@ -33,6 +37,7 @@
     },
     {
       "name": "Password Spray",
+      "description": "The attackers gain access to your internal network by spraying commonly used passwords (like SeasonYear) against your organization.",
       "image": "../../shared/decks/core-v1/BNB_CARDS_IC-5.webp",
       "type": "initial",
       "id": "005",
@@ -40,12 +45,14 @@
     },
     {
       "name": "Trusted Relationship",
+      "description": "A trusted third party who has access to your network is compromised. The attackers use this to pivot to your internal resources.",
       "image": "../../shared/decks/core-v1/BNB_CARDS_IC-6.webp",
       "type": "initial",
       "id": "006"
     },
     {
       "name": "Social Engineering",
+      "description": "The attackers use social engineering to trick a user into running malware.",
       "image": "../../shared/decks/core-v1/BNB_CARDS_IC-7.webp",
       "type": "initial",
       "id": "007",
@@ -53,6 +60,7 @@
     },
     {
       "name": "Bring Your Own (Exploited) Device",
+      "description": "Your organization allows users to bring in their own devices. Or, another way to put it, they bring in their own exploited devices. The attackers use these devices to compromise your organization.",
       "image": "../../shared/decks/core-v1/BNB_CARDS_IC-8.webp",
       "type": "initial",
       "id": "008",
@@ -60,6 +68,7 @@
     },
     {
       "name": "Exploitable External Service",
+      "description": "An external service has a misconfiguration or a publicly available exploit. The attackers take advantage of this to attack and pivot to internal resources.",
       "image": "../../shared/decks/core-v1/BNB_CARDS_IC-9.webp",
       "type": "initial",
       "id": "009",
@@ -67,6 +76,7 @@
     },
     {
       "name": "Credential Stuffing",
+      "description": "The attackers take advantage of third-party breaches to identify and use IDs and passwords against your organization.",
       "image": "../../shared/decks/core-v1/BNB_CARDS_IC-10.webp",
       "type": "initial",
       "id": "010",
@@ -74,6 +84,7 @@
     },
     {
       "name": "Internal Password Spray",
+      "description": "The attackers start a password spray against the rest of the organization from a compromised system.",
       "image": "../../shared/decks/core-v1/BNB_CARDS_PE-1.webp",
       "type": "pivot",
       "id": "011",
@@ -81,6 +92,7 @@
     },
     {
       "name": "Kerberoasting",
+      "description": "The attackers use a \"feature\" of SPNs to extract and crack service passwords.",
       "image": "../../shared/decks/core-v1/BNB_CARDS_PE-2.webp",
       "type": "pivot",
       "id": "012",
@@ -88,6 +100,7 @@
     },
     {
       "name": "Broadcast/Multicast Protocol Poisoning",
+      "description": "For years, LANMAN was the worst thing in Windows. Then LLMNR said \"Stand Back and Hold My Beer!\" Basically, LLMNR lets a host ask for name resolution from any system on the same network. The attackers perform Broadcast/Multicast protocol poisoning on your Active Directory Network.",
       "image": "../../shared/decks/core-v1/BNB_CARDS_PE-3.webp",
       "type": "pivot",
       "id": "013",
@@ -95,6 +108,7 @@
     },
     {
       "name": "Weaponizing Active Directory",
+      "description": "The attackers map trust relationships and user/group privileges in your Active Directory Network.",
       "image": "../../shared/decks/core-v1/BNB_CARDS_PE-4.webp",
       "type": "pivot",
       "id": "014",
@@ -102,6 +116,7 @@
     },
     {
       "name": "Credential Stuffing",
+      "description": "Valid Active Directory credentials have been discovered on open shares and files within your environment. These are used by the attackers.",
       "image": "../../shared/decks/core-v1/BNB_CARDS_PE-5.webp",
       "type": "pivot",
       "id": "015",
@@ -109,6 +124,7 @@
     },
     {
       "name": "New Service Creation",
+      "description": "The attackers create and load their malware using a service with SYSTEM privileges. Or, they just create a new service.",
       "image": "../../shared/decks/core-v1/BNB_CARDS_PE-6.webp",
       "type": "pivot",
       "id": "016",
@@ -116,6 +132,7 @@
     },
     {
       "name": "Local Privilege Escalation",
+      "description": "The attackers use a vulnerability in local software to gain administrative access.",
       "image": "../../shared/decks/core-v1/BNB_CARDS_PE-7.webp",
       "type": "pivot",
       "id": "017",
@@ -123,6 +140,7 @@
     },
     {
       "name": "Malicious Service/Just Malware",
+      "description": "The attackers add a service that starts every time the system starts.",
       "image": "../../shared/decks/core-v1/BNB_CARDS_PER-1.webp",
       "type": "persist",
       "id": "018",
@@ -130,6 +148,7 @@
     },
     {
       "name": "DLL Attacks",
+      "description": "The attackers hijack the order in which DLLs are loaded. This is usually done through insecure directory/file permissions.",
       "image": "../../shared/decks/core-v1/BNB_CARDS_PER-2.webp",
       "type": "persist",
       "id": "019",
@@ -137,6 +156,7 @@
     },
     {
       "name": "Malicious Driver",
+      "description": "The attackers load a malicious driver into the operating system.",
       "image": "../../shared/decks/core-v1/BNB_CARDS_PER-3.webp",
       "type": "persist",
       "id": "020",
@@ -144,6 +164,7 @@
     },
     {
       "name": "New User Added",
+      "description": "Easy, the attackers add a new user to the local computer.",
       "image": "../../shared/decks/core-v1/BNB_CARDS_PER-4.webp",
       "type": "persist",
       "id": "021",
@@ -151,6 +172,7 @@
     },
     {
       "name": "Application Shimming",
+      "description": "The attackers use the Application Compatibility Toolkit to trick applications into not seeing the ports, directories, files, and services the attackers want to hide.",
       "image": "../../shared/decks/core-v1/BNB_CARDS_PER-5.webp",
       "type": "persist",
       "id": "022",
@@ -158,6 +180,7 @@
     },
     {
       "name": "Malicious Browser Plugins",
+      "description": "The attackers install plugins in the browser. This can be used as part of C2 and persistence. The browser is the new endpoint.",
       "image": "../../shared/decks/core-v1/BNB_CARDS_PER-6.webp",
       "type": "persist",
       "id": "023",
@@ -165,6 +188,7 @@
     },
     {
       "name": "Logon Scripts",
+      "description": "The attackers install a script that triggers when a user logs on.",
       "image": "../../shared/decks/core-v1/BNB_CARDS_PER-7.webp",
       "type": "persist",
       "id": "024",
@@ -172,6 +196,7 @@
     },
     {
       "name": "Evil Firmware",
+      "description": "The attackers update the firmware of Network Cards, Video Cards, and BIOS or UEFI... with Evil! All of these are very difficult to detect and very difficult to update.",
       "image": "../../shared/decks/core-v1/BNB_CARDS_PER-8.webp",
       "type": "persist",
       "id": "025",
@@ -179,6 +204,7 @@
     },
     {
       "name": "Accessibility Features",
+      "description": "The attackers hijack Accessibility Features like Sticky Keys and Onscreen Keyboard.",
       "image": "../../shared/decks/core-v1/BNB_CARDS_PER-9.webp",
       "type": "persist",
       "id": "026",
@@ -186,6 +212,7 @@
     },
     {
       "name": "HTTP as Exfil",
+      "description": "The attackers use HTTP as an exfil method. This is usually used in conjunction with some type of stego. For example, VSAgent uses base64 encoded __VIEWSTATE as an exfil field.",
       "image": "../../shared/decks/core-v1/BNB_CARDS_CE-1-27.webp",
       "type": "c2",
       "id": "027",
@@ -193,6 +220,7 @@
     },
     {
       "name": "HTTPS as Exfil",
+      "description": "This is pretty basic: the attackers use HTTPS. Lots and lots of malware uses this. For example, Meterpreter has used this technique for a long time. It can be used in conjunction with other stego techniques.",
       "image": "../../shared/decks/core-v1/BNB_CARDS_CE-1-28.webp",
       "type": "c2",
       "id": "028",
@@ -200,6 +228,7 @@
     },
     {
       "name": "DNS as C2",
+      "description": "The attackers use DNS as a C2 channel.",
       "image": "../../shared/decks/core-v1/BNB_CARDS_CE-2.webp",
       "type": "c2",
       "id": "029",
@@ -207,6 +236,7 @@
     },
     {
       "name": "Windows Background Intelligent Transfer Service (BITS)",
+      "description": "The attackers use BITS, another protocol that is often ignored.",
       "image": "../../shared/decks/core-v1/BNB_CARDS_CE-3.webp",
       "type": "c2",
       "id": "030",
@@ -214,6 +244,7 @@
     },
     {
       "name": "Gmail, Tumblr, Salesforce, Twitter as C2",
+      "description": "The attackers route traffic through third-party services. Many services, like Gmail, are ignored completely by many security tools.",
       "image": "../../shared/decks/core-v1/BNB_CARDS_CE-4.webp",
       "type": "c2",
       "id": "031",
@@ -221,6 +252,7 @@
     },
     {
       "name": "Domain Fronting as C2",
+      "description": "The attackers use Domain Fronting to bounce their traffic off of legitimate systems.",
       "image": "../../shared/decks/core-v1/BNB_CARDS_CE-5.webp",
       "type": "c2",
       "id": "032",
@@ -295,6 +327,7 @@
     },
     {
       "name": "Honeypots Deployed",
+      "description": "The defenders had honeypots on their network. The \"Incident Master\" has to show their Pivot and Escalate Card to the defenders.",
       "image": "../../shared/decks/core-v1/BNB_CARDS_INJ-1.webp",
       "type": "inject",
       "id": "043",
@@ -302,6 +335,7 @@
     },
     {
       "name": "It was a Pentest",
+      "description": "Ha! Ha! Just kidding, you were never attacked! The CEO hired an external firm (BHIS?) to run an unannounced Red Team.",
       "image": "../../shared/decks/core-v1/BNB_CARDS_INJ-2.webp",
       "type": "inject",
       "id": "044",
@@ -309,48 +343,56 @@
     },
     {
       "name": "Data Uploaded to Pastebin",
+      "description": "Bummer, the attackers have posted internal sensitive data on Pastebin. Your customers are now informed of the attack by the media.",
       "image": "../../shared/decks/core-v1/BNB_CARDS_INJ-3.webp",
       "type": "inject",
       "id": "045"
     },
     {
       "name": "SIEM Analyst Returns from Splunk Training",
+      "description": "+2 Modifier for Log-Related Actions",
       "image": "../../shared/decks/core-v1/BNB_CARDS_INJ-4.webp",
       "type": "inject",
       "id": "046"
     },
     {
       "name": "Take One Procedure Card Away",
+      "description": "What it says on the tin. Take a Procedure Card away from the defenders.",
       "image": "../../shared/decks/core-v1/BNB_CARDS_INJ-5.webp",
       "type": "inject",
       "id": "047"
     },
     {
       "name": "Give the Defenders a Random Procedure Card",
+      "description": "For whatever reason, everyone forgot they had this procedure. It must be Monday.",
       "image": "../../shared/decks/core-v1/BNB_CARDS_INJ-6.webp",
       "type": "inject",
       "id": "048"
     },
     {
       "name": "Lead Handler Has a Baby, Takes FMLA Leave",
+      "description": "Yeah, there's always one person who pretty much runs the whole IR process. That one essential person. Well, now it's time for the \"Incident Master\" to silence that person.",
       "image": "../../shared/decks/core-v1/BNB_CARDS_INJ-7.webp",
       "type": "inject",
       "id": "049"
     },
     {
       "name": "Bobby the Intern Kills the System You are Reviewing",
+      "description": "This. Happens. Far. Too. Often.",
       "image": "../../shared/decks/core-v1/BNB_CARDS_INJ-8.webp",
       "type": "inject",
       "id": "050"
     },
     {
       "name": "Legal Takes Your Only Skills Handler Into a Meeting to Explain the Incident",
+      "description": "Who brought a lawyer to the party? There's always one person who pretty much runs the whole IR process. That one essential person. Well, the legal team took that person away for \"Very Important Reasons.\"",
       "image": "../../shared/decks/core-v1/BNB_CARDS_INJ-9.webp",
       "type": "inject",
       "id": "051"
     },
     {
       "name": "Management Has Just Approved the Release of a New Procedure",
+      "description": "Internal Network Capture and Analysis (+5 Modifier for Network Capture Analysis Tasks) How many times has management come to the rescue? Knights in shining business suits. Every once in a great while the benevolent C-suite smiles on you.",
       "image": "../../shared/decks/core-v1/BNB_CARDS_INJ-10.webp",
       "type": "inject",
       "id": "052"

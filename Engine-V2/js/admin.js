@@ -312,7 +312,7 @@ const AdminController = {
             Utils.getElement('max-strikes').value = scenario.gameConfig.maxStrikes || 3;
             Utils.getElement('procedure-count').value = scenario.gameConfig.procedureCount || CONFIG.game.procedureCount;
             Utils.getElement('enhanced-count').value = scenario.gameConfig.enhancedCount ?? CONFIG.game.enhancedDefault;
-            Utils.getElement('inject-count').value = scenario.gameConfig.injectCount || 3;
+            Utils.getElement('inject-count').value = scenario.gameConfig.injectCount || CONFIG.game.injectCount;
             Utils.getElement('success-target').value = scenario.gameConfig.successTarget || 11;
             this.syncEnhancedFlags();
             this.renderProcedures();
@@ -388,7 +388,7 @@ const AdminController = {
                 name: title,
                 path: deckConfig.path,
                 // Box art, when the deck has one (see CONFIG.decks[].cover /
-                // shared/img/decks). Decks with no art upstream leave it empty.
+                // shared/img/decks). Decks with no art upstream leave it undefined.
                 cover: deckConfig.cover || ''
             };
 
@@ -821,7 +821,7 @@ const AdminController = {
     refreshPools() {
         if (!this.deck || !this.baseCardLists) return;
 
-        const types = ['initial', 'pivot', 'c2', 'persist', 'procedure', 'inject', 'consultant'];
+        const types = [...Utils.CARD_TYPES];
         const lists = {};
         const used = {};
         types.forEach(t => {
@@ -930,7 +930,7 @@ const AdminController = {
     drawInjects() {
         if (!this.deck) return;
 
-        const count = Math.min(6, Math.max(1, parseInt(Utils.getElement('inject-count')?.value) || 3));
+        const count = Math.min(6, Math.max(1, parseInt(Utils.getElement('inject-count')?.value) || CONFIG.game.injectCount));
         const available = this.cardLists.inject.filter(card => !this.injects.some(i => i.id === card.id));
         const needed = count - this.injects.length;
         if (needed <= 0) {
@@ -968,7 +968,7 @@ const AdminController = {
         const container = Utils.getElement('injects-grid');
         if (!container) return;
 
-        const count = Math.min(6, Math.max(1, parseInt(Utils.getElement('inject-count')?.value) || 3));
+        const count = Math.min(6, Math.max(1, parseInt(Utils.getElement('inject-count')?.value) || CONFIG.game.injectCount));
         if (this.injects.length > count) this.injects = this.injects.slice(0, count);
 
         container.innerHTML = this.injects.length === 0
@@ -1208,7 +1208,7 @@ const AdminController = {
             maxStrikes: parseInt(Utils.getElement('max-strikes')?.value) || 3,
             procedureCount: parseInt(Utils.getElement('procedure-count')?.value) || CONFIG.game.procedureCount,
             enhancedCount: parseInt(Utils.getElement('enhanced-count')?.value) || 0,
-            injectCount: Math.min(6, Math.max(1, parseInt(Utils.getElement('inject-count')?.value) || 3)),
+            injectCount: Math.min(6, Math.max(1, parseInt(Utils.getElement('inject-count')?.value) || CONFIG.game.injectCount)),
             successTarget: parseInt(Utils.getElement('success-target')?.value) || 11
         };
         scenario.metadata = {

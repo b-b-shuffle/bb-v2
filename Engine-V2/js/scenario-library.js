@@ -74,13 +74,13 @@ const ScenarioLibrary = {
         if (deckFilter) deckFilter.addEventListener('change', () => this.filterScenarios());
         if (difficultyFilter) difficultyFilter.addEventListener('change', () => this.filterScenarios());
 
-        // Box art for the filtered deck, beside the filter itself (the art comes
+        // Box art beside the deck filter, for the deck that is selected (comes
         // from CONFIG.decks[].cover — shared/img/decks/<key>.webp). "All Decks"
-        // has no key, so the image simply hides.
+        // and the few decks with no art upstream show no image.
         const deckCover = Utils.getElement('deck-filter-cover');
         const updateDeckCover = () => {
             if (!deckCover) return;
-            const key = deckFilter ? deckFilter.value : '';
+            const key = deckFilter?.value || '';
             const cfg = (key && typeof CONFIG !== 'undefined' && CONFIG.decks) ? CONFIG.decks[key] : null;
             if (cfg && cfg.cover) {
                 if (deckCover.getAttribute('src') !== cfg.cover) deckCover.setAttribute('src', cfg.cover);

@@ -4,16 +4,6 @@
  */
 
 const GameState = {
-    // Card lists loaded from deck
-    cardLists: {
-        procedures: [],
-        injects: [],
-        initial: [],
-        pivot: [],
-        c2: [],
-        persist: []
-    },
-
     // Selected cards for the current scenario
     selected: {
         procedures: [],
@@ -51,13 +41,6 @@ const GameState = {
         persist: false
     },
 
-    // History tracking
-    history: {
-        dice: [],
-        injects: [],
-        actions: []
-    },
-
     // Sync state for admin/player communication
     sync: {
         enabled: true,
@@ -71,15 +54,6 @@ const GameState = {
      */
     init(config = {}) {
         const gameConfig = config.game || CONFIG.game;
-
-        this.cardLists = {
-            procedures: [],
-            injects: [],
-            initial: [],
-            pivot: [],
-            c2: [],
-            persist: []
-        };
 
         this.selected = {
             procedures: [],
@@ -107,53 +81,10 @@ const GameState = {
             persist: false
         };
 
-        this.history = {
-            dice: [],
-            injects: [],
-            actions: []
-        };
-
         this.sync.version++;
         this.sync.lastUpdate = Date.now();
 
         this.notifyChange('init');
-    },
-
-    /**
-     * Set the current deck
-     * @param {string} deckKey - Deck identifier
-     * @param {Object} deckData - Loaded deck data
-     */
-    setDeck(deckKey, deckData) {
-        this.deck = {
-            key: deckKey,
-            name: deckData.title || deckKey,
-            path: CONFIG.getDeck(deckKey)?.path || '',
-            metadata: deckData
-        };
-
-        // Organize cards by type
-        if (deckData.data) {
-            this.cardLists = {
-                procedures: [],
-                injects: [],
-                initial: [],
-                pivot: [],
-                c2: [],
-                persist: []
-            };
-
-            deckData.data.forEach(card => {
-                const type = card.type?.toLowerCase();
-                if (this.cardLists[type]) {
-                    this.cardLists[type].push(card);
-                }
-            });
-        }
-
-        this.sync.version++;
-        this.sync.lastUpdate = Date.now();
-        this.notifyChange('deck');
     },
 
     /**
@@ -163,7 +94,6 @@ const GameState = {
     useTurn() {
         if (this.game.turnsRemaining > 0 && !this.game.isGameOver) {
             this.game.turnsRemaining--;
-            this.logAction('turn', { remaining: this.game.turnsRemaining });
             
             if (this.game.turnsRemaining === 0) {
                 this.game.isGameOver = true;
@@ -185,7 +115,6 @@ const GameState = {
     addStrike() {
         if (!this.game.isGameOver) {
             this.game.strikeCount++;
-            this.logAction('strike', { count: this.game.strikeCount });
             
             if (this.game.strikeCount >= this.game.maxStrikes) {
                 this.game.isGameOver = true;
@@ -201,35 +130,13 @@ const GameState = {
     },
 
     /**
-     * Log a dice roll
-     * @param {number} result - Dice result
-     * @param {string} type - Roll type
+     * Announce a dice roll so other tabs re-sync. The roll itself is owned by
+     * the caller; this only bumps the sync version and notifies listeners.
      */
-    logDiceRoll(result, type = 'standard') {
-        const roll = {
-            result,
-            type,
-            timestamp: Date.now(),
-            turn: this.game.maxTurns - this.game.turnsRemaining + 1
-        };
-        this.history.dice.push(roll);
-        this.logAction('dice', roll);
+    logDiceRoll() {
         this.sync.version++;
         this.sync.lastUpdate = Date.now();
         this.notifyChange('dice');
-    },
-
-    /**
-     * Log an action
-     * @param {string} action - Action type
-     * @param {Object} data - Action data
-     */
-    logAction(action, data = {}) {
-        this.history.actions.push({
-            action,
-            data,
-            timestamp: Date.now()
-        });
     },
 
     /**

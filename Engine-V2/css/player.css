@@ -1647,6 +1647,78 @@ body.fx-enabled .card-wrapper[data-type="consultant"] .flip-card { --fx-c1: #ec4
 }
 
 /* ============================================================
+   Guided tour coach panel — shown only with ?tour=1, driven by
+   js/guided-tour.js. Sits above the board like a table card so it
+   reads as part of the layout rather than a modal to dismiss.
+   ============================================================ */
+.tour-panel {
+    position: relative;
+    margin: 12px 16px 0;
+    padding: 13px 16px 12px;
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0) 60%),
+        var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-left: 3px solid var(--color-primary);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+}
+
+.tour-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.tour-chip {
+    flex: 0 0 auto;
+    padding: 2px 8px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-bg);
+    background: var(--color-primary);
+    border-radius: 999px;
+}
+
+.tour-head h2 { margin: 0; font-size: 15px; }
+
+.tour-close {
+    margin-left: auto;
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 0;
+    border-radius: 50%;
+    color: var(--color-text-muted);
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+}
+.tour-close:hover { color: var(--color-text); background: rgba(255, 255, 255, 0.08); }
+
+.tour-body {
+    margin: 8px 0 11px;
+    max-width: 82ch;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+}
+
+.tour-foot { display: flex; gap: 8px; }
+.tour-foot .btn:disabled { opacity: 0.45; cursor: default; }
+
+@media (max-width: 700px) {
+    .tour-panel { margin: 10px 10px 0; }
+    .tour-head h2 { font-size: 14px; }
+}
+
+/* ============================================================
    Printable session sheet (#print-sheet, built by js/print-sheet.js)
 
    The sheet is an independent DOM tree, so the board's 3D flip
@@ -1683,10 +1755,7 @@ body.fx-enabled .card-wrapper[data-type="consultant"] .flip-card { --fx-c1: #ec4
     body.print-has-sheet .modal-backdrop,
     body.print-has-sheet .cv-backdrop,
     body.print-has-sheet .fab-container,
-    body.print-has-sheet #site-fab-menu,
-    /* A game queued from the Editor/FAB toasts as the sheet is printed; without
-       this it lands on the paper. */
-    body.print-has-sheet .toast { display: none !important; }
+    body.print-has-sheet #site-fab-menu { display: none !important; }
 
     body.print-has-sheet { background: #fff !important; color: #111827 !important; }
     /* The felt surface + spotlight vignette live on body pseudo-elements. */
@@ -1793,7 +1862,7 @@ body.fx-enabled .card-wrapper[data-type="consultant"] .flip-card { --fx-c1: #ec4
 
     /* ---- Section headings ---- */
     .ps-h {
-        margin: 4mm 0 0;
+        margin: 3.5mm 0 0;
         padding-bottom: 1mm;
         border-bottom: 1px solid #cbd5e1;
         font-size: 10px;
@@ -1805,13 +1874,25 @@ body.fx-enabled .card-wrapper[data-type="consultant"] .flip-card { --fx-c1: #ec4
     .ps-count { color: #64748b; }
 
     /* ---- Scenario cards (+ their DETECTION lists) ---- */
+    /* Two shared rows: row 1 is the four card HEADS (thumb, type, name, the
+       card's own text), row 2 is their DETECTION blocks. Because the heads share
+       one track, the track is as tall as the tallest head and every DETECTION
+       list starts on the same line - which is what squares the row off. The
+       cards do NOT need to be measured to achieve this, which matters: this is
+       the print layout, and nothing on the page can measure it (see build()). */
     .ps-cards {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: auto auto;
     }
     .ps-card {
-        display: flex;
-        flex-direction: column;
+        display: grid;
+        /* Both shared rows, so the rule below spans the two of them as one line. */
+        grid-row: span 2;
+        /* The card's own rows ARE the two rows above. A browser without subgrid
+           drops this declaration, the rows go auto, and the cards fall back to
+           the ragged per-column heights - the layout is unchanged either way. */
+        grid-template-rows: subgrid;
         gap: 1.5mm;
         padding: 3mm 3mm 1mm 0;
     }
@@ -1824,8 +1905,8 @@ body.fx-enabled .card-wrapper[data-type="consultant"] .flip-card { --fx-c1: #ec4
         align-items: flex-start;
         gap: 2.5mm;
         min-width: 0;
-        /* One thumbnail tall, so the DETECTION lists below start on the same line
-           however many lines each card name takes. */
+        /* One thumbnail tall, as a floor: the shared row above is what actually
+           aligns the DETECTION lists. */
         min-height: 58px;
     }
     .ps-thumb {
@@ -1855,6 +1936,16 @@ body.fx-enabled .card-wrapper[data-type="consultant"] .flip-card { --fx-c1: #ec4
         font-weight: 700;
         line-height: 1.2;
         color: #0f172a;
+    }
+    /* The scenario card's own text, under its name: the paragraph that sets the scene.
+       It shares the sheet's footnote scale, because four of these sit side by side. */
+    .ps-card-text {
+        display: block;
+        margin-top: 0.4mm;
+        font-size: 7px;
+        font-weight: 400;
+        line-height: 1.28;
+        color: #475569;
     }
     .ps-detection { margin-top: 0.5mm; }
     .ps-detection-label {
@@ -1888,6 +1979,27 @@ body.fx-enabled .card-wrapper[data-type="consultant"] .flip-card { --fx-c1: #ec4
         grid-template-columns: 1.2fr 1fr;
         gap: 8mm;
     }
+    /* The two columns are a stretch grid, so the shorter one leaves a bare patch under
+       its last row - in practice the hand, which ends halfway down while the inject
+       queue runs on. Letting the hand's rows share out that height squares the block
+       off; 16mm is the ceiling, so a nine-inject game does not spread seven rows over
+       half a page. Only the hand is stretched: an inject row's own text must never be
+       clamped. */
+    .ps-cols > section {
+        display: flex;
+        flex-direction: column;
+    }
+    .ps-cols > section > .ps-h { flex: 0 0 auto; }
+    .ps-cols section:first-child > .ps-list {
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 auto;
+    }
+    .ps-cols section:first-child .ps-row {
+        flex: 1 1 auto;
+        max-height: 16mm;
+        align-items: center;
+    }
     .ps-list {
         margin: 0;
         padding: 0;
@@ -1898,7 +2010,10 @@ body.fx-enabled .card-wrapper[data-type="consultant"] .flip-card { --fx-c1: #ec4
         grid-template-columns: auto auto minmax(0, 1fr) auto;
         align-items: baseline;
         gap: 2mm;
-        padding: 1.5mm 0;
+        /* 1.2mm, not 1.5mm: with the card's own text under each inject name the
+           inject column is the tallest thing on the sheet, and these rows are what
+           decides whether a six-inject game still fits one page. */
+        padding: 1.2mm 0;
         border-bottom: 1px dashed #cbd5e1;
     }
     .ps-row.is-empty { color: #6b7280; font-style: italic; }
@@ -1916,6 +2031,24 @@ body.fx-enabled .card-wrapper[data-type="consultant"] .flip-card { --fx-c1: #ec4
         color: #0f172a;
     }
     .ps-row.is-enhanced .ps-row-name { font-weight: 700; }
+    /* The card's own text, under its name (an inject's rules). Deliberately small and
+       quiet: it glosses the name, it is not another row. 7.5px matches the sheet's
+       other footnote type (detection lists, credits), and every point of it buys the
+       ruled notes area back a line. Clamped at four lines so one wordy card cannot
+       push the footer onto a second sheet. */
+    .ps-row-note {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 4;
+        overflow: hidden;
+        margin-top: 0.6mm;
+        font-size: 7.5px;
+        font-weight: 400;
+        line-height: 1.3;
+        color: #475569;
+    }
+    /* A queue longer than a session deals (see INJECT_TEXT_MAX) prints names only. */
+    .print-sheet.ps-queue-long .ps-row-note { display: none; }
     .ps-badge {
         font-size: 9px;
         font-weight: 700;
@@ -1938,7 +2071,7 @@ body.fx-enabled .card-wrapper[data-type="consultant"] .flip-card { --fx-c1: #ec4
     .ps-notes {
         display: flex;
         flex-direction: column;
-        margin-top: 4mm;
+        margin-top: 3mm;
     }
     .ps-note-lines {
         /* One column, so the lines can share the height exactly. flex-basis 0, not
@@ -1947,7 +2080,10 @@ body.fx-enabled .card-wrapper[data-type="consultant"] .flip-card { --fx-c1: #ec4
         display: flex;
         flex-direction: column;
         flex: 1 1 0;
-        min-height: 25mm;
+        /* 10mm, not 25mm: an inject row that carries the card's own text can add
+           three lines each, and the notes area is the only block with slack. It
+           still yields a handful of usable rules on a full six-inject sheet. */
+        min-height: 10mm;
         margin-top: 1mm;
         overflow: hidden;   /* belt and braces; the flex maths never overflows */
     }
@@ -1992,5 +2128,6 @@ body.fx-enabled .card-wrapper[data-type="consultant"] .flip-card { --fx-c1: #ec4
     /* The notes box takes whatever is left above the footer. */
     .ps-notes { flex: 1 1 auto; }
 }
+
 
 

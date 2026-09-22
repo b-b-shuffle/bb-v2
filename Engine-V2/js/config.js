@@ -5,6 +5,14 @@
 
 const CONFIG = {
     // Deck paths (relative to shared)
+    //
+    // Each deck: { name, path, cardbackPath, cover?, expansion?, expansionPrefix? }.
+    // `cover` is the deck's box art in `shared/img/decks/<key>.webp` — shown in
+    // the Card Catalogue, the Scenario Editor's loaded-deck panel and the
+    // Scenario Library's deck filter, and it stands in for the B&B logo on the
+    // printed session sheet. Decks with no box art upstream (core-v1,
+    // core-v31-expansion, green-expansion-v2, custom) simply omit it and render
+    // without an image.
     decks: {
         core: {
             name: 'Core Deck',
@@ -170,7 +178,11 @@ const CONFIG = {
         procedureCount: 7,
         enhancedDefault: 3,
         enhancedBonus: 3,
-        scenarioCardTypes: ['initial', 'pivot', 'c2', 'persist']
+        // Starting inject plus the queued pool - a B&B session deals six. The
+        // Scenario Editor's Count field and the quick-start deal both default here,
+        // and the printable session sheet prints each inject's rule text up to this
+        // many (see INJECT_TEXT_MAX in js/print-sheet.js).
+        injectCount: 6
     },
 
     // Storage keys
@@ -181,15 +193,6 @@ const CONFIG = {
     // Sync settings (for admin/player communication)
     sync: {
         storageKey: 'bb-shuffle-sync-state'
-    },
-
-    /**
-     * Get deck configuration by key
-     * @param {string} deckKey - Deck identifier
-     * @returns {Object|null} Deck config or null
-     */
-    getDeck(deckKey) {
-        return this.decks[deckKey] || null;
     }
 };
 

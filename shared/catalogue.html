@@ -74,6 +74,9 @@
             transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease, background .15s ease;
         }
         .deck-btn:hover { transform: translateY(-1px); box-shadow: var(--shadow-card); }
+        .deck-btn { display: inline-flex; align-items: center; gap: 8px; }
+        .deck-btn-cover { display: block; height: 22px; width: auto; border-radius: 3px; }
+        .deck-btn.active .deck-btn-cover { box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.4); }
         .deck-btn.active {
             background: linear-gradient(180deg, var(--color-primary), var(--color-primary-dark));
             box-shadow: 0 6px 16px color-mix(in srgb, var(--color-primary) 40%, transparent);
@@ -127,16 +130,25 @@
             border: 1px solid rgba(255, 255, 255, 0.16); backdrop-filter: blur(3px);
         }
 
-        /* ===== CardViewer panels (Details / Detections) ===== */
+        /* ===== CardViewer panels (Details / Detection) ===== */
         .cv-list { margin: 0 0 10px; padding-left: 18px; font-size: 13px; line-height: 1.6; }
         .cv-list li { margin-bottom: 4px; }
         .cv-list a { color: var(--color-primary); word-break: break-all; }
         .cv-meta { margin: 8px 0 6px; font-size: 12px; color: var(--color-text-muted); }
-        /* ===== Deck box art (shared/img/decks/<key>.webp) ===== */
-        .deck-btn { display: inline-flex; align-items: center; gap: 8px; }
-        .deck-btn-cover { display: block; height: 22px; width: auto; border-radius: 3px; }
-        .deck-btn.active .deck-btn-cover { box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.4); }
 
+        /* ===== Detection cross-reference (rendered inside CardViewer panels) ===== */
+        .det-lead { margin: 0 0 8px; font-size: 12px; color: var(--color-text-muted); }
+        .det-list { margin: 0; padding-left: 18px; color: var(--color-text-secondary); }
+        .det-list li { margin: 5px 0; font-size: 13px; line-height: 1.5; }
+        .det-list li.is-proc { color: var(--color-text); }
+        .det-tag {
+            margin-left: 6px; padding: 1px 6px;
+            border: 1px solid var(--color-border); border-radius: var(--radius-full);
+            font-size: 10px; color: var(--color-text-muted);
+            text-transform: uppercase; letter-spacing: .04em;
+        }
+
+        /* ===== Deck header: box art (shared/img/decks/<key>.webp) ===== */
         .deck-hero { display: flex; align-items: flex-start; gap: 18px; margin: 0 0 16px; }
         .deck-hero-cover {
             flex: 0 0 auto; width: 260px; height: auto;
@@ -169,7 +181,8 @@
 
         <!-- Deck picker -->
         <div class="cat-decks" id="deck-buttons"></div>
-        <!-- Deck header: box art (when the deck has one), name, note. -->
+
+        <!-- Deck header: box art (when the deck has one), name, note, counts -->
         <div class="deck-hero">
             <img class="deck-hero-cover hidden" id="deck-cover" alt="" decoding="async">
             <div class="deck-hero-text">
@@ -238,9 +251,8 @@
             { key: 'mega-deck',          name: 'The MEGA Deck', note: 'Every deck merged into one huge deck.', cover: 'mega-deck.webp' }
         ];
 
-        // Deck box art, generated into shared/img/decks/<key>.webp. Decks with no
-        // `cover` have no box art upstream — the pills and the header just omit
-        // the image rather than showing a placeholder.
+        // Deck box art, generated into shared/img/decks/<key>.webp. Entries without
+        // a `cover` have no box art upstream — the pills just omit the image.
         const COVER_BASE = 'img/decks/';
 
         const TYPE_ORDER = ['initial', 'pivot', 'c2', 'persist', 'procedure', 'inject', 'consultant', 'exfil'];
@@ -266,8 +278,17 @@
         let activeQuery = '';       // '' = no search
         let currentDeck = null;     // raw carddb for the active deck
         let detailsPromise = null;  // in-flight docs/card-details.json load
-        let detailsIndex = null;    // { deckKey: { 'type\0name': card } }
         let pendingCard = '';       // ?card= waiting for its deck to render
+
+        // Scenario-card subset (docs/card-details.json is the other copy).
+        const SCENARIO_TYPES = ['initial', 'pivot', 'c2', 'persist'];
+        // Cross-reference index built from docs/card-details.json (see loadDetails).
+        const detection = {
+            byImage: new Map(),   // 'decks/<deck>/<file>.webp' -> [entry]
+            byName: new Map(),    // name key -> [entry]
+            coverage: new Map(),  // deck -> { of, filled }
+            procs: new Map()      // deck -> Set(lowercased procedure names)
+        };
 
         function imgUrl(image) {
             // carddb image fields can use a few relative forms pointing into shared/decks:
@@ -287,15 +308,32 @@
         }
 
         /* ===== docs/card-details.json =====================================
-           carddb.json carries art and names; the per-card reference text and each
-           scenario card's printed DETECTION list live in docs/card-details.json
-           (built by build_card_details.py). Load it once, index it by deck + type
-           + lowercased name. If it is missing the catalogue still works — the
-           tiles just lose their Details tab. */
-        function detailKey(type, name) {
-            return String(type || '').toLowerCase() + '\u0000' + String(name || '').trim().toLowerCase();
+           carddb.json carries art and names; the printed card text, the per-card
+           reference links and each scenario card's DETECTION list live in
+           docs/card-details.json (built by build_card_details.py). If it is
+           missing the catalogue still works — the tiles just lose their tabs.
+
+           Indexed by the shared-relative IMAGE path — exactly what imgUrl()
+           produces and what card-details.json stores, and the identity the detection
+           data was actually read against (docs/detection/*.json is keyed by card
+           art, not by name). The cross-deck NAME fallback then covers art the
+           catalog never recorded. Every card in the current data is reachable both
+           ways, so this is about not depending on deck keys and card names staying
+           in step — a renamed or re-registered deck keeps its cards' details. */
+        /**
+         * Lookup keys for a card name, tolerant of how the decks spell the same
+         * printed card ("New Service Creation/Modification" vs "New Service
+         * Creation or Modification"). strict = lowercase + non-alphanumerics
+         * collapsed; loose = the same with the joining words or/and/the/a dropped.
+         */
+        function nameKeys(name) {
+            const strict = String(name || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+            if (!strict) return [];
+            const loose = strict.split(' ').filter(w => w !== 'or' && w !== 'and' && w !== 'the' && w !== 'a').join(' ');
+            return strict === loose ? [strict] : [strict, loose];
         }
 
+        /** Load + index docs/card-details.json once. Resolves to whether it landed. */
         function loadDetails() {
             if (detailsPromise) return detailsPromise;
             detailsPromise = fetch('../docs/card-details.json', { cache: 'no-store' })
@@ -304,61 +342,171 @@
                     return res.json();
                 })
                 .then(doc => {
-                    const index = {};
                     (doc.decks || []).forEach(deck => {
-                        const bucket = index[deck.deck] = {};
-                        Object.keys(deck.cards || {}).forEach(type => {
-                            (deck.cards[type] || []).forEach(card => {
-                                if (card && card.name) bucket[detailKey(type, card.name)] = card;
+                        if (!deck || !deck.deck) return;
+                        if (deck.detectionCoverage) detection.coverage.set(deck.deck, deck.detectionCoverage);
+                        const cards = deck.cards || {};
+                        detection.procs.set(deck.deck, new Set(
+                            (cards.procedure || []).map(p => String(p.name || '').toLowerCase())
+                        ));
+                        Object.keys(cards).forEach(type => {
+                            (cards[type] || []).forEach(card => {
+                                if (!card) return;
+                                const entry = {
+                                    deck: deck.deck, id: card.id, type: type, name: card.name,
+                                    image: card.image, detection: card.detection,
+                                    details: card.details, description: card.description
+                                };
+                                const byImage = detection.byImage.get(card.image);
+                                if (byImage) byImage.push(entry);
+                                else detection.byImage.set(card.image, [entry]);
+                                nameKeys(card.name).forEach(key => {
+                                    const byName = detection.byName.get(key);
+                                    if (byName) byName.push(entry);
+                                    else detection.byName.set(key, [entry]);
+                                });
                             });
                         });
                     });
-                    detailsIndex = index;
-                    return index;
+                    return true;
                 })
                 .catch(err => {
                     console.warn('Card details unavailable — names only:', err.message);
-                    detailsIndex = {};
-                    return detailsIndex;
+                    return false;
                 });
             return detailsPromise;
         }
 
-        function detailFor(type, name) {
-            return (detailsIndex && detailsIndex[activeKey] && detailsIndex[activeKey][detailKey(type, name)]) || null;
+        /**
+         * The catalog entry for a card: same ART first (preferring the deck in
+         * play), then the same NAME in another deck — ranked deck in play, then the
+         * shared v3.1 master art, then anything else. A name is not an identity
+         * (two decks can print a different card under one name), so the ranking is
+         * explicit rather than first-match. `image` may be a raw carddb path or an
+         * already-normalised one; imgUrl() is idempotent.
+         * @param {string} image - Card art path
+         * @param {string} name - Card name
+         * @returns {Object|null} Catalog entry
+         */
+        function entryFor(image, name) {
+            const key = imgUrl(image);
+            const list = detection.byImage.get(key);
+            if (list && list.length) return list.find(e => e.deck === activeKey) || list[0];
+
+            let best = null;
+            let bestRank = 99;
+            nameKeys(name).forEach(nameKey => {
+                (detection.byName.get(nameKey) || []).forEach(cand => {
+                    const rank = cand.deck === activeKey ? 0
+                        : (String(cand.image || '').indexOf('decks/cardbase/v31/') === 0 ? 1 : 2);
+                    if (rank < bestRank) {
+                        bestRank = rank;
+                        best = cand;
+                    }
+                });
+            });
+            return best;
+        }
+
+        /** Reference text + links, then the type/id line. */
+        function detailsHtml(entry, card) {
+            const body = [];
+            const description = String(entry.description || '').trim();
+            if (description) body.push(`<p>${esc(description)}</p>`);
+
+            const links = (Array.isArray(entry.details) ? entry.details : []).filter(l => l && (l.text || l.url));
+            if (links.length) {
+                body.push('<ul class="cv-list">' + links.map(l => {
+                    const text = String(l.text || l.url || '').trim();
+                    const url = String(l.url || '').trim();
+                    if (!/^https?:\/\//i.test(url)) return `<li>${esc(text)}</li>`;
+                    return `<li><a href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(text)}</a></li>`;
+                }).join('') + '</ul>');
+            }
+
+            const type = entry.type || (card && card.type) || '';
+            body.push(`<p class="cv-meta">${esc(TYPE_LABEL[type] || type)} · card ${esc(entry.id || (card && card.id) || '—')}</p>`);
+            return body.join('');
+        }
+
+        /**
+         * Scenario card -> the Procedure cards printed in its DETECTION section.
+         * Each entry is tagged when it is NOT a Procedure card in this deck, because
+         * a handful of the printed entries are joke/non-card results ("Working with
+         * HR", "DLP (…never works.)") and a GM checking the list off needs to know
+         * which of them they can actually find in the hand.
+         */
+        function detectionHtml(entry) {
+            const list = Array.isArray(entry.detection) ? entry.detection : [];
+            const procs = detection.procs.get(activeKey) || detection.procs.get(entry.deck) || new Set();
+            const coverage = detection.coverage.get(activeKey) || detection.coverage.get(entry.deck);
+
+            if (!list.length) {
+                const note = (coverage && coverage.of)
+                    ? `Not yet recorded for this card — the deck's card faces are ${coverage.filled} of ${coverage.of} scenario cards read.`
+                    : 'Not yet recorded for this card.';
+                return `<p class="det-lead">${esc(note)}</p>`;
+            }
+
+            const items = list.map(raw => {
+                const isProc = procs.has(String(raw).toLowerCase());
+                return `<li class="${isProc ? 'is-proc' : ''}">${esc(raw)}`
+                    + (isProc ? '' : '<span class="det-tag">not a procedure card</span>')
+                    + '</li>';
+            });
+            return '<p class="det-lead">Printed in this card&rsquo;s DETECTION section:</p>'
+                + `<ul class="det-list">${items.join('')}</ul>`;
+        }
+
+        /** Procedure card -> the scenario cards whose DETECTION section names it. */
+        function detectsHtml(entry) {
+            const target = String(entry.name || '').toLowerCase();
+            if (!target) return '';
+
+            const hits = [];
+            detection.byImage.forEach(entries => {
+                entries.forEach(e => {
+                    if (!SCENARIO_TYPES.includes(String(e.type))) return;
+                    if (!Array.isArray(e.detection) || !e.detection.length) return;
+                    if (!e.detection.some(d => String(d).toLowerCase() === target)) return;
+                    hits.push(e);
+                });
+            });
+            if (!hits.length) return '';
+
+            const own = hits.filter(e => e.deck === activeKey);
+            const list = own.length ? own : hits;
+            const items = list.map(e =>
+                `<li>${esc(e.name)}<span class="det-tag">${esc(TYPE_LABEL[e.type] || e.type)}</span></li>`
+            );
+            const lead = own.length
+                ? 'This deck&rsquo;s scenario cards that print this procedure in their DETECTION section:'
+                : 'Scenario cards in other decks that print this procedure (no recorded match in this deck):';
+            return `<p class="det-lead">${lead}</p><ul class="det-list">${items.join('')}</ul>`;
         }
 
         /** CardViewer tabs for one card: reference text, then its detections. */
-        function sectionsFor(type, name) {
-            const card = detailFor(type, name);
-            if (!card) return [];
+        function sectionsFor(image, name, type) {
+            const entry = entryFor(image, name);
+            if (!entry) return [];
 
-            const body = [];
-            if (card.description) body.push(`<p>${esc(card.description)}</p>`);
-            const links = (card.details || []).filter(l => l && l.url);
-            if (links.length) {
-                body.push('<ul class="cv-list">' + links.map(l =>
-                    `<li><a href="${esc(l.url)}" target="_blank" rel="noopener noreferrer">${esc(l.text || l.url)}</a></li>`
-                ).join('') + '</ul>');
-            }
-            body.push(`<p class="cv-meta">${esc(TYPE_LABEL[type] || type)} · card ${esc(card.id || '—')}</p>`);
-
-            const sections = [{ label: 'Details', html: body.join('') }];
-            const detection = Array.isArray(card.detection) ? card.detection : [];
-            if (detection.length) {
+            const sections = [{ label: 'Details', html: detailsHtml(entry, { type: type, image: image, name: name }) }];
+            const entryType = String(entry.type || type || '').toLowerCase();
+            const list = Array.isArray(entry.detection) ? entry.detection : [];
+            if (SCENARIO_TYPES.includes(entryType)) {
                 sections.push({
-                    label: `Detections (${detection.length})`,
-                    html: '<p class="cv-meta">Procedure cards printed in this card\u2019s DETECTION section.</p>' +
-                          '<ul class="cv-list">' + detection.map(d => `<li>${esc(d)}</li>`).join('') + '</ul>'
+                    label: list.length ? `Detection (${list.length})` : 'Detection',
+                    html: detectionHtml(entry)
                 });
+            } else if (entryType === 'procedure') {
+                const detects = detectsHtml(entry);
+                if (detects) sections.push({ label: 'Detects', html: detects });
             }
             return sections;
         }
 
         function renderDeckButtons() {
             buttonsEl.innerHTML = DECKS.map(d => {
-                // Eager on purpose: these are ~20 KB each and the row is the first
-                // thing on the page, so lazy loading only risked them popping in.
                 const cover = d.cover
                     ? `<img class="deck-btn-cover" src="${COVER_BASE}${d.cover}" alt="" decoding="async">`
                     : '';
@@ -374,9 +522,13 @@
             });
         }
 
-        /** Deck header: box art (only when the deck has one) + name. */
+        /**
+         * Deck header: the deck's box art (when it has one) plus its name. Decks with
+         * no art upstream (core-v1, core-v31-expansion, green-expansion-v2, custom)
+         * omit the image rather than leaving a gap.
+         */
         function renderDeckHero(deck) {
-            if (heroNameEl) heroNameEl.textContent = deck ? deck.name : '';
+            heroNameEl.textContent = deck ? deck.name : '';
             if (!coverEl) return;
             if (deck && deck.cover) {
                 const src = COVER_BASE + deck.cover;
@@ -410,11 +562,11 @@
                 renderTypeFilters(db);
                 renderCards();
 
-                // The Details / Detections tabs need docs/card-details.json. The
-                // grid is already usable without it, so re-render when it lands.
-                details.then(index => {
+                // The Details / Detection tabs need docs/card-details.json. The grid
+                // is already usable without it, so re-render when it lands.
+                details.then(loaded => {
                     if (currentDeck !== db) return;   // deck changed under us
-                    if (index && Object.keys(index).length) renderCards();
+                    if (loaded) renderCards();
                     flushPendingCard();
                 });
             } catch (err) {
@@ -429,7 +581,7 @@
         function matchesFilters(card) {
             if (activeType && (card.type || '').toLowerCase() !== activeType) return false;
             if (!activeQuery) return true;
-            const detail = detailFor(card.type, card.name);
+            const detail = entryFor(card.image, card.name);
             const haystack = [
                 card.name, card.id, card.type,
                 detail && detail.description,
@@ -491,11 +643,11 @@
                     <div class="type-group">
                         <div class="type-head"><h2>${esc(TYPE_LABEL[type] || type)}</h2><span class="count">${list.length}</span></div>
                         <div class="card-grid">${list.map(card => {
-                            const detail = detailFor(card.type, card.name);
+                            const detail = entryFor(card.image, card.name);
                             const n = (detail && detail.detection) ? detail.detection.length : 0;
                             const badge = n ? `<span class="tile-badge" title="${esc(n + ' detecting procedures')}">${n}</span>` : '';
                             return `
-                            <div class="card-tile" data-type="${esc((card.type || '').toLowerCase())}" data-name="${esc(card.name || '')}" title="${esc(card.name || '')} — click to enlarge">
+                            <div class="card-tile" data-type="${esc((card.type || '').toLowerCase())}" data-name="${esc(card.name || '')}" data-image="${esc(imgUrl(card.image))}" title="${esc(card.name || '')} — click to enlarge">
                                 <div class="frame"><img loading="lazy" src="${imgUrl(card.image)}" alt="${esc(card.name || 'Card')}" onerror="this.style.opacity=0.15">${badge}</div>
                                 <span class="name">${esc(card.name || '')}</span>
                             </div>`;
@@ -555,7 +707,7 @@
             CardViewer.open(img.currentSrc || img.src, {
                 name: name,
                 type: tile.dataset.type || '',
-                sections: sectionsFor(tile.dataset.type || '', name)
+                sections: sectionsFor(tile.dataset.image || '', name, tile.dataset.type || '')
             });
         }
 

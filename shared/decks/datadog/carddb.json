@@ -5,6 +5,7 @@
   "data": [
     {
       "name": "Phishing",
+      "description": "The attackers gained access to your organization's network through a deceptive email.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_01.webp",
       "type": "initial",
       "id": "001",
@@ -12,6 +13,7 @@
     },
     {
       "name": "Compromised Web Server",
+      "description": "The attackers exploited vulnerabilities in an external web server to gain unauthorized access to your organization's internal network.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_02.webp",
       "type": "initial",
       "id": "002",
@@ -19,6 +21,7 @@
     },
     {
       "name": "Unauthorized Cloud Access",
+      "description": "The attackers gained unauthorized access to your organization's cloud infrastructure or Software as a Service (SaaS) applications.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_03.webp",
       "type": "initial",
       "id": "003",
@@ -26,6 +29,7 @@
     },
     {
       "name": "Insider Threat",
+      "description": "The attacker was a trusted individual who performed unauthorized actions within your organization.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_04.webp",
       "type": "initial",
       "id": "004",
@@ -33,6 +37,7 @@
     },
     {
       "name": "External Password Spray",
+      "description": "The attackers gained access to your internal network by spraying commonly used passwords (like SeasonYear!) across multiple accounts.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_05.webp",
       "type": "initial",
       "id": "005",
@@ -40,6 +45,7 @@
     },
     {
       "name": "Compromised Trusted Relationship",
+      "description": "The attackers exploited a relationship between your organization and a third-party (e.g., vendor, partner, contractor) that has a service-level account within your organization and gained unauthorized access.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_06.webp",
       "type": "initial",
       "id": "006",
@@ -47,6 +53,7 @@
     },
     {
       "name": "Social Engineering",
+      "description": "The attackers manipulated and deceived a user in your organization to bypass technical controls and gained access to sensitive information, credentials, and/or systems.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_07.webp",
       "type": "initial",
       "id": "007",
@@ -54,6 +61,7 @@
     },
     {
       "name": "Bring Your Own (Exploited) Device",
+      "description": "Your organization allows users to bring their own devices. The attackers compromised a user's personal device to connect to your organization's network.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_08.webp",
       "type": "initial",
       "id": "008",
@@ -61,6 +69,7 @@
     },
     {
       "name": "Exploited External Service",
+      "description": "The attackers targeted misconfigurations or unpatched vulnerabilities using publicly available exploits and gained access to your organization's internal resources.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_09.webp",
       "type": "initial",
       "id": "009",
@@ -68,6 +77,7 @@
     },
     {
       "name": "Credential Stuffing",
+      "description": "The attackers used stolen username and password pairs (obtained from data breaches) and gained access to accounts on different systems.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_10.webp",
       "type": "initial",
       "id": "010",
@@ -75,6 +85,7 @@
     },
     {
       "name": "Internal Password Spray",
+      "description": "The attackers enumerate accounts and spray commonly used passwords (like SeasonYear!) within the rest of your organization.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_11.webp",
       "type": "pivot",
       "id": "011",
@@ -82,6 +93,7 @@
     },
     {
       "name": "Kerberoasting",
+      "description": "The attackers compromise additional systems by using a \"feature\" of Service Principal Names (SPNs) to extract and crack service passwords.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_12.webp",
       "type": "pivot",
       "id": "012",
@@ -89,6 +101,7 @@
     },
     {
       "name": "Broadcast/Multicast Protocol Poisoning",
+      "description": "The attackers exploit vulnerabilities in network protocols to intercept, redirect, or manipulate traffic to access sensitive data, impersonate devices, or disrupt communication.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_13.webp",
       "type": "pivot",
       "id": "013",
@@ -96,6 +109,7 @@
     },
     {
       "name": "Weaponizing Active Directory",
+      "description": "The attackers map Domain Trust Relationships, Group Policies, user/group privileges, and Object Access Control Lists (ACLs) in order to take full control of the Domain or network infrastructure.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_14.webp",
       "type": "pivot",
       "id": "014",
@@ -103,6 +117,7 @@
     },
     {
       "name": "Credential Harvesting",
+      "description": "The attackers collect and exploit username and password pairs found in open shares and files within your environment providing access to more valuable systems and data.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_15.webp",
       "type": "pivot",
       "id": "015",
@@ -110,6 +125,7 @@
     },
     {
       "name": "New Service Creation/Modification",
+      "description": "The attackers create new services or modify existing ones to evade detection by launching malicious payloads at startup or altering legitimate services to execute unauthorized commands.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_16.webp",
       "type": "pivot",
       "id": "016",
@@ -117,6 +133,7 @@
     },
     {
       "name": "Local Pivilege Escalation (LPE)",
+      "description": "The attackers use a misconfiguration or vulnerability in local software to gain administrative access.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_17.webp",
       "type": "pivot",
       "id": "017",
@@ -124,6 +141,7 @@
     },
     {
       "name": "Malicious Service",
+      "description": "The attackers create or modify system services in order to maintain long-term access to a compromised system.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_18.webp",
       "type": "persist",
       "id": "018",
@@ -131,6 +149,7 @@
     },
     {
       "name": "Dynamic Link Library (DLL) Hijacking",
+      "description": "The attackers inject malicious code into existing DLL files, often with elevated privileges, to maintain access to the system even after it is rebooted.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_19.webp",
       "type": "persist",
       "id": "019",
@@ -138,6 +157,7 @@
     },
     {
       "name": "Malicious Driver",
+      "description": "The attackers install or modify a device driver on a compromised system to retain control even after the system reboots.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_20.webp",
       "type": "persist",
       "id": "020",
@@ -145,6 +165,7 @@
     },
     {
       "name": "New User Added",
+      "description": "The attackers create a user account to maintain access and ensure persistence, even if the original compromised account is discovered or disabled.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_21.webp",
       "type": "persist",
       "id": "021",
@@ -152,6 +173,7 @@
     },
     {
       "name": "Application Shiming",
+      "description": "The attackers use the Application Compatibility Toolkit (ACT) to trick applications into not seeing ports, directories, files, and services to evade detection.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_22.webp",
       "type": "persist",
       "id": "022",
@@ -159,6 +181,7 @@
     },
     {
       "name": "Malicious Browser Plugins",
+      "description": "The attackers install a browser plugin that executes malicious code and tracks activity while evading detection.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_23.webp",
       "type": "persist",
       "id": "023",
@@ -166,6 +189,7 @@
     },
     {
       "name": "Logon Scripts",
+      "description": "The attackers add or modify scripts to your system's logon process. This allows them to maintain access, escalate privileges, and perform malicious actions each time a user logs in.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_24.webp",
       "type": "persist",
       "id": "024",
@@ -173,6 +197,7 @@
     },
     {
       "name": "Malicious Firmware",
+      "description": "The attackers update the firmware of network cards, video cards, and Basic Input/Output System (BIOS) or Unified Extensible Firmware Interface (UEFI) with malicious code, which allows them to survive reboots or operating system reinstalls, often evading detection.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_25.webp",
       "type": "persist",
       "id": "025",
@@ -180,6 +205,7 @@
     },
     {
       "name": "Accessibility Features",
+      "description": "The attackers hijack Operating System Accessibility features like Sticky Keys and On-Screen Keyboard.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_26.webp",
       "type": "persist",
       "id": "026",
@@ -187,6 +213,7 @@
     },
     {
       "name": "HTTP as Exfil",
+      "description": "The attackers use normal web ports and protocols to send stolen data from a compromised system to their servers.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_27.webp",
       "type": "c2",
       "id": "027",
@@ -194,6 +221,7 @@
     },
     {
       "name": "HTTPS as Exfil",
+      "description": "The attackers use normal encrypted web ports and protocols to send stolen data from a compromised system to their servers.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_28.webp",
       "type": "c2",
       "id": "028",
@@ -201,6 +229,7 @@
     },
     {
       "name": "Domain Name System (DNS) as C2",
+      "description": "The attackers maintain communication with compromised systems and exfiltrate data using the standard DNS protocol.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_29.webp",
       "type": "c2",
       "id": "029",
@@ -208,6 +237,7 @@
     },
     {
       "name": "Background Intelligent Transfer Service Bits (BITS) as Exfil",
+      "description": "The attackers use a legitimate service to send stolen data to a remote server.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_30.webp",
       "type": "c2",
       "id": "030",
@@ -215,6 +245,7 @@
     },
     {
       "name": "Cloud-Based Services as Exfil",
+      "description": "The attackers use common cloud services to blend in with legitimate traffic to send sensitive data from a compromised system to their servers.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_31.webp",
       "type": "c2",
       "id": "031",
@@ -222,6 +253,7 @@
     },
     {
       "name": "Domaining Fronting as C2",
+      "description": "The attackers route requests destined for their server through legitimate web services like Content Delivery Networks (CDNs).",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_32.webp",
       "type": "c2",
       "id": "032",
@@ -320,6 +352,7 @@
     },
     {
       "name": "False Alarm: It Was a Penetration Test",
+      "description": "Relax, it wasn't an APT, or any T for that matter — It was the External Pentesting firm the Defenders' CEO hired. They've breached everything, and now the Defenders are paying them to be told how bad it was. The Incident Captain ends the session and the Defenders discuss how they would have detected the Attack Techniques and Procedures of the Penetration Testers.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_46.webp",
       "type": "inject",
       "id": "046",
@@ -327,6 +360,7 @@
     },
     {
       "name": "Data Uploaded to Pastebin",
+      "description": "Surprise! The attackers spilled sensitive customer data all over Pastebin. Now customers are learning about the breach over their morning coffee... from The News. The Defenders must play their Crisis Management Detection. If they are successful, they can move past this issue. If they aren't, they receive a -2 modifier on all Detections for the rest of the session.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_47.webp",
       "type": "inject",
       "id": "047",
@@ -334,6 +368,7 @@
     },
     {
       "name": "Analyst Returns from Incident Response Training",
+      "description": "Armed with newfound Splunk-fu, the Defenders' Security Information and Event Management (SIEM) analyst is now a log-sifting ninja. Attackers, beware! The regex game just leveled up. The Defenders get a +2 modifier for all Detections until the end of the session.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_48.webp",
       "type": "inject",
       "id": "048",
@@ -341,6 +376,7 @@
     },
     {
       "name": "Policy? What Policy?",
+      "description": "Oops, that Detection just vanished faster than the Defenders' budget during Q4. Good luck explaining this one! The Incident Captain must remove a Detection Card.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_49.webp",
       "type": "inject",
       "id": "049",
@@ -348,6 +384,7 @@
     },
     {
       "name": "Luck of The SOC",
+      "description": "Congrats! The Defenders hit the Detection Roulette Jackpot. Let's hope it's more useful than a phishing awareness poster. The Incident Captain must reveal one of the Attack Cards.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_50.webp",
       "type": "inject",
       "id": "050",
@@ -355,6 +392,7 @@
     },
     {
       "name": "Bobby the Intern Kills the System You are Reviewing",
+      "description": "In a bold move of intern ingenuity, Bobby decides \"reboot\" means \"unplug everything.\" The Defenders' investigation is now as dead as the server. The Defenders lose their next turn.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_51.webp",
       "type": "inject",
       "id": "051",
@@ -362,6 +400,7 @@
     },
     {
       "name": "Legal takes Your Most Skilled Handler into a Meeting to Explain the Incident",
+      "description": "Who brought a lawyer to the party? There's always one person who pretty much runs the whole IR process — that \"One Essential Person.\" Well, the legal team just took that person away for \"Very Important Reasons.\" The Defenders lose the +3 modifier on Established Detections for 2 turns.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_52.webp",
       "type": "inject",
       "id": "052",
@@ -404,6 +443,7 @@
     },
     {
       "name": "Compromised Single Sign-On (SSO) Federated Identity",
+      "description": "The attackers compromised an SSO federated identity and leveraged that identity to authenticate to your organization's cloud environments.",
       "image": "../../shared/decks/datadog/DATADOG_06.webp",
       "type": "initial",
       "id": "058",
@@ -411,6 +451,7 @@
     },
     {
       "name": "Poisoned Cloud Image Supply Chain",
+      "description": "The attackers created a malicious cloud image with a doppelgänger name for the legitimate image and your Infrastructure as Code (IaC) tools used it instead of the intended artifact, resulting in their full control of your virtual machine.",
       "image": "../../shared/decks/datadog/DATADOG_07.webp",
       "type": "initial",
       "id": "058",
@@ -418,6 +459,7 @@
     },
     {
       "name": "Cloud-Native Serverless Function Compromised",
+      "description": "The attackers compromised a serverless function via an injection. They gained access to the credentials for the functions role, any data it has access to, and network resources in the same Virtual Private Cloud (VPC).",
       "image": "../../shared/decks/datadog/DATADOG_08.webp",
       "type": "initial",
       "id": "059",
@@ -425,6 +467,7 @@
     },
     {
       "name": "Confused Deputy Attack",
+      "description": "The attackers abused a misconfiguration found in a role created by the cloud service provider allowing them to assume roles to gain access and read/write data.",
       "image": "../../shared/decks/datadog/DATADOG_09.webp",
       "type": "initial",
       "id": "060",
@@ -432,6 +475,7 @@
     },
     {
       "name": "Github Action Compromised",
+      "description": "The attackers backdoored your self-hosted GitHub Action runner, compromising the runtime of your CI/CD job giving them access to read code, environment variables, and secrets that are sensitive.",
       "image": "../../shared/decks/datadog/DATADOG_10.webp",
       "type": "initial",
       "id": "061",
@@ -439,6 +483,7 @@
     },
     {
       "name": "Backdoored Software Supply Chain",
+      "description": "The attackers modified an open-source library that downloads malicious code on a developer's machine.",
       "image": "../../shared/decks/datadog/DATADOG_11.webp",
       "type": "initial",
       "id": "062",
@@ -446,6 +491,7 @@
     },
     {
       "name": "Cloud Application Compromised",
+      "description": "A web application running an enterprise-class framework has a maximum level Common Vulnerability Exposure (CVE) that allows an attacker to execute arbitrary code.",
       "image": "../../shared/decks/datadog/DATADOG_12.webp",
       "type": "initial",
       "id": "063",
@@ -453,6 +499,7 @@
     },
     {
       "name": "Exposed Cloud Credentials via Unauthenticated Kubernetes Dashboard",
+      "description": "The attackers discovered an exposed Kubernetes Dashboard allowing unauthenticated access to the API, allowing them to launch workloads and access data.",
       "image": "../../shared/decks/datadog/DATADOG_13.webp",
       "type": "initial",
       "id": "064",
@@ -460,6 +507,7 @@
     },
     {
       "name": "Credentials Exposed in Storage Bucket",
+      "description": "The attackers enumerate buckets and identify long-lived credentials in files that allow authentication as a cloud administrator.",
       "image": "../../shared/decks/datadog/DATADOG_14.webp",
       "type": "pivot",
       "id": "065",
@@ -467,6 +515,7 @@
     },
     {
       "name": "Instance Takeover via User Data",
+      "description": "The attackers identify an overly privileged compute workload and modify user data to gain shell access, allowing them to leverage the Instance Metadata Service (IMDS) to retrieve an administrative credential.",
       "image": "../../shared/decks/datadog/DATADOG_15.webp",
       "type": "pivot",
       "id": "066",
@@ -474,6 +523,7 @@
     },
     {
       "name": "Kubernetes Service Account PrivEsc",
+      "description": "The attackers compromise a high-privileged service account mounted in a Kubernetes pod.",
       "image": "../../shared/decks/datadog/DATADOG_16.webp",
       "type": "pivot",
       "id": "067",
@@ -481,6 +531,7 @@
     },
     {
       "name": "Instance Metadata Service (IMDS) Access",
+      "description": "The attackers exploit Server-Side Request Forgery (SSRF) on a cloud-hosted web app to gain access to the Instance Metadata Service (IMDS). This allows them to gain temporary security credentials they use to pivot in your cloud environment.",
       "image": "../../shared/decks/datadog/DATADOG_17.webp",
       "type": "pivot",
       "id": "068",
@@ -488,6 +539,7 @@
     },
     {
       "name": "Credential Store Compromise",
+      "description": "The attackers gain access to a cloud-hosted credential store containing various user and application credentials via a permissions misconfiguration.",
       "image": "../../shared/decks/datadog/DATADOG_18.webp",
       "type": "pivot",
       "id": "069",
@@ -495,6 +547,7 @@
     },
     {
       "name": "Identity and Access Management (IAM) Policy Abuse",
+      "description": "The attackers discover that policies enforced for certain roles and resources allow them to escalate privileges within the cloud account.",
       "image": "../../shared/decks/datadog/DATADOG_19.webp",
       "type": "pivot",
       "id": "070",
@@ -502,6 +555,7 @@
     },
     {
       "name": "Backdoored Container Image",
+      "description": "The attackers modify a container image to include malicious code that gets executed every time it is started.",
       "image": "../../shared/decks/datadog/DATADOG_20.webp",
       "type": "persist",
       "id": "071",
@@ -509,6 +563,7 @@
     },
     {
       "name": "Additional Credential Creation",
+      "description": "The attackers create a second set of credentials for a user.",
       "image": "../../shared/decks/datadog/DATADOG_21.webp",
       "type": "persist",
       "id": "072",
@@ -516,6 +571,7 @@
     },
     {
       "name": "Cloned Kubernetes Credentials",
+      "description": "The attackers clone privileged system accounts with long-lasting credentials.",
       "image": "../../shared/decks/datadog/DATADOG_22.webp",
       "type": "persist",
       "id": "073",
@@ -523,6 +579,7 @@
     },
     {
       "name": "Backdoored Role Trust Policy",
+      "description": "The attackers update the trust policy for an AWS Identity and Access Management (IAM) role, allowing them to assume the role from an account you do not control.",
       "image": "../../shared/decks/datadog/DATADOG_23.webp",
       "type": "persist",
       "id": "074",
@@ -530,6 +587,7 @@
     },
     {
       "name": "Living Off the Cloud as Exfil",
+      "description": "The attackers use cloud provider Command Line Interface (CLI) tools to exfiltrate data.",
       "image": "../../shared/decks/datadog/DATADOG_24.webp",
       "type": "c2",
       "id": "075",
@@ -537,6 +595,7 @@
     },
     {
       "name": "Snapshotting Resources as Exfil",
+      "description": "The attackers take a snapshot of a virtual machine or database and replicate to an account you do not control.",
       "image": "../../shared/decks/datadog/DATADOG_25.webp",
       "type": "c2",
       "id": "076",
@@ -544,6 +603,7 @@
     },
     {
       "name": "Software as a Service (SaaS) Tunneling Virtual Private Network (VPN) as C2",
+      "description": "The attackers deploy a commercial tunneling VPN client to the compromised asset.",
       "image": "../../shared/decks/datadog/DATADOG_26.webp",
       "type": "c2",
       "id": "077",
@@ -551,6 +611,7 @@
     },
     {
       "name": "Undocumented Application Programming Interfaces (API)",
+      "description": "The attackers have performed their actions using undocumented cloud provider APIs, and none of their activity is showing up in your SIEM solution. Your Cloud SIEM can no longer trust the data coming from your cloud provider. The Cloud Security Information and Event Management (SIEM) Log Analysis Detection is unavailable for the next 3 turns.",
       "image": "../../shared/decks/datadog/DATADOG_27.webp",
       "type": "inject",
       "id": "078",
@@ -558,6 +619,7 @@
     },
     {
       "name": "Attacker Stops Cloud Logging",
+      "description": "The attackers stop control plane logging altogether, making the security team blind to future attacker behavior. Choose one Defender to skip 2 turns while they deal with the high-severity incident.",
       "image": "../../shared/decks/datadog/DATADOG_28.webp",
       "type": "inject",
       "id": "079",
@@ -565,6 +627,7 @@
     },
     {
       "name": "Cloud Security Training",
+      "description": "Your security engineers downloaded Stratus Red Team and have simulated dozens of attacks in a controlled setting. They identified gaps in their current Detections and made improvements. The Defenders get a +3 modifier for the Cloud Security Information and Event Management (SIEM) Log Analysis card for the remainder of the session.",
       "image": "../../shared/decks/datadog/DATADOG_29.webp",
       "type": "inject",
       "id": "080",
@@ -572,6 +635,7 @@
     },
     {
       "name": "Instance Metadata Service Version 2 (IMDSv2) Project Complete",
+      "description": "Your security engineers completed a year-long project that removed all use of IMDSv1 in your environment, eliminating the chance that a Server-Side Request Forgery (SSRF) can be used to gain access to cloud credentials. The Incident Captain must reveal the Pivot and Escalate card while eating a celebratory slice of New York pizza.",
       "image": "../../shared/decks/datadog/DATADOG_30.webp",
       "type": "inject",
       "id": "081",
@@ -579,6 +643,7 @@
     },
     {
       "name": "Supply Chain Firewall",
+      "description": "Your team has introduced the supply chain firewall into all developer and continuous integration (CI) workstreams reducing the likelihood that one of your developers can be compromised by a supply chain attack. The Incident Captain must reveal the Persistence card.",
       "image": "../../shared/decks/datadog/DATADOG_31.webp",
       "type": "inject",
       "id": "082",
@@ -586,6 +651,7 @@
     },
     {
       "name": "Public Storage Bucket Exposed",
+      "description": "A cloud storage service was misconfigured to allow public access. The bucket contained Personally Identifiable Information (PII) for thousands of your customers. The Defenders must play their Crisis Management Detection. If they are successful, they can move past this issue. If they aren't, they receive a -2 modifier on all detections for the rest of the session.",
       "image": "../../shared/decks/datadog/DATADOG_32.webp",
       "type": "inject",
       "id": "083",
@@ -593,6 +659,7 @@
     },
     {
       "name": "Exposed Sofware as a Service (SaaS) Application Programming Interface (API) Key During Public Presentation",
+      "description": "One of your engineers just gave an amazing presentation, sharing an epic story about how your company uses a SaaS product. Unfortunately, they forgot to redact their SaaS API key. Members of the audience quickly logged in and accessed your company resources. Accidents happen, but what do you do when someone exposes your organization inadvertently? The Incident Captain must draw an additional Pivot and Escalate card.",
       "image": "../../shared/decks/datadog/DATADOG_33.webp",
       "type": "inject",
       "id": "084",
@@ -600,6 +667,7 @@
     },
     {
       "name": "Third-Party Code Library Compromised",
+      "description": "Your developer proactively ran GuardDog Command Line Interface (CLI) scans on a Python package before using it, and flagged the package as malicious, thereby avoiding a compromise. This encouraged more developers in your organization to also use GuardDog before integrating new packages into their software. The Defenders get a +3 modifier for the Software Bill of Materials (SBOM) card for the remainder of the session.",
       "image": "../../shared/decks/datadog/DATADOG_34.webp",
       "type": "inject",
       "id": "085",

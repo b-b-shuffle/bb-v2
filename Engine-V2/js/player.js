@@ -3,6 +3,10 @@
  * Handles the player game interface
  */
 
+// Human-readable card type labels (used by the CardViewer "Info" tab).
+// Canonical definition lives in Utils; this alias keeps existing call sites.
+const CARD_TYPE_LABELS = Utils.CARD_TYPE_LABELS;
+
 const PlayerController = {
     // State
     scenario: null,
@@ -222,9 +226,10 @@ const PlayerController = {
             procedures.push(pack(procPool.splice(idx, 1)[0], { enhanced: i < enhancedCount }));
         }
 
+        const injectCount = (CONFIG.game && CONFIG.game.injectCount) || 6;
         const injects = [];
         const injectPool = [...(lists.inject || [])];
-        for (let i = 0; i < 3 && injectPool.length; i++) {
+        for (let i = 0; i < injectCount && injectPool.length; i++) {
             const idx = Math.floor(Math.random() * injectPool.length);
             injects.push(pack(injectPool.splice(idx, 1)[0]));
         }
@@ -244,6 +249,7 @@ const PlayerController = {
                 maxStrikes: (CONFIG.game && CONFIG.game.maxStrikes) || 3,
                 procedureCount: procCount,
                 enhancedCount,
+                injectCount,
                 successTarget: 11
             }
         };
@@ -491,10 +497,6 @@ const PlayerController = {
         this.renderConsultantCard();
         this.closeConsultantPicker();
 
-        if (typeof GameState.logAction === 'function') {
-            GameState.logAction('consultant', { name: this.consultant ? this.consultant.name : null });
-        }
-
         Utils.showToast(this.consultant
             ? `Consultant: ${this.consultant.name || 'Unknown'}`
             : 'Consultant stood down', 'info');
@@ -672,6 +674,8 @@ const PlayerController = {
         this.updateScenarioCards();
         this.updateProcedureCards();
         this.updateInjectCard();
+        // Card backs follow the deck (the hand re-rendered above already used it)
+        this.applyDeckCardbacks();
         this.updateStats();
         this.updateScenarioInfo();
 
@@ -689,9 +693,6 @@ const PlayerController = {
         this.renderConsultantCard();
         this.closeConsultantPicker();
         this.syncRevealControl();
-
-        // Card backs follow the deck (the hand re-rendered above already used it)
-        this.applyDeckCardbacks();
     },
 
     /**
@@ -874,9 +875,6 @@ const PlayerController = {
         this.activeInjectIndex++;
         this.updateInjectCard();
         const name = this.injectQueue[this.activeInjectIndex]?.name || 'inject';
-        if (typeof GameState.logAction === 'function') {
-            GameState.logAction('inject', { source, name });
-        }
         Utils.showToast(`Inject: ${name}`, 'warning');
         this.showRollStatus(`INJECT drawn (${name}) — ${source}`, 'warn');
         return name;
@@ -1020,7 +1018,7 @@ const PlayerController = {
         if (card.closest('.procedure-cards')) return 'procedure';
         if (card.closest('.inject-card-wrapper') || card.id === 'inject-card') return 'inject';
         const idType = (card.id || '').replace('-card', '');
-        return ['initial', 'pivot', 'c2', 'persist', 'procedure', 'inject', 'consultant'].includes(idType) ? idType : '';
+        return Utils.CARD_TYPES.includes(idType) ? idType : '';
     },
 
     /**
@@ -1099,7 +1097,7 @@ const PlayerController = {
         };
 
         add('Name', data?.name);
-        add('Type', Utils.TYPE_LABELS[type] || type);
+        add('Type', CARD_TYPE_LABELS[type] || type);
         add('Deck', this.scenario?.deck?.name);
         add('Scenario', this.scenario?.metadata?.name);
         add('Card ID', data?.id);
@@ -1393,13 +1391,11 @@ const PlayerController = {
 
     /**
      * Flip all scenario cards to reveal (true) or back to hidden (false)
-     * @param {Object} [opts] - { force: boolean } to set the state instead of
-     *   toggling it, { silent: true } to skip the confirmation toast.
      */
-    toggleRevealScenario(opts = {}) {
+    toggleRevealScenario() {
         const btn = Utils.getElement('reveal-cards-btn');
         if (!this.scenario || !btn || btn.disabled) return;
-        const show = (typeof opts.force === 'boolean') ? opts.force : btn.dataset.state !== 'shown';
+        const show = btn.dataset.state !== 'shown';
 
         Utils.$$('.scenario-row .card-wrapper').forEach(wrapper => {
             const card = wrapper.querySelector('.flip-card');
@@ -1412,9 +1408,7 @@ const PlayerController = {
         });
 
         this.setRevealState(show);
-        if (!opts.silent) {
-            Utils.showToast(show ? 'All scenario cards revealed' : 'Scenario cards hidden', 'info');
-        }
+        Utils.showToast(show ? 'All scenario cards revealed' : 'Scenario cards hidden', 'info');
     },
 
     /**
@@ -1447,23 +1441,20 @@ const PlayerController = {
 
     /**
      * Flip the whole procedure hand face-up (true) or back down (false)
-     * @param {Object} [opts] - See toggleRevealScenario(): { force, silent }.
      */
-    toggleRevealProcedures(opts = {}) {
+    toggleRevealProcedures() {
         const btn = Utils.getElement('reveal-procedures-btn');
         if (!btn || btn.disabled) return;
         const cards = Utils.$$('.procedure-cards .flip-card');
         if (!cards.length) return;
 
-        const show = (typeof opts.force === 'boolean') ? opts.force : btn.dataset.state !== 'shown';
+        const show = btn.dataset.state !== 'shown';
         // Flip directly rather than via flipCard() so revealing the hand does
         // not fire a preview overlay per card.
         cards.forEach(card => card.classList.toggle('flipped', show));
 
         this.setProcedureRevealState(show);
-        if (!opts.silent) {
-            Utils.showToast(show ? 'Procedure hand revealed' : 'Procedure cards hidden', 'info');
-        }
+        Utils.showToast(show ? 'Procedure hand revealed' : 'Procedure cards hidden', 'info');
     },
 
     /**

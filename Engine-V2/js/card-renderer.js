@@ -46,11 +46,14 @@ const CardRenderer = {
         inject: '#6b7280'
     },
 
-    // Aliases Utils.TYPE_LABELS so the two cannot drift apart (see js/utils.js).
-    TYPE_LABELS: Utils.TYPE_LABELS,
+    // Re-exported from the canonical Utils maps rather than duplicated: this
+    // file already hard-depends on Utils (downloadFile), and utils.js is loaded
+    // before card-renderer.js on both pages that include it, so no local
+    // fallback copy is kept.
+    TYPE_LABELS: Utils.CARD_TYPE_LABELS,
 
     // Types that carry a DETECTION list (scenario cards) vs a TOOLS list.
-    SCENARIO_TYPES: ['initial', 'pivot', 'c2', 'persist'],
+    SCENARIO_TYPES: Utils.SCENARIO_TYPES,
 
     FONT: "Segoe UI, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, Arial, sans-serif",
 
@@ -58,13 +61,10 @@ const CardRenderer = {
     /* Helpers                                                             */
     /* ------------------------------------------------------------------ */
 
+    // Alias for the canonical escaper; the name is kept because every call site
+    // builds SVG. The 5-entity set is safe in text AND attribute contexts.
     escapeXml(value) {
-        return String(value == null ? '' : value)
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&apos;');
+        return Utils.escapeHtml(value);
     },
 
     /**
@@ -312,12 +312,17 @@ const CardRenderer = {
         // Reserve only a MINIMUM height for the illustration so the body text
         // keeps a large font; the image then takes whatever space is left.
         const wantsArt = hasImage && c.artwork === 'illustration';
+        // A banner is a FIXED-height band sitting directly under the header, so
+        // the body has to start below it or the text paints over the image.
+        const wantsBanner = hasImage && c.artwork === 'banner';
         const MIN_ART_H = 150;
         const MAX_ART_H = 340;
         const ART_GAP = 26;
+        const BANNER_H = 200;
         const artW = 430;
         const artX = (W - artW) / 2;
         const artBottom = footerTop - 14;
+        const textTop = bodyTop + (wantsBanner ? BANNER_H + ART_GAP : 0);
         const textBottom = wantsArt ? artBottom - MIN_ART_H - ART_GAP : footerTop - 10;
 
         /* ---- Body: measure, then auto-shrink to fit --------------------- */
@@ -326,7 +331,7 @@ const CardRenderer = {
         if (c.tools.length) sections.push({ title: 'Tools', items: c.tools });
         if (c.details.length) sections.push({ title: 'Resources', items: c.details });
 
-        const available = textBottom - bodyTop;
+        const available = textBottom - textTop;
         let layout = null;
         for (let size = 25; size >= 14; size -= 1) {
             layout = this._measureBody(c, sections, contentW, size);
@@ -341,7 +346,7 @@ const CardRenderer = {
             artY = artBottom - artH;
         }
 
-        const body = this._renderBody(layout, bodyTop, P, contentW, skin, W);
+        const body = this._renderBody(layout, textTop, P, skin, W);
 
         /* ---- Artwork --------------------------------------------------- */
         const art = [];
@@ -355,7 +360,7 @@ const CardRenderer = {
                 `preserveAspectRatio="xMidYMid slice" clip-path="url(#${clipId})"/>`
             );
         } else if (hasImage && c.artwork === 'banner') {
-            const bh = 200;
+            const bh = BANNER_H;
             const clipId = `cc-banner-${Math.random().toString(36).slice(2, 9)}`;
             art.push(
                 `<defs><clipPath id="${clipId}"><rect x="${P}" y="${bodyTop}" width="${contentW}" height="${bh}" rx="12"/></clipPath></defs>` +
@@ -431,7 +436,7 @@ const CardRenderer = {
     },
 
     /** Emit the body markup from a measured layout. */
-    _renderBody(layout, top, pad, contentW, skin, W) {
+    _renderBody(layout, top, pad, skin, W) {
         const out = [];
         let y = top;
         const font = this.FONT;
@@ -503,19 +508,19 @@ const CardRenderer = {
      */
     async toPngBlob(card, opts = {}) {
         const scale = opts.scale || 2;
-        const normalized = this.normalize(card);
-        const svg = this.render(card, opts);
-        // Base64 keeps the SVG self-contained; the raster must be embedded as a
-        // data: URI already (external refs are blocked in secure-static mode and
-        // would taint the canvas).
-        const dataUrl = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svg)));
-        const img = await this._loadImage(dataUrl);
+        const skin = this.resolveSkin(this.normalize(card));
+        // opts is forwarded so the SVG carries width/height = W*scale while its
+        // viewBox stays 750x1050 — the browser then rasterises the VECTORS at the
+        // final size, making the drawImage below 1:1 rather than an upscale.
+        // A data: URI is required: external refs are blocked in secure-static
+        // mode and would taint the canvas.
+        const img = await this._loadImage(this.renderDataUrl(card, opts));
 
         const canvas = document.createElement('canvas');
         canvas.width = this.WIDTH * scale;
         canvas.height = this.HEIGHT * scale;
         const ctx = canvas.getContext('2d');
-        ctx.fillStyle = normalized.style === 'classic' ? '#ffffff' : '#1b2230';
+        ctx.fillStyle = skin.bg;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 

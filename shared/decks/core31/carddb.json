@@ -379,6 +379,7 @@
     },
     {
       "name": "Honeypots Deployed",
+      "description": "The defenders had honeypots on their network. The \"Incident Master\" has to show their Pivot and Escalate Card to the defenders.",
       "image": "../../shared/decks/core31/inject-1.webp",
       "type": "inject",
       "id": "048",
@@ -386,6 +387,7 @@
     },
     {
       "name": "It was a Pentest",
+      "description": "Ha! Ha! Just kidding, you were never attacked! The CEO hired an external firm (BHIS?) to run an unannounced Red Team.",
       "image": "../../shared/decks/core31/inject-2.webp",
       "type": "inject",
       "id": "049",
@@ -393,48 +395,56 @@
     },
     {
       "name": "Data Uploaded to Pastebin",
+      "description": "Bummer, the attackers have posted internal sensitive data on Pastebin. Your customers are now informed of the attack by the media.",
       "image": "../../shared/decks/core31/inject-3.webp",
       "type": "inject",
       "id": "050"
     },
     {
       "name": "SIEM Analyst Returns from Splunk Training",
+      "description": "+2 Modifier for Log-Related Actions",
       "image": "../../shared/decks/core31/inject-4.webp",
       "type": "inject",
       "id": "051"
     },
     {
       "name": "Take One Procedure Card Away",
+      "description": "What it says on the tin. Take a Procedure Card away from the defenders.",
       "image": "../../shared/decks/core31/inject-5.webp",
       "type": "inject",
       "id": "052"
     },
     {
       "name": "Give the Defenders a Random Procedure Card",
+      "description": "For whatever reason, everyone forgot they had this procedure. It must be Monday.",
       "image": "../../shared/decks/core31/inject-6.webp",
       "type": "inject",
       "id": "053"
     },
     {
       "name": "Lead Handler Has a Baby, Takes FMLA Leave",
+      "description": "Yeah, there's always one person who pretty much runs the whole IR process. That one essential person. Well, now it's time for the \"Incident Master\" to silence that person.",
       "image": "../../shared/decks/core31/inject-7.webp",
       "type": "inject",
       "id": "054"
     },
     {
       "name": "Bobby the Intern Kills the System You are Reviewing",
+      "description": "This. Happens. Far. Too. Often.",
       "image": "../../shared/decks/core31/inject-8.webp",
       "type": "inject",
       "id": "055"
     },
     {
       "name": "Legal Takes Your Only Skills Handler Into a Meeting to Explain the Incident",
+      "description": "Who brought a lawyer to the party? There's always one person who pretty much runs the whole IR process. That one essential person. Well, the legal team took that person away for \"Very Important Reasons.\"",
       "image": "../../shared/decks/core31/inject-9.webp",
       "type": "inject",
       "id": "056"
     },
     {
       "name": "Management Has Just Approved the Release of a New Procedure",
+      "description": "Internal Network Capture and Analysis (+5 Modifier for Network Capture Analysis Tasks) How many times has management come to the rescue? Knights in shining business suits. Every once in a great while the benevolent C-suite smiles on you.",
       "image": "../../shared/decks/core31/inject-10.webp",
       "type": "inject",
       "id": "057"

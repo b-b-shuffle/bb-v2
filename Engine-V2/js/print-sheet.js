@@ -59,6 +59,11 @@
     let out = null;
     let bound = false;
     let prevTitle = null;
+    // Above this many injects the sheet stops printing their text (see build()): a
+    // B&B session deals six, and nine rows of rules text plus the hand cannot share one
+    // Letter sheet with the scenario cards and the notes area.
+    const INJECT_TEXT_MAX = 6;
+
     // Last HTML written to each half of the sheet.
     let headHtml = null;
     let bodyHtml = null;
@@ -67,7 +72,8 @@
     // The DETECTION index, built once per page load. Best effort: a failure
     // just means the sheet prints without the cross-references.
     let catalogPromise = null;
-    let catalog = null;   // { byDeck: Map<deckKey, {byName, byImage}>, byImage: Map }
+    let catalog = null;   // { byDeck: Map<deckKey, {byName, byImage, nameByImage, textByImage, textByName}>,
+                          //   byImage: Map, byNameCross: Map, imageName: Map, imageText: Map, nameText: Map }
 
     // ---------------------------------------------------------------- helpers
 
@@ -126,25 +132,101 @@
     }
 
     /**
-     * Index the catalog: deck key -> {byName, byImage}, plus a global byImage
-     * fallback for cards whose art lives in another deck's folder.
+     * Catalog image key for the SHARED v3.1 master art. Several decks reprint those
+     * same physical cards under their own filenames (Core 3.1's `decks/core31/*`, for
+     * one), and their detection was only ever read against this path.
+     */
+    const MASTER_ART_PREFIX = 'decks/cardbase/v31/';
+
+    /**
+     * Name keys for the cross-deck fallback, tolerant of how decks spell the same
+     * printed card. The detection data and the deck JSONs are hand-written and drift:
+     * "New Service Creation/Modification" vs "New Service Creation or Modification",
+     * "Broadcast/Multicast …" vs "Broadcast or Multicast …".
+     *   strict - lowercase, runs of non-alphanumerics collapsed to one space
+     *   loose  - the strict form with the joining words or/and/the/a dropped
+     * @param {string} name - Card name
+     * @returns {string[]} 1-2 lookup keys ([] when the name is empty)
+     */
+    function nameKeys(name) {
+        const strict = String(name || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+        if (!strict) return [];
+        const loose = strict.split(' ').filter(function (word) {
+            return word !== 'or' && word !== 'and' && word !== 'the' && word !== 'a';
+        }).join(' ');
+        return strict === loose ? [strict] : [strict, loose];
+    }
+
+    /**
+     * Which of several decks' entries for the same card name to trust: the deck in
+     * play, then the shared v3.1 master art, then anything else.
+     */
+    function crossRank(entry, deckKey) {
+        if (entry.deck === deckKey) return 0;
+        if (String(entry.image || '').indexOf(MASTER_ART_PREFIX) === 0) return 1;
+        return 2;
+    }
+
+    /**
+     * Index the catalog: deck key -> {byName, byImage, nameByImage}, a global
+     * byImage/imageName fallback for cards whose art lives in another deck's folder,
+     * and a cross-deck name index (name key -> every entry that carries detection
+     * under that name).
      * @param {Object} data - Parsed docs/card-details.json
-     * @returns {{byDeck: Map, byImage: Map}}
+     * @returns {{byDeck: Map, byImage: Map, byNameCross: Map, imageName: Map}}
      */
     function indexCatalog(data) {
         const byDeck = new Map();
         const byImage = new Map();
+        const byNameCross = new Map();
+        const imageName = new Map();
+        const imageText = new Map();
+        const nameText = new Map();
+
+        function registerName(entry) {
+            nameKeys(entry.name).forEach(function (nameKey) {
+                const list = byNameCross.get(nameKey) || [];
+                list.push(entry);
+                byNameCross.set(nameKey, list);
+            });
+        }
 
         ((data && data.decks) || []).forEach(function (deck) {
             const deckByName = new Map();
             const deckByImage = new Map();
+            const deckNameByImage = new Map();
+            const deckTextByImage = new Map();
+            const deckTextByName = new Map();
 
             Object.keys(deck.cards || {}).forEach(function (type) {
                 (deck.cards[type] || []).forEach(function (card) {
-                    // The key is ABSENT (never []) when a card's DETECTION list has
-                    // not been read yet; only initial|pivot|c2|persist carry it.
-                    if (!card || !Array.isArray(card.detection) || !card.detection.length) return;
+                    if (!card) return;
                     const key = imageKey(card.image);
+                    // The NAME index covers every card: a name is printed whether or
+                    // not the DETECTION list has been read, and it is keyed by ART so
+                    // a scenario that snapshotted a deck's old placeholder name
+                    // ("Inject 3") still prints the name the deck carries today.
+                    if (key && card.name) {
+                        if (!deckNameByImage.has(key)) deckNameByImage.set(key, card.name);
+                        if (!imageName.has(key)) imageName.set(key, card.name);
+                    }
+                    // The card's own text (inject rules, procedure write-up), keyed the
+                    // same way. Every card is indexed, not just the detection-bearing
+                    // ones: an old scenario snapshot has no text of its own, so this is
+                    // what lets the sheet print what the card does.
+                    const text = typeof card.description === 'string' ? card.description.trim() : '';
+                    if (text) {
+                        if (key && !deckTextByImage.has(key)) deckTextByImage.set(key, text);
+                        if (key && !imageText.has(key)) imageText.set(key, text);
+                        if (card.name) {
+                            const nameKey = String(card.name).toLowerCase();
+                            if (!deckTextByName.has(nameKey)) deckTextByName.set(nameKey, text);
+                            if (!nameText.has(nameKey)) nameText.set(nameKey, text);
+                        }
+                    }
+                    // The detection key is ABSENT (never []) when a card's DETECTION
+                    // list has not been read yet; only initial|pivot|c2|persist carry it.
+                    if (!Array.isArray(card.detection) || !card.detection.length) return;
                     if (key) {
                         if (!deckByImage.has(key)) deckByImage.set(key, card.detection);
                         if (!byImage.has(key)) byImage.set(key, card.detection);
@@ -152,14 +234,30 @@
                     if (card.name) {
                         const name = String(card.name).toLowerCase();
                         if (!deckByName.has(name)) deckByName.set(name, card.detection);
+                        registerName({ deck: deck.deck, name: card.name, image: key, detection: card.detection });
                     }
                 });
             });
 
-            if (deck.deck) byDeck.set(deck.deck, { byName: deckByName, byImage: deckByImage });
+            if (deck.deck) {
+                byDeck.set(deck.deck, {
+                    byName: deckByName,
+                    byImage: deckByImage,
+                    nameByImage: deckNameByImage,
+                    textByImage: deckTextByImage,
+                    textByName: deckTextByName
+                });
+            }
         });
 
-        return { byDeck: byDeck, byImage: byImage };
+        return {
+            byDeck: byDeck,
+            byImage: byImage,
+            byNameCross: byNameCross,
+            imageName: imageName,
+            imageText: imageText,
+            nameText: nameText
+        };
     }
 
     /** Fetch + index the catalog once per page load. */
@@ -172,17 +270,36 @@
                     return catalog;
                 })
                 .catch(function () {
-                    catalog = { byDeck: new Map(), byImage: new Map() };
+                    catalog = {
+                        byDeck: new Map(), byImage: new Map(), imageName: new Map(),
+                        imageText: new Map(), nameText: new Map()
+                    };
                     return catalog;
                 });
         }
         return catalogPromise;
     }
 
+    /** The deck key of the game on the board ('' when there is none). */
+    function activeDeckKey() {
+        const controllerObj = controller();
+        return ((controllerObj && controllerObj.scenario && controllerObj.scenario.deck) || {}).key || '';
+    }
+
     /**
-     * The DETECTION list for a scenario card: the card's own list when the deck
-     * carries one, otherwise the catalog entry for the same art (falling back to
-     * the same name within the active deck).
+     * The DETECTION list for a scenario card, in resolution order:
+     *   1. the card's own `detection` (decks that carry it inline)
+     *   2. the active deck's catalog entry for the same art
+     *   3. the active deck's catalog entry for the same name
+     *   4. ANY deck's catalog entry for the same art
+     *   5. ANY deck's catalog entry for the same name, ranked deck in play -> the
+     *      shared v3.1 master art -> anything else
+     *
+     * Step 5 is what rescues Core 3.1 (and any other deck that re-encodes the shared
+     * v3.1 master art under its own filenames): the detection for those physical cards
+     * was read against `decks/cardbase/v31/*`, so the card NAME is the only link
+     * between the two. A name is not an identity - core's "Insider Threat" and the
+     * ICS/OT deck's print different lists - which is why the ranking is explicit.
      * @param {Object} card - Scenario card data
      * @returns {string[]} Procedure names (empty when not recorded)
      */
@@ -195,16 +312,81 @@
         }
         if (!catalog || !card) return [];
 
-        const controllerObj = controller();
-        const deckKey = ((controllerObj && controllerObj.scenario && controllerObj.scenario.deck) || {}).key;
+        const deckKey = activeDeckKey();
         const deck = catalog.byDeck.get(deckKey);
         const key = imageKey(card.image);
+        const name = String(card.name || '').toLowerCase();
         if (deck) {
             if (key && deck.byImage.has(key)) return deck.byImage.get(key);
-            const name = String(card.name || '').toLowerCase();
             if (deck.byName.has(name)) return deck.byName.get(name);
         }
-        return (key && catalog.byImage.get(key)) || [];
+        if (key && catalog.byImage.has(key)) return catalog.byImage.get(key);
+
+        let best = null;
+        let bestRank = 99;
+        nameKeys(card.name).forEach(function (nameKey) {
+            (catalog.byNameCross.get(nameKey) || []).forEach(function (candidate) {
+                const rank = crossRank(candidate, deckKey);
+                if (rank < bestRank) {
+                    bestRank = rank;
+                    best = candidate.detection;
+                }
+            });
+        });
+        return best || [];
+    }
+
+    /**
+     * The NAME to print for a card, keyed by its ART rather than by what the scenario
+     * recorded.
+     *
+     * A scenario stores each card's name when the game is dealt, so a saved game keeps
+     * whatever the deck said back then - and expansion1 shipped 35 placeholder names
+     * ("Inject 3", "Pivot 2") that are now the printed ones. The art path is stable, so
+     * the deck's current name for that image is the name on the face of the card the
+     * sheet is printing beside it. Resolution mirrors `detectionsFor`: this deck's art,
+     * then any deck's art; a card the catalog does not know (custom decks, the Custom
+     * Card Creator) keeps the name the scenario stored.
+     * @param {Object} card - Scenario/procedure/inject card data
+     * @param {string} [fallback] - Used when the card has no name at all
+     * @returns {string} Escapable card name
+     */
+    function cardNameFor(card, fallback) {
+        const stored = (card && card.name) || '';
+        const key = card ? imageKey(card.image) : '';
+        if (key && catalog) {
+            const deck = catalog.byDeck.get(activeDeckKey());
+            if (deck && deck.nameByImage && deck.nameByImage.has(key)) return deck.nameByImage.get(key);
+            if (catalog.imageName && catalog.imageName.has(key)) return catalog.imageName.get(key);
+        }
+        return stored || fallback || '';
+    }
+
+    /**
+     * The card's OWN text - what the inject does, or what a procedure is - as printed
+     * on the card face.
+     *
+     * The sheet is meant to be playable on its own, so the GM can read the effect
+     * without the physical card to hand. A freshly dealt scenario carries the text (the
+     * deck's `description` is copied into the card); an older one does not, so the index
+     * is consulted by ART first and then by name, exactly like `cardNameFor`.
+     * @param {Object} card - Scenario/procedure/inject card data
+     * @returns {string} Escapable card text ('' when the catalog does not know it)
+     */
+    function cardTextFor(card) {
+        const own = (card && typeof card.description === 'string') ? card.description.trim() : '';
+        if (own) return own;
+        if (!catalog || !card) return '';
+
+        const key = imageKey(card.image);
+        const name = String(card.name || '').toLowerCase();
+        const deck = catalog.byDeck.get(activeDeckKey());
+        if (deck) {
+            if (key && deck.textByImage.has(key)) return deck.textByImage.get(key);
+            if (name && deck.textByName.has(name)) return deck.textByName.get(name);
+        }
+        if (key && catalog.imageText.has(key)) return catalog.imageText.get(key);
+        return (name && catalog.nameText.get(name)) || '';
     }
 
     // ------------------------------------------------------------- fragments
@@ -259,15 +441,22 @@
     }
 
     /**
-     * The four scenario slots, each with its DETECTION list underneath.
-     * A card that has no list print "Not yet recorded" rather than nothing: the
-     * catalog key is absent for roughly half of the printed scenario cards, and
-     * an empty gap reads as an omission.
+     * The four scenario slots, each with the card's own text and its DETECTION list
+     * underneath.
+     *
+     * The text is the paragraph printed on the card below its title ("The attackers
+     * gained unauthorized access to your organization's cloud infrastructure…"), so the
+     * GM can set the scene without the physical card in hand.
+     *
+     * A card with no list prints "Not yet recorded" rather than nothing: the catalog key
+     * is absent when the DETECTION section has not been read, and an empty gap reads as
+     * an omission.
      */
     function scenarioCardsHtml(scenario) {
         const cards = SCENARIO_TYPES.map(function (type) {
             const card = (scenario.scenario || {})[type];
             if (!card) return '';
+            const text = cardTextFor(card);
             const detections = detectionsFor(card);
             const list = detections.length
                 ? '<ul>' + detections.map(function (name) {
@@ -281,7 +470,8 @@
                 + ' onerror="Utils.onImgError(event)">'
                 + '<div class="ps-card-title">'
                 + '<span class="ps-type">' + esc(typeLabel(type)) + '</span>'
-                + '<span class="ps-name">' + esc(card.name || typeLabel(type)) + '</span>'
+                + '<span class="ps-name">' + esc(cardNameFor(card, typeLabel(type))) + '</span>'
+                + (text ? '<span class="ps-card-text">' + esc(text) + '</span>' : '')
                 + '</div>'
                 + '</div>'
                 + '<div class="ps-detection">'
@@ -309,21 +499,28 @@
             return '<li class="ps-row' + (card.enhanced ? ' is-enhanced' : '') + '">'
                 + '<span class="ps-index">' + (index + 1) + '.</span>'
                 + '<span class="ps-check" aria-hidden="true"></span>'
-                + '<span class="ps-row-name">' + esc(card.name || 'Procedure') + '</span>'
+                + '<span class="ps-row-name">' + esc(cardNameFor(card, 'Procedure')) + '</span>'
                 + (card.enhanced ? '<span class="ps-badge">✦ +3</span>' : '')
                 + '</li>';
         }).join('');
     }
 
+    /**
+     * The inject queue, in draw order. Each row carries the card's own text under the
+     * name, so the GM can read out what the inject does without the physical card.
+     * The inject currently in play is deliberately NOT labelled: the queue is worked
+     * top to bottom, and the badge was noise on paper.
+     */
     function injectRows(controllerObj) {
         const queue = controllerObj.injectQueue || [];
         return queue.map(function (card, index) {
-            const current = index === controllerObj.activeInjectIndex;
-            return '<li class="ps-row' + (current ? ' is-current' : '') + '">'
+            const text = cardTextFor(card);
+            return '<li class="ps-row">'
                 + '<span class="ps-index">' + (index + 1) + '.</span>'
                 + '<span class="ps-check" aria-hidden="true"></span>'
-                + '<span class="ps-row-name">' + esc((card && card.name) || 'Inject') + '</span>'
-                + (current ? '<span class="ps-badge">Current</span>' : '')
+                + '<span class="ps-row-name">' + esc(cardNameFor(card, 'Inject'))
+                + (text ? '<span class="ps-row-note">' + esc(text) + '</span>' : '')
+                + '</span>'
                 + '</li>';
         }).join('');
     }
@@ -340,7 +537,7 @@
             + columnHtml('Inject Queue', injects.length, injectRows(controllerObj), 'No injects queued')
             + '</div>'
             + '<h3 class="ps-h">Consultant</h3>'
-            + '<p class="ps-consultant">' + esc((consultant && consultant.name) || 'none called yet') + '</p>';
+            + '<p class="ps-consultant">' + esc(cardNameFor(consultant, 'none called yet')) + '</p>';
     }
 
     // ------------------------------------------------------------------ API
@@ -375,6 +572,23 @@
             bodyHtml = nextBody;
         }
 
+        // An over-long queue prints names only, so the sheet stays one page (the text is
+        // a convenience - the cards are on the table).
+        const queue = (controllerObj.injectQueue || []).length;
+        out.classList.toggle('ps-queue-long', queue > INJECT_TEXT_MAX);
+
+        // Line the four scenario cards' DETECTION lists up. That is CSS, not JS:
+        // the cards are a two-row grid (see .ps-cards / .ps-card in css/player.css),
+        // so the DETECTION blocks share a baseline however long each card's own text
+        // is. It used to be measured here and the tallest head applied to the rest,
+        // but build() runs from the Print button and from `beforeprint` - both while
+        // the sheet is `display: none` in screen media, so every head measured 0 and
+        // the equaliser never actually did anything on paper.
+
+        // The ruled notes area takes whatever height is left, which the inject queue
+        // above has just changed.
+        syncNoteLines();
+
         out.classList.add('is-ready');
         document.body.classList.add(BODY_CLASS);
         return true;
@@ -384,11 +598,34 @@
      * Give the sheet's notes area its writing lines. Each line has a preferred
      * height and the box clips them (see .ps-note-line in css/player.css), so the
      * lines share out whatever the paper leaves above the footer.
+     *
+     * The COUNT adapts: an inject row now carries the card's own text, so a six-inject
+     * game leaves only a strip of paper down here, and twelve hairlines is worse than
+     * four lines that can actually be written on. The box is `flex: 1 1 0`, so its
+     * height does not depend on how many lines are inside it - which is what makes
+     * measuring it before deciding safe.
      */
-    function buildNoteLines() {
+    function syncNoteLines() {
         const box = byId(LINES_ID);
-        if (!box || box.childElementCount) return;
-        box.innerHTML = Array.from({ length: NOTE_LINES }, function () {
+        if (!box) return;
+        const available = box.getBoundingClientRect().height;
+        // Not laid out (the sheet is display:none outside print): leave the markup as
+        // it is rather than collapsing it to the floor.
+        if (available <= 0) {
+            if (!box.childElementCount) syncNoteLinesCount(NOTE_LINES);
+            return;
+        }
+        // 5.5mm is the pitch a hand needs; below ~4 lines the block stops being a
+        // notes area at all, so that is the floor.
+        const pitch = 5.5 * (96 / 25.4);
+        const count = Math.max(4, Math.min(NOTE_LINES, Math.floor(available / pitch)));
+        if (box.childElementCount !== count) syncNoteLinesCount(count);
+    }
+
+    function syncNoteLinesCount(count) {
+        const box = byId(LINES_ID);
+        if (!box) return;
+        box.innerHTML = Array.from({ length: count }, function () {
             return '<div class="ps-note-line"></div>';
         }).join('');
     }
@@ -559,7 +796,7 @@
             });
         }
 
-        buildNoteLines();
+        syncNoteLines();
         syncLogo();
         syncCover();
         refresh();

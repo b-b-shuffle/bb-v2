@@ -5,6 +5,7 @@
   "data": [
     {
       "name": "Phishing",
+      "description": "The attackers gained access to your organization's network through a deceptive email.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_01.webp",
       "type": "initial",
       "id": "001",
@@ -12,6 +13,7 @@
     },
     {
       "name": "Compromised Web Server",
+      "description": "The attackers exploited vulnerabilities in an external web server to gain unauthorized access to your organization's internal network.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_02.webp",
       "type": "initial",
       "id": "002",
@@ -19,6 +21,7 @@
     },
     {
       "name": "Unauthorized Cloud Access",
+      "description": "The attackers gained unauthorized access to your organization's cloud infrastructure or Software as a Service (SaaS) applications.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_03.webp",
       "type": "initial",
       "id": "003",
@@ -26,6 +29,7 @@
     },
     {
       "name": "Insider Threat",
+      "description": "The attacker was a trusted individual who performed unauthorized actions within your organization.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_04.webp",
       "type": "initial",
       "id": "004",
@@ -33,6 +37,7 @@
     },
     {
       "name": "External Password Spray",
+      "description": "The attackers gained access to your internal network by spraying commonly used passwords (like SeasonYear!) across multiple accounts.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_05.webp",
       "type": "initial",
       "id": "005",
@@ -40,6 +45,7 @@
     },
     {
       "name": "Compromised Trusted Relationship",
+      "description": "The attackers exploited a relationship between your organization and a third-party (e.g., vendor, partner, contractor) that has a service-level account within your organization and gained unauthorized access.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_06.webp",
       "type": "initial",
       "id": "006",
@@ -47,6 +53,7 @@
     },
     {
       "name": "Social Engineering",
+      "description": "The attackers manipulated and deceived a user in your organization to bypass technical controls and gained access to sensitive information, credentials, and/or systems.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_07.webp",
       "type": "initial",
       "id": "007",
@@ -54,6 +61,7 @@
     },
     {
       "name": "Bring Your Own (Exploited) Device",
+      "description": "Your organization allows users to bring their own devices. The attackers compromised a user's personal device to connect to your organization's network.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_08.webp",
       "type": "initial",
       "id": "008",
@@ -61,6 +69,7 @@
     },
     {
       "name": "Exploited External Service",
+      "description": "The attackers targeted misconfigurations or unpatched vulnerabilities using publicly available exploits and gained access to your organization's internal resources.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_09.webp",
       "type": "initial",
       "id": "009",
@@ -68,6 +77,7 @@
     },
     {
       "name": "Credential Stuffing",
+      "description": "The attackers used stolen username and password pairs (obtained from data breaches) and gained access to accounts on different systems.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_10.webp",
       "type": "initial",
       "id": "010",
@@ -75,6 +85,7 @@
     },
     {
       "name": "Internal Password Spray",
+      "description": "The attackers enumerate accounts and spray commonly used passwords (like SeasonYear!) within the rest of your organization.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_11.webp",
       "type": "pivot",
       "id": "011",
@@ -82,6 +93,7 @@
     },
     {
       "name": "Kerberoasting",
+      "description": "The attackers compromise additional systems by using a \"feature\" of Service Principal Names (SPNs) to extract and crack service passwords.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_12.webp",
       "type": "pivot",
       "id": "012",
@@ -89,6 +101,7 @@
     },
     {
       "name": "Broadcast/Multicast Protocol Poisoning",
+      "description": "The attackers exploit vulnerabilities in network protocols to intercept, redirect, or manipulate traffic to access sensitive data, impersonate devices, or disrupt communication.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_13.webp",
       "type": "pivot",
       "id": "013",
@@ -96,6 +109,7 @@
     },
     {
       "name": "Weaponizing Active Directory",
+      "description": "The attackers map Domain Trust Relationships, Group Policies, user/group privileges, and Object Access Control Lists (ACLs) in order to take full control of the Domain or network infrastructure.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_14.webp",
       "type": "pivot",
       "id": "014",
@@ -103,6 +117,7 @@
     },
     {
       "name": "Credential Harvesting",
+      "description": "The attackers collect and exploit username and password pairs found in open shares and files within your environment providing access to more valuable systems and data.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_15.webp",
       "type": "pivot",
       "id": "015",
@@ -110,6 +125,7 @@
     },
     {
       "name": "New Service Creation/Modification",
+      "description": "The attackers create new services or modify existing ones to evade detection by launching malicious payloads at startup or altering legitimate services to execute unauthorized commands.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_16.webp",
       "type": "pivot",
       "id": "016",
@@ -117,6 +133,7 @@
     },
     {
       "name": "Local Pivilege Escalation (LPE)",
+      "description": "The attackers use a misconfiguration or vulnerability in local software to gain administrative access.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_17.webp",
       "type": "pivot",
       "id": "017",
@@ -124,6 +141,7 @@
     },
     {
       "name": "Malicious Service",
+      "description": "The attackers create or modify system services in order to maintain long-term access to a compromised system.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_18.webp",
       "type": "persist",
       "id": "018",
@@ -131,6 +149,7 @@
     },
     {
       "name": "Dynamic Link Library (DLL) Hijacking",
+      "description": "The attackers inject malicious code into existing DLL files, often with elevated privileges, to maintain access to the system even after it is rebooted.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_19.webp",
       "type": "persist",
       "id": "019",
@@ -138,6 +157,7 @@
     },
     {
       "name": "Malicious Driver",
+      "description": "The attackers install or modify a device driver on a compromised system to retain control even after the system reboots.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_20.webp",
       "type": "persist",
       "id": "020",
@@ -145,6 +165,7 @@
     },
     {
       "name": "New User Added",
+      "description": "The attackers create a user account to maintain access and ensure persistence, even if the original compromised account is discovered or disabled.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_21.webp",
       "type": "persist",
       "id": "021",
@@ -152,6 +173,7 @@
     },
     {
       "name": "Application Shiming",
+      "description": "The attackers use the Application Compatibility Toolkit (ACT) to trick applications into not seeing ports, directories, files, and services to evade detection.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_22.webp",
       "type": "persist",
       "id": "022",
@@ -159,6 +181,7 @@
     },
     {
       "name": "Malicious Browser Plugins",
+      "description": "The attackers install a browser plugin that executes malicious code and tracks activity while evading detection.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_23.webp",
       "type": "persist",
       "id": "023",
@@ -166,6 +189,7 @@
     },
     {
       "name": "Logon Scripts",
+      "description": "The attackers add or modify scripts to your system's logon process. This allows them to maintain access, escalate privileges, and perform malicious actions each time a user logs in.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_24.webp",
       "type": "persist",
       "id": "024",
@@ -173,6 +197,7 @@
     },
     {
       "name": "Malicious Firmware",
+      "description": "The attackers update the firmware of network cards, video cards, and Basic Input/Output System (BIOS) or Unified Extensible Firmware Interface (UEFI) with malicious code, which allows them to survive reboots or operating system reinstalls, often evading detection.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_25.webp",
       "type": "persist",
       "id": "025",
@@ -180,6 +205,7 @@
     },
     {
       "name": "Accessibility Features",
+      "description": "The attackers hijack Operating System Accessibility features like Sticky Keys and On-Screen Keyboard.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_26.webp",
       "type": "persist",
       "id": "026",
@@ -187,6 +213,7 @@
     },
     {
       "name": "HTTP as Exfil",
+      "description": "The attackers use normal web ports and protocols to send stolen data from a compromised system to their servers.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_27.webp",
       "type": "c2",
       "id": "027",
@@ -194,6 +221,7 @@
     },
     {
       "name": "HTTPS as Exfil",
+      "description": "The attackers use normal encrypted web ports and protocols to send stolen data from a compromised system to their servers.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_28.webp",
       "type": "c2",
       "id": "028",
@@ -201,6 +229,7 @@
     },
     {
       "name": "Domain Name System (DNS) as C2",
+      "description": "The attackers maintain communication with compromised systems and exfiltrate data using the standard DNS protocol.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_29.webp",
       "type": "c2",
       "id": "029",
@@ -208,6 +237,7 @@
     },
     {
       "name": "Background Intelligent Transfer Service Bits (BITS) as Exfil",
+      "description": "The attackers use a legitimate service to send stolen data to a remote server.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_30.webp",
       "type": "c2",
       "id": "030",
@@ -215,6 +245,7 @@
     },
     {
       "name": "Cloud-Based Services as Exfil",
+      "description": "The attackers use common cloud services to blend in with legitimate traffic to send sensitive data from a compromised system to their servers.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_31.webp",
       "type": "c2",
       "id": "031",
@@ -222,6 +253,7 @@
     },
     {
       "name": "Domaining Fronting as C2",
+      "description": "The attackers route requests destined for their server through legitimate web services like Content Delivery Networks (CDNs).",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_32.webp",
       "type": "c2",
       "id": "032",
@@ -320,6 +352,7 @@
     },
     {
       "name": "False Alarm: It Was a Penetration Test",
+      "description": "Relax, it wasn't an APT, or any T for that matter — It was the External Pentesting firm the Defenders' CEO hired. They've breached everything, and now the Defenders are paying them to be told how bad it was. The Incident Captain ends the session and the Defenders discuss how they would have detected the Attack Techniques and Procedures of the Penetration Testers.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_46.webp",
       "type": "inject",
       "id": "046",
@@ -327,6 +360,7 @@
     },
     {
       "name": "Data Uploaded to Pastebin",
+      "description": "Surprise! The attackers spilled sensitive customer data all over Pastebin. Now customers are learning about the breach over their morning coffee... from The News. The Defenders must play their Crisis Management Detection. If they are successful, they can move past this issue. If they aren't, they receive a -2 modifier on all Detections for the rest of the session.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_47.webp",
       "type": "inject",
       "id": "047",
@@ -334,6 +368,7 @@
     },
     {
       "name": "Analyst Returns from Incident Response Training",
+      "description": "Armed with newfound Splunk-fu, the Defenders' Security Information and Event Management (SIEM) analyst is now a log-sifting ninja. Attackers, beware! The regex game just leveled up. The Defenders get a +2 modifier for all Detections until the end of the session.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_48.webp",
       "type": "inject",
       "id": "048",
@@ -341,6 +376,7 @@
     },
     {
       "name": "Policy? What Policy?",
+      "description": "Oops, that Detection just vanished faster than the Defenders' budget during Q4. Good luck explaining this one! The Incident Captain must remove a Detection Card.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_49.webp",
       "type": "inject",
       "id": "049",
@@ -348,6 +384,7 @@
     },
     {
       "name": "Luck of The SOC",
+      "description": "Congrats! The Defenders hit the Detection Roulette Jackpot. Let's hope it's more useful than a phishing awareness poster. The Incident Captain must reveal one of the Attack Cards.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_50.webp",
       "type": "inject",
       "id": "050",
@@ -355,6 +392,7 @@
     },
     {
       "name": "Bobby the Intern Kills the System You are Reviewing",
+      "description": "In a bold move of intern ingenuity, Bobby decides \"reboot\" means \"unplug everything.\" The Defenders' investigation is now as dead as the server. The Defenders lose their next turn.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_51.webp",
       "type": "inject",
       "id": "051",
@@ -362,6 +400,7 @@
     },
     {
       "name": "Legal takes Your Most Skilled Handler into a Meeting to Explain the Incident",
+      "description": "Who brought a lawyer to the party? There's always one person who pretty much runs the whole IR process — that \"One Essential Person.\" Well, the legal team just took that person away for \"Very Important Reasons.\" The Defenders lose the +3 modifier on Established Detections for 2 turns.",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_52.webp",
       "type": "inject",
       "id": "052",
@@ -369,6 +408,7 @@
     },
     {
       "name": "Missing HTTP Strict Transport Security (HSTS) Protection",
+      "description": "By having HTTP to HTTPS redirects, the attackers can \"strip\" SSL from a session. The attackers need to be on the same network for this to work. So, think coffee shops... evil, coffee shops.",
       "image": "../../shared/decks/core-v31-expansion/BNB_CARDS_EXPANSION_V1.2_1.webp",
       "type": "initial",
       "id": "052",
@@ -376,6 +416,7 @@
     },
     {
       "name": "Supply Chain Attack",
+      "description": "The attackers insert malware in the update process of one of your key enterprise management tools. This gives them direct access to the heart of your infrastructure.",
       "image": "../../shared/decks/core-v31-expansion/BNB_CARDS_EXPANSION_V1.2_2.webp",
       "type": "initial",
       "id": "053",
@@ -383,6 +424,7 @@
     },
     {
       "name": "Physical Access",
+      "description": "The attackers gain physical access to your organization and use this to pivot to your internal networks.",
       "image": "../../shared/decks/core-v31-expansion/BNB_CARDS_EXPANSION_V1.2_3.webp",
       "type": "initial",
       "id": "054",
@@ -390,6 +432,7 @@
     },
     {
       "name": "SMB Weakness",
+      "description": "The attackers take advantage of a number of different Server Message Block (SMB) issues that can be used for post-exploitation. From SMB Signing disabled to using SMBv1.",
       "image": "../../shared/decks/core-v31-expansion/BNB_CARDS_EXPANSION_V1.2_4.webp",
       "type": "pivot",
       "id": "055",
@@ -397,6 +440,7 @@
     },
     {
       "name": "Internal Spearphishing",
+      "description": "The attackers leverage existing access to users' email to send attack emails to other targets. Because they come from the inside, the attack emails tend to bypass security controls.",
       "image": "../../shared/decks/core-v31-expansion/BNB_CARDS_EXPANSION_V1.2_5.webp",
       "type": "pivot",
       "id": "056",
@@ -404,6 +448,7 @@
     },
     {
       "name": "Access Token Manipulation",
+      "description": "The attackers conduct actions under other user/service account tokens.",
       "image": "../../shared/decks/core-v31-expansion/BNB_CARDS_EXPANSION_V1.2_6.webp",
       "type": "pivot",
       "id": "057",
@@ -411,6 +456,7 @@
     },
     {
       "name": "Stale Network Address Configurations (SNAC) Attack",
+      "description": "The attackers take advantage of a system or a network service that has been configured with a hard-coded IP address or fully qualified domain name (FQDN) that is no longer associated with a live host.",
       "image": "../../shared/decks/core-v31-expansion/BNB_CARDS_EXPANSION_V1.2_7.webp",
       "type": "pivot",
       "id": "058",
@@ -418,6 +464,7 @@
     },
     {
       "name": "Cleartext Passwords in Files",
+      "description": "The attackers love people who share and save passwords in files everyone else can read. This attack works because people (often admins and developers) create documents and spreadsheets with passwords in them. Then, they put them on shares that are readable to everyone in the domain.",
       "image": "../../shared/decks/core-v31-expansion/BNB_CARDS_EXPANSION_V1.2_8.webp",
       "type": "pivot",
       "id": "059",
@@ -425,6 +472,7 @@
     },
     {
       "name": "Event Triggered Malware",
+      "description": "The attackers' malware triggers only when specific events occur. For example, when a specific DLL or service is started.",
       "image": "../../shared/decks/core-v31-expansion/BNB_CARDS_EXPANSION_V1.2_9.webp",
       "type": "persist",
       "id": "060",
@@ -432,6 +480,7 @@
     },
     {
       "name": "Malware Injection Into Client Software",
+      "description": "The attackers insert their malware to run alongside (or in) third-party software. Stuxnet and Bonadan did this.",
       "image": "../../shared/decks/core-v31-expansion/BNB_CARDS_EXPANSION_V1.2_10.webp",
       "type": "persist",
       "id": "061",
@@ -439,6 +488,7 @@
     },
     {
       "name": "Malicious Email Rules",
+      "description": "The attackers create rules in an email inbox and/or client that trigger on specific events or when certain keywords are present in a message.",
       "image": "../../shared/decks/core-v31-expansion/BNB_CARDS_EXPANSION_V1.2_11.webp",
       "type": "persist",
       "id": "062",
@@ -446,6 +496,7 @@
     },
     {
       "name": "Windows Service Recovery Actions",
+      "description": "The attackers use Windows Service failure recovery actions as a means of persistence on an accessible service they can remotely crash on demand.",
       "image": "../../shared/decks/core-v31-expansion/BNB_CARDS_EXPANSION_V1.2_12.webp",
       "type": "persist",
       "id": "63",
@@ -453,6 +504,7 @@
     },
     {
       "name": "Registry Keys for Persistence",
+      "description": "The attackers add/modify registry commands to cause their malware to run on system startup and/or user login. This has been around forever. Almost every piece of solid malware in existence can do this.",
       "image": "../../shared/decks/core-v31-expansion/BNB_CARDS_EXPANSION_V1.2_13.webp",
       "type": "persist",
       "id": "064",
@@ -460,6 +512,7 @@
     },
     {
       "name": "Exfiltration Over Physical Medium",
+      "description": "The attackers use a USB drive, printouts, or even socks... yes, socks, as a way to get data out of a network. This requires an accomplice on the inside or it can be used with the Insider Threat (Initial Compromise) card.",
       "image": "../../shared/decks/core-v31-expansion/BNB_CARDS_EXPANSION_V1.2_14.webp",
       "type": "c2",
       "id": "065",
@@ -481,6 +534,7 @@
     },
     {
       "name": "Food Poisoning",
+      "description": "The life of this organization depends upon just one thing: finding someone back there who can not only work this incident, but who didn't have fish for dinner.",
       "image": "../../shared/decks/core-v31-expansion/BNB_CARDS_EXPANSION_V1.2_17.webp",
       "type": "inject",
       "id": "068",
@@ -488,6 +542,7 @@
     },
     {
       "name": "SIEM Goes Down",
+      "description": "No SIEM for you!",
       "image": "../../shared/decks/core-v31-expansion/BNB_CARDS_EXPANSION_V1.2_18.webp",
       "type": "inject",
       "id": "069",
@@ -495,6 +550,7 @@
     },
     {
       "name": "This Isn't the First Time, and Won't Be the Last",
+      "description": "This is not the first time the attackers have been on your network.",
       "image": "../../shared/decks/core-v31-expansion/BNB_CARDS_EXPANSION_V1.2_19.webp",
       "type": "inject",
       "id": "070",
@@ -502,6 +558,7 @@
     },
     {
       "name": "EDR Compromise",
+      "description": "The attackers gain access to your Endpoint Protection suite of tools.",
       "image": "../../shared/decks/core-v31-expansion/BNB_CARDS_EXPANSION_V1.2_20.webp",
       "type": "inject",
       "id": "071",
@@ -509,6 +566,7 @@
     },
     {
       "name": "Attackers Taunt You",
+      "description": "The attackers call out the security team, via a message to every system on the network.",
       "image": "../../shared/decks/core-v31-expansion/BNB_CARDS_EXPANSION_V1.2_21.webp",
       "type": "inject",
       "id": "072",
@@ -516,6 +574,7 @@
     },
     {
       "name": "Attackers Timestomp Key Evidence Files",
+      "description": "(-3) Modifier for Log-Related Actions There are tools that allow attackers to modify Modified-Accessed-Created-Entry (MACE) timestamps of files. One such tool is in Metasploit called Timestomp.",
       "image": "../../shared/decks/core-v31-expansion/BNB_CARDS_EXPANSION_V1.2_22.webp",
       "type": "inject",
       "id": "073",
@@ -523,6 +582,7 @@
     },
     {
       "name": "No Good Deed Goes Unpunished...",
+      "description": "The Purple Team uncovers another incident.",
       "image": "../../shared/decks/core-v31-expansion/BNB_CARDS_EXPANSION_V1.2_23.webp",
       "type": "inject",
       "id": "074",
@@ -530,6 +590,7 @@
     },
     {
       "name": "Our Friend, Hacky",
+      "description": "You discover other attackers have been on your network for months.",
       "image": "../../shared/decks/core-v31-expansion/BNB_CARDS_EXPANSION_V1.2_24.webp",
       "type": "inject",
       "id": "075",
@@ -537,6 +598,7 @@
     },
     {
       "name": "Is it Getting Hot in Here?",
+      "description": "HVAC systems are important... and they will fail at the worst times. This... is one of those times.",
       "image": "../../shared/decks/core-v31-expansion/BNB_CARDS_EXPANSION_V1.2_25.webp",
       "type": "inject",
       "id": "076",
@@ -544,6 +606,7 @@
     },
     {
       "name": "Don't Forget to Smash the Subscribe Button!",
+      "description": "Some attackers just want to watch the world burn.",
       "image": "../../shared/decks/core-v31-expansion/BNB_CARDS_EXPANSION_V1.2_26.webp",
       "type": "inject",
       "id": "077",
