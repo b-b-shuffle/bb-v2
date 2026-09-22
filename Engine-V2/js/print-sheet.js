@@ -59,9 +59,11 @@
     let out = null;
     let bound = false;
     let prevTitle = null;
-    // Above this many injects the sheet stops printing their text (see build()): a
-    // B&B session deals six, and nine rows of rules text plus the hand cannot share one
-    // Letter sheet with the scenario cards and the notes area.
+    // Above this many injects the sheet stops printing their text (see build()): at
+    // nine rows of rules text plus the hand, the injects cannot share one Letter sheet
+    // with the scenario cards and the notes area. This tracks the editor's ceiling
+    // (max="6" in admin.html), NOT CONFIG.game.injectCount - a scenario may ship more
+    // injects than the default deal of four.
     const INJECT_TEXT_MAX = 6;
 
     // Last HTML written to each half of the sheet.

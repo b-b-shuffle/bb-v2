@@ -226,7 +226,7 @@ const PlayerController = {
             procedures.push(pack(procPool.splice(idx, 1)[0], { enhanced: i < enhancedCount }));
         }
 
-        const injectCount = (CONFIG.game && CONFIG.game.injectCount) || 6;
+        const injectCount = (CONFIG.game && CONFIG.game.injectCount) || 4;
         const injects = [];
         const injectPool = [...(lists.inject || [])];
         for (let i = 0; i < injectCount && injectPool.length; i++) {

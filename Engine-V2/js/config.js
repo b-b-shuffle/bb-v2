@@ -178,11 +178,14 @@ const CONFIG = {
         procedureCount: 7,
         enhancedDefault: 3,
         enhancedBonus: 3,
-        // Starting inject plus the queued pool - a B&B session deals six. The
-        // Scenario Editor's Count field and the quick-start deal both default here,
-        // and the printable session sheet prints each inject's rule text up to this
-        // many (see INJECT_TEXT_MAX in js/print-sheet.js).
-        injectCount: 6
+        // Starting inject plus the queued pool. This is a DEFAULT only: the Scenario
+        // Editor's Count field, its three clamps and the quick-start deal all read it,
+        // and a loaded scenario's own gameConfig.injectCount wins over it.
+        // Four keeps the printable session sheet comfortable - six still fits one
+        // Letter page but crowds it. The editor still permits up to 6 and the sheet
+        // prints rule text for up to INJECT_TEXT_MAX (js/print-sheet.js); both are
+        // deliberately left alone.
+        injectCount: 4
     },
 
     // Storage keys
