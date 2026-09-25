@@ -9,7 +9,13 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_01.webp",
       "type": "initial",
       "id": "001",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "Modlishka",
+        "Evilginx",
+        "Gophish",
+        "Social-Engineer Toolkit (SET)"
+      ]
     },
     {
       "name": "Compromised Web Server",
@@ -17,7 +23,13 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_02.webp",
       "type": "initial",
       "id": "002",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "Burp Suite",
+        "Caido",
+        "sqlmap",
+        "Nuclei"
+      ]
     },
     {
       "name": "Unauthorized Cloud Access",
@@ -25,7 +37,13 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_03.webp",
       "type": "initial",
       "id": "003",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "GraphRunner",
+        "ROADtools",
+        "ScoutSuite",
+        "Pacu"
+      ]
     },
     {
       "name": "Insider Threat",
@@ -33,7 +51,10 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_04.webp",
       "type": "initial",
       "id": "004",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "Company-Issued Equipment"
+      ]
     },
     {
       "name": "External Password Spray",
@@ -41,7 +62,13 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_05.webp",
       "type": "initial",
       "id": "005",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "CredMaster",
+        "MSOLSpray",
+        "FireProx",
+        "FindMeAccess"
+      ]
     },
     {
       "name": "Compromised Trusted Relationship",
@@ -49,7 +76,12 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_06.webp",
       "type": "initial",
       "id": "006",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "Gato-X",
+        "Compromised Service Accounts",
+        "Publicly Available Breach Data"
+      ]
     },
     {
       "name": "Social Engineering",
@@ -57,7 +89,12 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_07.webp",
       "type": "initial",
       "id": "007",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "Open-Source Intelligence Gathering (OSINT)",
+        "Manipulation of Human Feelings",
+        "Sense of Urgency"
+      ]
     },
     {
       "name": "Bring Your Own (Exploited) Device",
@@ -65,7 +102,12 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_08.webp",
       "type": "initial",
       "id": "008",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "Malware",
+        "Remote Access Trojan (RAT)",
+        "Malicious Web Ads"
+      ]
     },
     {
       "name": "Exploited External Service",
@@ -73,7 +115,13 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_09.webp",
       "type": "initial",
       "id": "009",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "Nuclei",
+        "Metasploit",
+        "Exploit-db",
+        "Shodan"
+      ]
     },
     {
       "name": "Credential Stuffing",
@@ -81,7 +129,13 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_10.webp",
       "type": "initial",
       "id": "010",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "CredMaster",
+        "Burp Suite",
+        "Hashcat",
+        "Hydra"
+      ]
     },
     {
       "name": "Internal Password Spray",
@@ -89,7 +143,13 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_11.webp",
       "type": "pivot",
       "id": "011",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "Kerbrute",
+        "NetExec",
+        "net use",
+        "LOLBins"
+      ]
     },
     {
       "name": "Kerberoasting",
@@ -97,7 +157,13 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_12.webp",
       "type": "pivot",
       "id": "012",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "Rubeus",
+        "Impacket",
+        "Hashcat",
+        "NetExec"
+      ]
     },
     {
       "name": "Broadcast/Multicast Protocol Poisoning",
@@ -105,7 +171,13 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_13.webp",
       "type": "pivot",
       "id": "013",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "Responder",
+        "Impacket",
+        "MITM6",
+        "Inveigh"
+      ]
     },
     {
       "name": "Weaponizing Active Directory",
@@ -113,7 +185,13 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_14.webp",
       "type": "pivot",
       "id": "014",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "BloodHound",
+        "PlumHound",
+        "Adminer",
+        "SCCMHunter"
+      ]
     },
     {
       "name": "Credential Harvesting",
@@ -121,7 +199,13 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_15.webp",
       "type": "pivot",
       "id": "015",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "GraphRunner",
+        "DonPAPI",
+        "Snaffler",
+        "Mimikatz"
+      ]
     },
     {
       "name": "New Service Creation/Modification",
@@ -129,7 +213,13 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_16.webp",
       "type": "pivot",
       "id": "016",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "PsExec",
+        "PowerShell",
+        "ServiceController",
+        "Malware"
+      ]
     },
     {
       "name": "Local Pivilege Escalation (LPE)",
@@ -137,7 +227,13 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_17.webp",
       "type": "pivot",
       "id": "017",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "Impacket",
+        "Seatbelt",
+        "SharpUp",
+        "PEASS-ng"
+      ]
     },
     {
       "name": "Malicious Service",
@@ -145,7 +241,13 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_18.webp",
       "type": "persist",
       "id": "018",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "SharpStay",
+        "SharPersist",
+        "StayKit",
+        "PsExec"
+      ]
     },
     {
       "name": "Dynamic Link Library (DLL) Hijacking",
@@ -153,7 +255,13 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_19.webp",
       "type": "persist",
       "id": "019",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "DLLHijackTest",
+        "PowerSploit",
+        "FaceDancer",
+        "PersistBOF"
+      ]
     },
     {
       "name": "Malicious Driver",
@@ -161,7 +269,14 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_20.webp",
       "type": "persist",
       "id": "020",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "Impacket",
+        "PowerShell",
+        "Metasploit",
+        "Kernel Driver Utility (KDU)",
+        "SharpStay"
+      ]
     },
     {
       "name": "New User Added",
@@ -169,7 +284,13 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_21.webp",
       "type": "persist",
       "id": "021",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "Metasploit",
+        "Impacket",
+        "Havok",
+        "Mythic"
+      ]
     },
     {
       "name": "Application Shiming",
@@ -177,7 +298,14 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_22.webp",
       "type": "persist",
       "id": "022",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "Metasploit",
+        "PowerShell",
+        "Shim Generator (shimgen)",
+        "sdb-explorer",
+        "Atomic Red Team (ART)"
+      ]
     },
     {
       "name": "Malicious Browser Plugins",
@@ -185,7 +313,14 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_23.webp",
       "type": "persist",
       "id": "023",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "Metasploit",
+        "PowerShell",
+        "Chromebackdoor",
+        "Browser Exploitation Framework (BeEF)",
+        "Evilginx"
+      ]
     },
     {
       "name": "Logon Scripts",
@@ -193,7 +328,13 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_24.webp",
       "type": "persist",
       "id": "024",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "Metasploit",
+        "Impacket",
+        "Havok",
+        "Mythic"
+      ]
     },
     {
       "name": "Malicious Firmware",
@@ -201,7 +342,14 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_25.webp",
       "type": "persist",
       "id": "025",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "CHIPSEC",
+        "Flashrom",
+        "Impacket",
+        "PowerShell",
+        "Metasploit"
+      ]
     },
     {
       "name": "Accessibility Features",
@@ -209,7 +357,12 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_26.webp",
       "type": "persist",
       "id": "026",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "Bash Bunny",
+        "USB Rubber Ducky",
+        "OMGCable"
+      ]
     },
     {
       "name": "HTTP as Exfil",
@@ -217,7 +370,12 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_27.webp",
       "type": "c2",
       "id": "027",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "Sliver",
+        "Havok",
+        "Mythic"
+      ]
     },
     {
       "name": "HTTPS as Exfil",
@@ -225,7 +383,12 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_28.webp",
       "type": "c2",
       "id": "028",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "Sliver",
+        "Havok",
+        "Mythic"
+      ]
     },
     {
       "name": "Domain Name System (DNS) as C2",
@@ -233,7 +396,11 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_29.webp",
       "type": "c2",
       "id": "029",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "Havok",
+        "Mythic"
+      ]
     },
     {
       "name": "Background Intelligent Transfer Service Bits (BITS) as Exfil",
@@ -241,7 +408,11 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_30.webp",
       "type": "c2",
       "id": "030",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "Leviathan",
+        "UBoatRAT"
+      ]
     },
     {
       "name": "Cloud-Based Services as Exfil",
@@ -249,7 +420,12 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_31.webp",
       "type": "c2",
       "id": "031",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "Goat",
+        "Sneaky Creeper",
+        "Gost"
+      ]
     },
     {
       "name": "Domaining Fronting as C2",
@@ -257,98 +433,205 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_32.webp",
       "type": "c2",
       "id": "032",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "Sliver",
+        "Havok",
+        "Mythic"
+      ]
     },
     {
       "name": "Server Analysis",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_33.webp",
       "type": "procedure",
       "id": "033",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "description": "The Defenders monitor server activity, logs, and configurations to detect abnormal behaviors, such as unauthorized access, unusual traffic, or process anomalies.",
+      "tools": [
+        "DeepBlueCLI",
+        "Velociraptor",
+        "Sysinternals Suite"
+      ],
+      "cost": "2 RP"
     },
     {
       "name": "Security Information and Event Management (SIEM) Log Analysis",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_34.webp",
       "type": "procedure",
       "id": "034",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "description": "The Defenders use SIEM to aggregate logs from systems and devices to identify abnormal patterns, such as unusual access, traffic, or attack signatures.",
+      "tools": [
+        "Security Onion",
+        "OSSIM",
+        "Wazuh",
+        "JPCERT Tool Analysis"
+      ],
+      "cost": "4 RP"
     },
     {
       "name": "Firewall Log Analysis",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_35.webp",
       "type": "procedure",
       "id": "035",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "description": "The Defenders analyze logs generated by the firewall to monitor network traffic patterns, detect unauthorized access, and identify anomalies such as unusual connections or high traffic volumes.",
+      "tools": [
+        "Wazuh",
+        "Graylog Open",
+        "ELK Stack",
+        "Security Onion",
+        "Kiwi Syslog Server"
+      ],
+      "cost": "3 RP"
     },
     {
       "name": "Network Threat Hunting",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_36.webp",
       "type": "procedure",
       "id": "036",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "description": "The Defenders analyze network traffic to actively hunt for signs of malicious activity, such as unusual protocols, C2 communication, or data exfil.",
+      "tools": [
+        "Real Intelligence Threat Analytics (RITA)",
+        "Security Onion",
+        "Passer",
+        "espy"
+      ],
+      "cost": "2 RP"
     },
     {
       "name": "Active Defense and Cyber Deception",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_37.webp",
       "type": "procedure",
       "id": "037",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "description": "The Defenders simulate real systems and services, luring attackers to interact with them, carefully monitoring and alerting on those interactions.",
+      "tools": [
+        "CanaryTokens",
+        "HoneyBadger",
+        "Active Defense Harbinger Distribution (ADHD)",
+        "MITRE Engage"
+      ],
+      "cost": "2 RP"
     },
     {
       "name": "Endpoint Security Protection Analysis",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_38.webp",
       "type": "procedure",
       "id": "038",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "description": "The Defenders deploy and monitor endpoint security solutions to detect and prevent unauthorized access and activity on endpoints.",
+      "tools": [
+        "Elastic Security",
+        "OpenEDR",
+        "Velociraptor",
+        "OSSEC",
+        "Wazuh"
+      ],
+      "cost": "4 RP"
     },
     {
       "name": "User and Entity Behavior Analytics (UEBA)",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_39.webp",
       "type": "procedure",
       "id": "039",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "description": "The Defenders leverage advanced analytics to detect anomalies in user behavior, identifying potential insider threats, compromised accounts, or unusual activity patterns.",
+      "tools": [
+        "LogonTracer",
+        "DeepBlueCLI",
+        "OpenUBA",
+        "Hayabusa"
+      ],
+      "cost": "3 RP"
     },
     {
       "name": "Endpoint Analysis",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_40.webp",
       "type": "procedure",
       "id": "040",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "description": "The Defenders investigate endpoint devices to identify indicators of compromise, unauthorized changes, or suspicious activities.",
+      "tools": [
+        "DeepBlueCLI",
+        "Velociraptor",
+        "Incident Response Cheat Sheets",
+        "osquery"
+      ],
+      "cost": "3 RP"
     },
     {
       "name": "Isolation",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_41.webp",
       "type": "procedure",
       "id": "041",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "description": "The Defenders quarantine compromised systems or network segments to prevent further spread of malicious activity, containing threats while enabling secure investigation and remediation.",
+      "tools": [
+        "Switch and Router Commands",
+        "Host Firewall",
+        "Endpoint Detection and Response (EDR) Tools"
+      ],
+      "cost": "1 RP"
     },
     {
       "name": "Crisis Management",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_42.webp",
       "type": "procedure",
       "id": "042",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "description": "The Defenders coordinate response efforts during cybersecurity incidents, ensuring effective communication and swift containment.",
+      "tools": [
+        "Incident Response Plans (IRP)",
+        "Disaster Recovery Plans (DRP)"
+      ],
+      "cost": "1 RP"
     },
     {
       "name": "Memory Analysis",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_43.webp",
       "type": "procedure",
       "id": "043",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "description": "The Defenders pull the memory from the suspect system and review it for possible malicious activity, such as running malware, hidden processes, or unauthorized code execution.",
+      "tools": [
+        "Volatility",
+        "Velociraptor",
+        "Endpoint Detection and Response (EDR) Tools"
+      ],
+      "cost": "2 RP"
     },
     {
       "name": "Cloud Event Log Analysis",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_44.webp",
       "type": "procedure",
       "id": "044",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "description": "The Defenders monitor, collect, and examine event logs generated by cloud-based systems and services to identify potential security incidents, misconfigurations, and unusual or unauthorized activities.",
+      "tools": [
+        "Wazuh",
+        "Security Onion",
+        "Graylog Open",
+        "Falco",
+        "Hawk"
+      ],
+      "cost": "2 RP"
     },
     {
       "name": "Permissions Audit",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_45.webp",
       "type": "procedure",
       "id": "045",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "description": "The Defenders examine configurations such as Identity and Access Management (IAM) roles in Microsoft Active Directory, Amazon Web Services (AWS), Azure AD permissions, or file access controls to detect excessive privileges, unauthorized access, or potential insider threats.",
+      "tools": [
+        "AD Users and Computers",
+        "BloodHound",
+        "ScoutSuite",
+        "Prowler"
+      ],
+      "cost": "2 RP"
     },
     {
       "name": "False Alarm: It Was a Penetration Test",
@@ -412,7 +695,10 @@
       "image": "../../shared/decks/cloud-security/BNB_CARDS_CloudDeck_C2_1.webp",
       "type": "c2",
       "id": "052",
-      "details": "<li><a target=\"_blank\" href=\"https://github.com/sensepost/ruler\">https://github.com/sensepost/ruler</a></li><li><a target=\"_blank\" href=\"https://github.com/OfficeDev/Outlook-Add-in-ForwardEmail\">https://github.com/OfficeDev/Outlook-Add-in-ForwardEmail</a></li>"
+      "details": "<li><a target=\"_blank\" href=\"https://github.com/sensepost/ruler\">https://github.com/sensepost/ruler</a></li><li><a target=\"_blank\" href=\"https://github.com/OfficeDev/Outlook-Add-in-ForwardEmail\">https://github.com/OfficeDev/Outlook-Add-in-ForwardEmail</a></li>",
+      "tools": [
+        "Ruler"
+      ]
     },
     {
       "name": "Malicious Serverless Function",
@@ -420,7 +706,10 @@
       "image": "../../shared/decks/cloud-security/BNB_CARDS_CloudDeck_C2_2.webp",
       "type": "c2",
       "id": "053",
-      "details": ""
+      "details": "",
+      "tools": [
+        "Cloud-Specific Command Line Tools"
+      ]
     },
     {
       "name": "Virtual Machine Access via Web Portal",
@@ -428,7 +717,10 @@
       "image": "../../shared/decks/cloud-security/BNB_CARDS_CloudDeck_C2_3.webp",
       "type": "c2",
       "id": "054",
-      "details": ""
+      "details": "",
+      "tools": [
+        "Cloud Web Portal"
+      ]
     },
     {
       "name": "Cloud Service Password Spray",
@@ -436,7 +728,15 @@
       "image": "../../shared/decks/cloud-security/BNB_CARDS_CloudDeck_IC_1.webp",
       "type": "initial",
       "id": "055",
-      "details": "<li><a target=\"_blank\" href=\"https://github.com/byt3bl33d3r/SprayingToolkit\">https://github.com/byt3bl33d3r/SprayingToolkit</a></li><li><a target=\"_blank\" href=\"https://github.com/vanhauser-thc/thc-hydra\">https://github.com/vanhauser-thc/thc-hydra</a></li><li><a target=\"_blank\" href=\"https://github.com/dafthack/MailSniper\">https://github.com/dafthack/MailSniper</a></li><li><a target=\"_blank\" href=\"https://github.com/arch4ngel/BruteLoops\">https://github.com/arch4ngel/BruteLoops</a></li><li><a target=\"_blank\" href=\"https://github.com/dafthack/MSOLSpray\">https://github.com/dafthack/MSOLSpray</a></li><li><a target=\"_blank\" href=\"https://github.com/ustayready/fireprox\">https://github.com/ustayready/fireprox</a></li>"
+      "details": "<li><a target=\"_blank\" href=\"https://github.com/byt3bl33d3r/SprayingToolkit\">https://github.com/byt3bl33d3r/SprayingToolkit</a></li><li><a target=\"_blank\" href=\"https://github.com/vanhauser-thc/thc-hydra\">https://github.com/vanhauser-thc/thc-hydra</a></li><li><a target=\"_blank\" href=\"https://github.com/dafthack/MailSniper\">https://github.com/dafthack/MailSniper</a></li><li><a target=\"_blank\" href=\"https://github.com/arch4ngel/BruteLoops\">https://github.com/arch4ngel/BruteLoops</a></li><li><a target=\"_blank\" href=\"https://github.com/dafthack/MSOLSpray\">https://github.com/dafthack/MSOLSpray</a></li><li><a target=\"_blank\" href=\"https://github.com/ustayready/fireprox\">https://github.com/ustayready/fireprox</a></li>",
+      "tools": [
+        "SprayingToolkit",
+        "Hydra",
+        "BruteLoops",
+        "FireProx",
+        "MailSniper",
+        "MSOLSpray"
+      ]
     },
     {
       "name": "Cloud Service Provider Vulnerability",
@@ -444,7 +744,10 @@
       "image": "../../shared/decks/cloud-security/BNB_CARDS_CloudDeck_IC_2.webp",
       "type": "initial",
       "id": "056",
-      "details": "<li><a target=\"_blank\" href=\"https://threatpost.com/azure-zero-day-supply-chain/169508/\">https://threatpost.com/azure-zero-day-supply-chain/169508/</a></li><li><a target=\"_blank\" href=\"https://orca.security/resources/blog/aws-cloudformation-vulnerability/\">https://orca.security/resources/blog/aws-cloudformation-vulnerability/</a></li>"
+      "details": "<li><a target=\"_blank\" href=\"https://threatpost.com/azure-zero-day-supply-chain/169508/\">https://threatpost.com/azure-zero-day-supply-chain/169508/</a></li><li><a target=\"_blank\" href=\"https://orca.security/resources/blog/aws-cloudformation-vulnerability/\">https://orca.security/resources/blog/aws-cloudformation-vulnerability/</a></li>",
+      "tools": [
+        "Cloud APIs and CLI tools"
+      ]
     },
     {
       "name": "Credentials Posted Publicly in a Code Repository",
@@ -452,7 +755,12 @@
       "image": "../../shared/decks/cloud-security/BNB_CARDS_CloudDeck_IC_3.webp",
       "type": "initial",
       "id": "057",
-      "details": "<li><a target=\"_blank\" href=\"https://github.com/zricethezav/gitleaks\">https://github.com/zricethezav/gitleaks</a></li><li><a target=\"_blank\" href=\"https://github.com/trufflesecurity/truffleHog\">https://github.com/trufflesecurity/truffleHog</a></li><li><a target=\"_blank\" href=\"https://github.com/michenriksen/gitrob\">https://github.com/michenriksen/gitrob</a></li>"
+      "details": "<li><a target=\"_blank\" href=\"https://github.com/zricethezav/gitleaks\">https://github.com/zricethezav/gitleaks</a></li><li><a target=\"_blank\" href=\"https://github.com/trufflesecurity/truffleHog\">https://github.com/trufflesecurity/truffleHog</a></li><li><a target=\"_blank\" href=\"https://github.com/michenriksen/gitrob\">https://github.com/michenriksen/gitrob</a></li>",
+      "tools": [
+        "Gitleaks",
+        "TruffleHog",
+        "Gitrob"
+      ]
     },
     {
       "name": "Malicious OAuth Applciation",
@@ -460,7 +768,10 @@
       "image": "../../shared/decks/cloud-security/BNB_CARDS_CloudDeck_IC_4.webp",
       "type": "initial",
       "id": "058",
-      "details": "<li><a target=\"_blank\" href=\"https://github.com/mdsecactivebreach/o365-attack-toolkit\">https://github.com/mdsecactivebreach/o365-attack-toolkit</a></li><li><a target=\"_blank\" href=\"https://threatpost.com/oauth-phishing-microsoft-o365-attacks/159713/\">https://threatpost.com/oauth-phishing-microsoft-o365-attacks/159713/</a></li>"
+      "details": "<li><a target=\"_blank\" href=\"https://github.com/mdsecactivebreach/o365-attack-toolkit\">https://github.com/mdsecactivebreach/o365-attack-toolkit</a></li><li><a target=\"_blank\" href=\"https://threatpost.com/oauth-phishing-microsoft-o365-attacks/159713/\">https://threatpost.com/oauth-phishing-microsoft-o365-attacks/159713/</a></li>",
+      "tools": [
+        "O365 Attack Toolkit"
+      ]
     },
     {
       "name": "Misconfigured MFA",
@@ -468,7 +779,10 @@
       "image": "../../shared/decks/cloud-security/BNB_CARDS_CloudDeck_IC_5.webp",
       "type": "initial",
       "id": "059",
-      "details": "<li><a target=\"_blank\" href=\"https://github.com/dafthack/MFASweep\">https://github.com/dafthack/MFASweep</a></li><li><a target=\"_blank\" href=\"https://www.blackhillsinfosec.com/exploiting-mfa-inconsistencies-on-microsoft-services/\">https://www.blackhillsinfosec.com/exploiting-mfa-inconsistencies-on-microsoft-services/</a></li>"
+      "details": "<li><a target=\"_blank\" href=\"https://github.com/dafthack/MFASweep\">https://github.com/dafthack/MFASweep</a></li><li><a target=\"_blank\" href=\"https://www.blackhillsinfosec.com/exploiting-mfa-inconsistencies-on-microsoft-services/\">https://www.blackhillsinfosec.com/exploiting-mfa-inconsistencies-on-microsoft-services/</a></li>",
+      "tools": [
+        "MFASweep"
+      ]
     },
     {
       "name": "Public Storage Bucket Exposed",
@@ -476,7 +790,12 @@
       "image": "../../shared/decks/cloud-security/BNB_CARDS_CloudDeck_IC_6.webp",
       "type": "initial",
       "id": "060",
-      "details": "<li><a target=\"_blank\" href=\"https://github.com/jordanpotti/AWSBucketDump\">https://github.com/jordanpotti/AWSBucketDump</a></li><li><a target=\"_blank\" href=\"https://github.com/initstring/cloud_enum\">https://github.com/initstring/cloud_enum</a></li><li><a target=\"_blank\" href=\"https://github.com/NetSPI/MicroBurst\">https://github.com/NetSPI/MicroBurst</a></li>"
+      "details": "<li><a target=\"_blank\" href=\"https://github.com/jordanpotti/AWSBucketDump\">https://github.com/jordanpotti/AWSBucketDump</a></li><li><a target=\"_blank\" href=\"https://github.com/initstring/cloud_enum\">https://github.com/initstring/cloud_enum</a></li><li><a target=\"_blank\" href=\"https://github.com/NetSPI/MicroBurst\">https://github.com/NetSPI/MicroBurst</a></li>",
+      "tools": [
+        "AWSBucketDump",
+        "cloud_enum",
+        "MicroBurst"
+      ]
     },
     {
       "name": "Out-of-Band Phish",
@@ -484,7 +803,14 @@
       "image": "../../shared/decks/cloud-security/BNB_CARDS_CloudDeck_IC_7.webp",
       "type": "initial",
       "id": "061",
-      "details": "<li><a target=\"_blank\" href=\"https://github.com/kgretzky/evilginx2\">https://github.com/kgretzky/evilginx2</a></li><li><a target=\"_blank\" href=\"https://github.com/drk1wi/Modlishka\">https://github.com/drk1wi/Modlishka</a></li><li><a target=\"_blank\" href=\"https://www.blackhillsinfosec.com/how-to-phish-for-geniuses\">https://www.blackhillsinfosec.com/how-to-phish-for-geniuses</a></li>"
+      "details": "<li><a target=\"_blank\" href=\"https://github.com/kgretzky/evilginx2\">https://github.com/kgretzky/evilginx2</a></li><li><a target=\"_blank\" href=\"https://github.com/drk1wi/Modlishka\">https://github.com/drk1wi/Modlishka</a></li><li><a target=\"_blank\" href=\"https://www.blackhillsinfosec.com/how-to-phish-for-geniuses\">https://www.blackhillsinfosec.com/how-to-phish-for-geniuses</a></li>",
+      "tools": [
+        "Direct Messages via Chat Apps like Microsoft Teams or LinkedIn",
+        "Text Messaging",
+        "Calendar Event Injection",
+        "Modlishka",
+        "Evilginx"
+      ]
     },
     {
       "name": "AI Hacked Into Your Cloud Accounts",
@@ -492,7 +818,8 @@
       "image": "../../shared/decks/cloud-security/BNB_CARDS_CloudDeck_INJECT_1.webp",
       "type": "inject",
       "id": "062",
-      "details": ""
+      "details": "",
+      "notes": "Ask your AI chatbot of choice to determine if your Procedures work or not. No more die-rolling for your team. AI has your job now. AI is now overlord. Long live AI."
     },
     {
       "name": "Cloud Provider Disabled Vulnerable Functionality",
@@ -500,7 +827,8 @@
       "image": "../../shared/decks/cloud-security/BNB_CARDS_CloudDeck_INJECT_2.webp",
       "type": "inject",
       "id": "063",
-      "details": ""
+      "details": "",
+      "notes": "The Defenders receive a +2 modifier on all cloud-related Procedures for the rest of the session."
     },
     {
       "name": "Cloud Bill Due",
@@ -508,7 +836,8 @@
       "image": "../../shared/decks/cloud-security/BNB_CARDS_CloudDeck_INJECT_3.webp",
       "type": "inject",
       "id": "064",
-      "details": ""
+      "details": "",
+      "notes": "The Defenders lose capital in their budget. To determine how much they've lost, they must roll a D20: (1-10) means the team must decide which (2) Procedure Cards to disable for the next three turns. (11-20) means the team must decide which (1) Procedure Card to disable for the next two turns."
     },
     {
       "name": "Cloud Security Training",
@@ -516,7 +845,8 @@
       "image": "../../shared/decks/cloud-security/BNB_CARDS_CloudDeck_INJECT_4.webp",
       "type": "inject",
       "id": "065",
-      "details": "<li><a target=\"_blank\" href=\"https://www.antisyphontraining.com/\">https://www.antisyphontraining.com/</a></li>"
+      "details": "<li><a target=\"_blank\" href=\"https://www.antisyphontraining.com/\">https://www.antisyphontraining.com/</a></li>",
+      "notes": "Yay! You're taking active steps to better your team. This has helped your organization understand threats and defend your assets better. The Incident Captain must reveal any attack card that is cloud related."
     },
     {
       "name": "Cryptominer",
@@ -524,7 +854,8 @@
       "image": "../../shared/decks/cloud-security/BNB_CARDS_CloudDeck_INJECT_5.webp",
       "type": "inject",
       "id": "066",
-      "details": ""
+      "details": "",
+      "notes": "The Defenders lose capital in their budget and must decide as a team which Procedure Card to disable for the rest of the session."
     },
     {
       "name": "Dangling Domains",
@@ -532,7 +863,8 @@
       "image": "../../shared/decks/cloud-security/BNB_CARDS_CloudDeck_INJECT_6.webp",
       "type": "inject",
       "id": "067",
-      "details": ""
+      "details": "",
+      "notes": "The Defenders must play their Crisis Management procedure. If they are successful, they can move past this issue. If they aren't, they lose their most senior incident handler for the rest of the session as they speak to \"management.\""
     },
     {
       "name": "Exposed Cloud Access Keys During Public Presentation",
@@ -540,7 +872,8 @@
       "image": "../../shared/decks/cloud-security/BNB_CARDS_CloudDeck_INJECT_7.webp",
       "type": "inject",
       "id": "068",
-      "details": ""
+      "details": "",
+      "notes": "Accidents happen, but what do you do when someone exposes your organization inadvertently? The Incident Captain must draw an additional Pivot and Escalate card."
     },
     {
       "name": "I'm Not the Cloud Person",
@@ -548,7 +881,8 @@
       "image": "../../shared/decks/cloud-security/BNB_CARDS_CloudDeck_INJECT_8.webp",
       "type": "inject",
       "id": "069",
-      "details": ""
+      "details": "",
+      "notes": "Each of the Defenders must roll a D20 and the person with the lowest number will handle the next three turns by themselves while the others study up on cloud security."
     },
     {
       "name": "Regional Cloud Provider Data Center Outage",
@@ -556,7 +890,8 @@
       "image": "../../shared/decks/cloud-security/BNB_CARDS_CloudDeck_INJECT_9.webp",
       "type": "inject",
       "id": "070",
-      "details": ""
+      "details": "",
+      "notes": "Cloud Event Log Analysis and Permissions Audit procedures are unavailable for the next three turns."
     },
     {
       "name": "Third-Party Code Library Compromised",
@@ -564,7 +899,8 @@
       "image": "../../shared/decks/cloud-security/BNB_CARDS_CloudDeck_INJECT_10.webp",
       "type": "inject",
       "id": "071",
-      "details": ""
+      "details": "",
+      "notes": "The Defenders must play their Crisis Management procedure. If they are successful, they can move past this issue. If they aren't, they receive a -2 modifier on all procedures for the rest of the session."
     },
     {
       "name": "Query of Cloud APIs",
@@ -572,7 +908,13 @@
       "image": "../../shared/decks/cloud-security/BNB_CARDS_CloudDeck_PE_1.webp",
       "type": "pivot",
       "id": "072",
-      "details": "<li><a target=\"_blank\" href=\"https://github.com/dirkjanm/ROADtools\">https://github.com/dirkjanm/ROADtools</a></li><li><a target=\"_blank\" href=\"https://github.com/nccgroup/ScoutSuite\">https://github.com/nccgroup/ScoutSuite</a></li><li><a target=\"_blank\" href=\"https://github.com/BloodHoundAD/AzureHound\">https://github.com/BloodHoundAD/AzureHound</a></li><li><a target=\"_blank\" href=\"https://github.com/prowler-cloud/prowler\">https://github.com/prowler-cloud/prowler</a></li>"
+      "details": "<li><a target=\"_blank\" href=\"https://github.com/dirkjanm/ROADtools\">https://github.com/dirkjanm/ROADtools</a></li><li><a target=\"_blank\" href=\"https://github.com/nccgroup/ScoutSuite\">https://github.com/nccgroup/ScoutSuite</a></li><li><a target=\"_blank\" href=\"https://github.com/BloodHoundAD/AzureHound\">https://github.com/BloodHoundAD/AzureHound</a></li><li><a target=\"_blank\" href=\"https://github.com/prowler-cloud/prowler\">https://github.com/prowler-cloud/prowler</a></li>",
+      "tools": [
+        "ROADtools",
+        "ScoutSuite",
+        "AzureHound",
+        "Prowler"
+      ]
     },
     {
       "name": "Credentials Exposed in Environment Variables",
@@ -580,7 +922,10 @@
       "image": "../../shared/decks/cloud-security/BNB_CARDS_CloudDeck_PE_2.webp",
       "type": "pivot",
       "id": "073",
-      "details": "<li><a target=\"_blank\" href=\"https://aws.amazon.com/premiumsupport/knowledge-center/lambda-environment-variables-iam-access/\">https://aws.amazon.com/premiumsupport/knowledge-center/lambda-environment-variables-iam-access/</a></li>"
+      "details": "<li><a target=\"_blank\" href=\"https://aws.amazon.com/premiumsupport/knowledge-center/lambda-environment-variables-iam-access/\">https://aws.amazon.com/premiumsupport/knowledge-center/lambda-environment-variables-iam-access/</a></li>",
+      "tools": [
+        "env"
+      ]
     },
     {
       "name": "Credential Store Compromise",
@@ -588,7 +933,10 @@
       "image": "../../shared/decks/cloud-security/BNB_CARDS_CloudDeck_PE_3.webp",
       "type": "pivot",
       "id": "074",
-      "details": "<li><a target=\"_blank\" href=\"https://github.com/NetSPI/MicroBurst\">https://github.com/NetSPI/MicroBurst</a></li>"
+      "details": "<li><a target=\"_blank\" href=\"https://github.com/NetSPI/MicroBurst\">https://github.com/NetSPI/MicroBurst</a></li>",
+      "tools": [
+        "Microburst"
+      ]
     },
     {
       "name": "Instance Metadata Service Access",
@@ -596,7 +944,13 @@
       "image": "../../shared/decks/cloud-security/BNB_CARDS_CloudDeck_PE_4.webp",
       "type": "pivot",
       "id": "075",
-      "details": "<li><a target=\"_blank\" href=\"https://portswigger.net/daily-swig/aws-bolsters-security-to-defend-against-ssrf-attacks\">https://portswigger.net/daily-swig/aws-bolsters-security-to-defend-against-ssrf-attacks</a></li><li><a target=\"_blank\" href=\"https://github.com/tracer-tick/Abusing-AWS-IMDS-v1\">https://github.com/tracer-tick/Abusing-AWS-IMDS-v1</a></li>"
+      "details": "<li><a target=\"_blank\" href=\"https://portswigger.net/daily-swig/aws-bolsters-security-to-defend-against-ssrf-attacks\">https://portswigger.net/daily-swig/aws-bolsters-security-to-defend-against-ssrf-attacks</a></li><li><a target=\"_blank\" href=\"https://github.com/tracer-tick/Abusing-AWS-IMDS-v1\">https://github.com/tracer-tick/Abusing-AWS-IMDS-v1</a></li>",
+      "tools": [
+        "curl",
+        "wget",
+        "env",
+        "Web Browser"
+      ]
     },
     {
       "name": "Malicious File Upload to Shared File Service",
@@ -604,7 +958,10 @@
       "image": "../../shared/decks/cloud-security/BNB_CARDS_CloudDeck_PE_5.webp",
       "type": "pivot",
       "id": "076",
-      "details": "<li><a target=\"_blank\" href=\"https://infinitelogins.com/2020/12/17/capturing-password-hashes-via-malicious-lnk-files/\">https://infinitelogins.com/2020/12/17/capturing-password-hashes-via-malicious-lnk-files/</a></li>"
+      "details": "<li><a target=\"_blank\" href=\"https://infinitelogins.com/2020/12/17/capturing-password-hashes-via-malicious-lnk-files/\">https://infinitelogins.com/2020/12/17/capturing-password-hashes-via-malicious-lnk-files/</a></li>",
+      "tools": [
+        "SharePoint"
+      ]
     },
     {
       "name": "Identity and Acess Management (IAM) Policy Abuse",
@@ -612,7 +969,11 @@
       "image": "../../shared/decks/cloud-security/BNB_CARDS_CloudDeck_PE_6.webp",
       "type": "pivot",
       "id": "077",
-      "details": "<li><a target=\"_blank\" href=\"https://github.com/RhinoSecurityLabs/pacu\">https://github.com/RhinoSecurityLabs/pacu</a></li><li><a target=\"_blank\" href=\"https://github.com/BloodHoundAD/AzureHound\">https://github.com/BloodHoundAD/AzureHound</a></li>"
+      "details": "<li><a target=\"_blank\" href=\"https://github.com/RhinoSecurityLabs/pacu\">https://github.com/RhinoSecurityLabs/pacu</a></li><li><a target=\"_blank\" href=\"https://github.com/BloodHoundAD/AzureHound\">https://github.com/BloodHoundAD/AzureHound</a></li>",
+      "tools": [
+        "Pacu",
+        "AzureHound"
+      ]
     },
     {
       "name": "Misconfigured Container Image Compromise",
@@ -620,7 +981,10 @@
       "image": "../../shared/decks/cloud-security/BNB_CARDS_CloudDeck_PE_7.webp",
       "type": "pivot",
       "id": "078",
-      "details": "<li><a target=\"_blank\" href=\"https://github.com/RhinoSecurityLabs/pacu\">https://github.com/RhinoSecurityLabs/pacu</a></li><li><a target=\"_blank\" href=\"https://unit42.paloaltonetworks.com/azure-container-instances\">https://unit42.paloaltonetworks.com/azure-container-instances</a></li>"
+      "details": "<li><a target=\"_blank\" href=\"https://github.com/RhinoSecurityLabs/pacu\">https://github.com/RhinoSecurityLabs/pacu</a></li><li><a target=\"_blank\" href=\"https://unit42.paloaltonetworks.com/azure-container-instances\">https://unit42.paloaltonetworks.com/azure-container-instances</a></li>",
+      "tools": [
+        "Pacu"
+      ]
     },
     {
       "name": "Search and Pillage Emails",
@@ -628,7 +992,10 @@
       "image": "../../shared/decks/cloud-security/BNB_CARDS_CloudDeck_PE_8.webp",
       "type": "pivot",
       "id": "079",
-      "details": "<li><a target=\"_blank\" href=\"https://github.com/dafthack/MailSniper\">https://github.com/dafthack/MailSniper</a></li>"
+      "details": "<li><a target=\"_blank\" href=\"https://github.com/dafthack/MailSniper\">https://github.com/dafthack/MailSniper</a></li>",
+      "tools": [
+        "MailSniper"
+      ]
     },
     {
       "name": "Backdoored Container Image",
@@ -636,7 +1003,11 @@
       "image": "../../shared/decks/cloud-security/BNB_CARDS_CloudDeck_PERSIST_1.webp",
       "type": "persist",
       "id": "080",
-      "details": "<li><a target=\"_blank\" href=\"https://github.com/RhinoSecurityLabs/ccat\">https://github.com/RhinoSecurityLabs/ccat</a></li><li><a target=\"_blank\" href=\"https://github.com/RhinoSecurityLabs/pacu\">https://github.com/RhinoSecurityLabs/pacu</a></li>"
+      "details": "<li><a target=\"_blank\" href=\"https://github.com/RhinoSecurityLabs/ccat\">https://github.com/RhinoSecurityLabs/ccat</a></li><li><a target=\"_blank\" href=\"https://github.com/RhinoSecurityLabs/pacu\">https://github.com/RhinoSecurityLabs/pacu</a></li>",
+      "tools": [
+        "CCAT",
+        "Pacu"
+      ]
     },
     {
       "name": "Cross-Tenant Access",
@@ -644,7 +1015,10 @@
       "image": "../../shared/decks/cloud-security/BNB_CARDS_CloudDeck_PERSIST_2.webp",
       "type": "persist",
       "id": "081",
-      "details": "<li><a target=\"_blank\" href=\"https://aws.amazon.com/premiumsupport/knowledge-center/cross-account-access-iam/\">https://aws.amazon.com/premiumsupport/knowledge-center/cross-account-access-iam/</a></li>"
+      "details": "<li><a target=\"_blank\" href=\"https://aws.amazon.com/premiumsupport/knowledge-center/cross-account-access-iam/\">https://aws.amazon.com/premiumsupport/knowledge-center/cross-account-access-iam/</a></li>",
+      "tools": [
+        "Cloud-Specific Command Line Tools"
+      ]
     },
     {
       "name": "MFA Bypass: App Password Creation",
@@ -652,7 +1026,10 @@
       "image": "../../shared/decks/cloud-security/BNB_CARDS_CloudDeck_PERSIST_3.webp",
       "type": "persist",
       "id": "082",
-      "details": "<li><a target=\"_blank\" href=\"https://support.microsoft.com/en-us/account-billing/manage-app-passwords-for-two-step-verification-d6dc8c6d-4bf7-4851-ad95-6d07799387e9\">https://support.microsoft.com/en-us/account-billing/manage-app-passwords-for-two-step-verification-d6dc8c6d-4bf7-4851-ad95-6d07799387e9</a></li>"
+      "details": "<li><a target=\"_blank\" href=\"https://support.microsoft.com/en-us/account-billing/manage-app-passwords-for-two-step-verification-d6dc8c6d-4bf7-4851-ad95-6d07799387e9\">https://support.microsoft.com/en-us/account-billing/manage-app-passwords-for-two-step-verification-d6dc8c6d-4bf7-4851-ad95-6d07799387e9</a></li>",
+      "tools": [
+        "Web Browser"
+      ]
     },
     {
       "name": "Secondary Access Key Creation",
@@ -660,21 +1037,36 @@
       "image": "../../shared/decks/cloud-security/BNB_CARDS_CloudDeck_PERSIST_4.webp",
       "type": "persist",
       "id": "083",
-      "details": "<li><a target=\"_blank\" href=\"https://github.com/RhinoSecurityLabs/pacu\">https://github.com/RhinoSecurityLabs/pacu</a></li>"
+      "details": "<li><a target=\"_blank\" href=\"https://github.com/RhinoSecurityLabs/pacu\">https://github.com/RhinoSecurityLabs/pacu</a></li>",
+      "tools": [
+        "Pacu",
+        "Cloud-Specific Command Line Tools"
+      ]
     },
     {
       "name": "Cloud Event Log Analysis",
       "image": "../../shared/decks/cloud-security/BNB_CARDS_CloudDeck_PROCEDURE_1.webp",
       "type": "procedure",
       "id": "084",
-      "details": ""
+      "details": "",
+      "description": "Are you missing what should be in your cloud logs? Do you even know what cloud provider logs you need in an incident response situation? There are thousands of data connectors in your cloud service provider. Have any of them changed since the last time you reviewed them? Good luck hunting for a specific needle in a stack of needles.",
+      "tools": [
+        "Check with your cloud provider and see what tools they provide. It's ok, you're paying them a ton of money for all this."
+      ]
     },
     {
       "name": "Permissions Audit",
       "image": "../../shared/decks/cloud-security/BNB_CARDS_CloudDeck_PROCEDURE_2.webp",
       "type": "procedure",
       "id": "085",
-      "details": ""
+      "details": "",
+      "description": "Users can have everything by default... which makes your organization vulnerable by design. Who gets to do what and why? Who is the magical unicorn that gets the exceptions? Are permissions open for convienence? When was the last time you fixed something a security audit didn't make you do? You can be the decider if you want--the power is yours!",
+      "tools": [
+        "ROADtools",
+        "ScoutSuite",
+        "AzureHound",
+        "Prowler"
+      ]
     }
   ],
   "red": "img/bb-back-init.png",

@@ -1143,6 +1143,28 @@ body.has-fab .app-legal-content { padding-right: 76px; }
 }
 .cv-info-list dd { margin: 0; color: var(--color-text); word-break: break-word; }
 
+/* The rest of the text read off the card face (tools / notes / specialties / quote). */
+.cv-sub {
+  margin: 14px 0 6px;
+  color: var(--color-text-muted);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.cv-sub:first-child { margin-top: 0; }
+.cv-note { color: var(--color-text-secondary); }
+.cv-note b { color: var(--color-text-muted); font-weight: 600; letter-spacing: 0.05em; }
+.cv-quote {
+  margin: 12px 0 0;
+  padding: 2px 0 2px 12px;
+  border-left: 2px solid var(--color-border);
+  color: var(--color-text-secondary);
+  font-size: 12.5px;
+  font-style: italic;
+  line-height: 1.5;
+}
+
 /* ============================================================
    Card-table polish (opt-in utilities)
    Tactile "physical card table" helpers used by the index /

@@ -9,7 +9,13 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_01.webp",
       "type": "initial",
       "id": "001",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "Modlishka",
+        "Evilginx",
+        "Gophish",
+        "Social-Engineer Toolkit (SET)"
+      ]
     },
     {
       "name": "Compromised Web Server",
@@ -17,7 +23,13 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_02.webp",
       "type": "initial",
       "id": "002",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "Burp Suite",
+        "Caido",
+        "sqlmap",
+        "Nuclei"
+      ]
     },
     {
       "name": "Unauthorized Cloud Access",
@@ -25,7 +37,13 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_03.webp",
       "type": "initial",
       "id": "003",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "GraphRunner",
+        "ROADtools",
+        "ScoutSuite",
+        "Pacu"
+      ]
     },
     {
       "name": "Insider Threat",
@@ -33,7 +51,10 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_04.webp",
       "type": "initial",
       "id": "004",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "Company-Issued Equipment"
+      ]
     },
     {
       "name": "External Password Spray",
@@ -41,7 +62,13 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_05.webp",
       "type": "initial",
       "id": "005",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "CredMaster",
+        "MSOLSpray",
+        "FireProx",
+        "FindMeAccess"
+      ]
     },
     {
       "name": "Compromised Trusted Relationship",
@@ -49,7 +76,12 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_06.webp",
       "type": "initial",
       "id": "006",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "Gato-X",
+        "Compromised Service Accounts",
+        "Publicly Available Breach Data"
+      ]
     },
     {
       "name": "Social Engineering",
@@ -57,7 +89,12 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_07.webp",
       "type": "initial",
       "id": "007",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "Open-Source Intelligence Gathering (OSINT)",
+        "Manipulation of Human Feelings",
+        "Sense of Urgency"
+      ]
     },
     {
       "name": "Bring Your Own (Exploited) Device",
@@ -65,7 +102,12 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_08.webp",
       "type": "initial",
       "id": "008",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "Malware",
+        "Remote Access Trojan (RAT)",
+        "Malicious Web Ads"
+      ]
     },
     {
       "name": "Exploited External Service",
@@ -73,7 +115,13 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_09.webp",
       "type": "initial",
       "id": "009",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "Nuclei",
+        "Metasploit",
+        "Exploit-db",
+        "Shodan"
+      ]
     },
     {
       "name": "Credential Stuffing",
@@ -81,7 +129,13 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_10.webp",
       "type": "initial",
       "id": "010",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "CredMaster",
+        "Burp Suite",
+        "Hashcat",
+        "Hydra"
+      ]
     },
     {
       "name": "Internal Password Spray",
@@ -89,7 +143,13 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_11.webp",
       "type": "pivot",
       "id": "011",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "Kerbrute",
+        "NetExec",
+        "net use",
+        "LOLBins"
+      ]
     },
     {
       "name": "Kerberoasting",
@@ -97,7 +157,13 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_12.webp",
       "type": "pivot",
       "id": "012",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "Rubeus",
+        "Impacket",
+        "Hashcat",
+        "NetExec"
+      ]
     },
     {
       "name": "Broadcast/Multicast Protocol Poisoning",
@@ -105,7 +171,13 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_13.webp",
       "type": "pivot",
       "id": "013",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "Responder",
+        "Impacket",
+        "MITM6",
+        "Inveigh"
+      ]
     },
     {
       "name": "Weaponizing Active Directory",
@@ -113,7 +185,13 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_14.webp",
       "type": "pivot",
       "id": "014",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "BloodHound",
+        "PlumHound",
+        "Adminer",
+        "SCCMHunter"
+      ]
     },
     {
       "name": "Credential Harvesting",
@@ -121,7 +199,13 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_15.webp",
       "type": "pivot",
       "id": "015",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "GraphRunner",
+        "DonPAPI",
+        "Snaffler",
+        "Mimikatz"
+      ]
     },
     {
       "name": "New Service Creation/Modification",
@@ -129,7 +213,13 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_16.webp",
       "type": "pivot",
       "id": "016",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "PsExec",
+        "PowerShell",
+        "ServiceController",
+        "Malware"
+      ]
     },
     {
       "name": "Local Pivilege Escalation (LPE)",
@@ -137,7 +227,13 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_17.webp",
       "type": "pivot",
       "id": "017",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "Impacket",
+        "Seatbelt",
+        "SharpUp",
+        "PEASS-ng"
+      ]
     },
     {
       "name": "Malicious Service",
@@ -145,7 +241,13 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_18.webp",
       "type": "persist",
       "id": "018",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "SharpStay",
+        "SharPersist",
+        "StayKit",
+        "PsExec"
+      ]
     },
     {
       "name": "Dynamic Link Library (DLL) Hijacking",
@@ -153,7 +255,13 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_19.webp",
       "type": "persist",
       "id": "019",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "DLLHijackTest",
+        "PowerSploit",
+        "FaceDancer",
+        "PersistBOF"
+      ]
     },
     {
       "name": "Malicious Driver",
@@ -161,7 +269,14 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_20.webp",
       "type": "persist",
       "id": "020",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "Impacket",
+        "PowerShell",
+        "Metasploit",
+        "Kernel Driver Utility (KDU)",
+        "SharpStay"
+      ]
     },
     {
       "name": "New User Added",
@@ -169,7 +284,13 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_21.webp",
       "type": "persist",
       "id": "021",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "Metasploit",
+        "Impacket",
+        "Havok",
+        "Mythic"
+      ]
     },
     {
       "name": "Application Shiming",
@@ -177,7 +298,14 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_22.webp",
       "type": "persist",
       "id": "022",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "Metasploit",
+        "PowerShell",
+        "Shim Generator (shimgen)",
+        "sdb-explorer",
+        "Atomic Red Team (ART)"
+      ]
     },
     {
       "name": "Malicious Browser Plugins",
@@ -185,7 +313,14 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_23.webp",
       "type": "persist",
       "id": "023",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "Metasploit",
+        "PowerShell",
+        "Chromebackdoor",
+        "Browser Exploitation Framework (BeEF)",
+        "Evilginx"
+      ]
     },
     {
       "name": "Logon Scripts",
@@ -193,7 +328,13 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_24.webp",
       "type": "persist",
       "id": "024",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "Metasploit",
+        "Impacket",
+        "Havok",
+        "Mythic"
+      ]
     },
     {
       "name": "Malicious Firmware",
@@ -201,7 +342,14 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_25.webp",
       "type": "persist",
       "id": "025",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "CHIPSEC",
+        "Flashrom",
+        "Impacket",
+        "PowerShell",
+        "Metasploit"
+      ]
     },
     {
       "name": "Accessibility Features",
@@ -209,7 +357,12 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_26.webp",
       "type": "persist",
       "id": "026",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "Bash Bunny",
+        "USB Rubber Ducky",
+        "OMGCable"
+      ]
     },
     {
       "name": "HTTP as Exfil",
@@ -217,7 +370,12 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_27.webp",
       "type": "c2",
       "id": "027",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "Sliver",
+        "Havok",
+        "Mythic"
+      ]
     },
     {
       "name": "HTTPS as Exfil",
@@ -225,7 +383,12 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_28.webp",
       "type": "c2",
       "id": "028",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "Sliver",
+        "Havok",
+        "Mythic"
+      ]
     },
     {
       "name": "Domain Name System (DNS) as C2",
@@ -233,7 +396,11 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_29.webp",
       "type": "c2",
       "id": "029",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "Havok",
+        "Mythic"
+      ]
     },
     {
       "name": "Background Intelligent Transfer Service Bits (BITS) as Exfil",
@@ -241,7 +408,11 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_30.webp",
       "type": "c2",
       "id": "030",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "Leviathan",
+        "UBoatRAT"
+      ]
     },
     {
       "name": "Cloud-Based Services as Exfil",
@@ -249,7 +420,12 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_31.webp",
       "type": "c2",
       "id": "031",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "Goat",
+        "Sneaky Creeper",
+        "Gost"
+      ]
     },
     {
       "name": "Domaining Fronting as C2",
@@ -257,98 +433,205 @@
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_32.webp",
       "type": "c2",
       "id": "032",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "tools": [
+        "Sliver",
+        "Havok",
+        "Mythic"
+      ]
     },
     {
       "name": "Server Analysis",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_33.webp",
       "type": "procedure",
       "id": "033",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "description": "The Defenders monitor server activity, logs, and configurations to detect abnormal behaviors, such as unauthorized access, unusual traffic, or process anomalies.",
+      "tools": [
+        "DeepBlueCLI",
+        "Velociraptor",
+        "Sysinternals Suite"
+      ],
+      "cost": "2 RP"
     },
     {
       "name": "Security Information and Event Management (SIEM) Log Analysis",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_34.webp",
       "type": "procedure",
       "id": "034",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "description": "The Defenders use SIEM to aggregate logs from systems and devices to identify abnormal patterns, such as unusual access, traffic, or attack signatures.",
+      "tools": [
+        "Security Onion",
+        "OSSIM",
+        "Wazuh",
+        "JPCERT Tool Analysis"
+      ],
+      "cost": "4 RP"
     },
     {
       "name": "Firewall Log Analysis",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_35.webp",
       "type": "procedure",
       "id": "035",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "description": "The Defenders analyze logs generated by the firewall to monitor network traffic patterns, detect unauthorized access, and identify anomalies such as unusual connections or high traffic volumes.",
+      "tools": [
+        "Wazuh",
+        "Graylog Open",
+        "ELK Stack",
+        "Security Onion",
+        "Kiwi Syslog Server"
+      ],
+      "cost": "3 RP"
     },
     {
       "name": "Network Threat Hunting",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_36.webp",
       "type": "procedure",
       "id": "036",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "description": "The Defenders analyze network traffic to actively hunt for signs of malicious activity, such as unusual protocols, C2 communication, or data exfil.",
+      "tools": [
+        "Real Intelligence Threat Analytics (RITA)",
+        "Security Onion",
+        "Passer",
+        "espy"
+      ],
+      "cost": "2 RP"
     },
     {
       "name": "Active Defense and Cyber Deception",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_37.webp",
       "type": "procedure",
       "id": "037",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "description": "The Defenders simulate real systems and services, luring attackers to interact with them, carefully monitoring and alerting on those interactions.",
+      "tools": [
+        "CanaryTokens",
+        "HoneyBadger",
+        "Active Defense Harbinger Distribution (ADHD)",
+        "MITRE Engage"
+      ],
+      "cost": "2 RP"
     },
     {
       "name": "Endpoint Security Protection Analysis",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_38.webp",
       "type": "procedure",
       "id": "038",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "description": "The Defenders deploy and monitor endpoint security solutions to detect and prevent unauthorized access and activity on endpoints.",
+      "tools": [
+        "Elastic Security",
+        "OpenEDR",
+        "Velociraptor",
+        "OSSEC",
+        "Wazuh"
+      ],
+      "cost": "4 RP"
     },
     {
       "name": "User and Entity Behavior Analytics (UEBA)",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_39.webp",
       "type": "procedure",
       "id": "039",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "description": "The Defenders leverage advanced analytics to detect anomalies in user behavior, identifying potential insider threats, compromised accounts, or unusual activity patterns.",
+      "tools": [
+        "LogonTracer",
+        "DeepBlueCLI",
+        "OpenUBA",
+        "Hayabusa"
+      ],
+      "cost": "3 RP"
     },
     {
       "name": "Endpoint Analysis",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_40.webp",
       "type": "procedure",
       "id": "040",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "description": "The Defenders investigate endpoint devices to identify indicators of compromise, unauthorized changes, or suspicious activities.",
+      "tools": [
+        "DeepBlueCLI",
+        "Velociraptor",
+        "Incident Response Cheat Sheets",
+        "osquery"
+      ],
+      "cost": "3 RP"
     },
     {
       "name": "Isolation",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_41.webp",
       "type": "procedure",
       "id": "041",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "description": "The Defenders quarantine compromised systems or network segments to prevent further spread of malicious activity, containing threats while enabling secure investigation and remediation.",
+      "tools": [
+        "Switch and Router Commands",
+        "Host Firewall",
+        "Endpoint Detection and Response (EDR) Tools"
+      ],
+      "cost": "1 RP"
     },
     {
       "name": "Crisis Management",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_42.webp",
       "type": "procedure",
       "id": "042",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "description": "The Defenders coordinate response efforts during cybersecurity incidents, ensuring effective communication and swift containment.",
+      "tools": [
+        "Incident Response Plans (IRP)",
+        "Disaster Recovery Plans (DRP)"
+      ],
+      "cost": "1 RP"
     },
     {
       "name": "Memory Analysis",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_43.webp",
       "type": "procedure",
       "id": "043",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "description": "The Defenders pull the memory from the suspect system and review it for possible malicious activity, such as running malware, hidden processes, or unauthorized code execution.",
+      "tools": [
+        "Volatility",
+        "Velociraptor",
+        "Endpoint Detection and Response (EDR) Tools"
+      ],
+      "cost": "2 RP"
     },
     {
       "name": "Cloud Event Log Analysis",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_44.webp",
       "type": "procedure",
       "id": "044",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "description": "The Defenders monitor, collect, and examine event logs generated by cloud-based systems and services to identify potential security incidents, misconfigurations, and unusual or unauthorized activities.",
+      "tools": [
+        "Wazuh",
+        "Security Onion",
+        "Graylog Open",
+        "Falco",
+        "Hawk"
+      ],
+      "cost": "2 RP"
     },
     {
       "name": "Permissions Audit",
       "image": "../../shared/decks/cardbase/v31/BNB_CARDS_v3.1_45.webp",
       "type": "procedure",
       "id": "045",
-      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>"
+      "details": "<a target=\"_blank\" href=\"https://backdoorsandbreaches.com/coredeck/v3/\">https://backdoorsandbreaches.com/coredeck/v3/</a>",
+      "description": "The Defenders examine configurations such as Identity and Access Management (IAM) roles in Microsoft Active Directory, Amazon Web Services (AWS), Azure AD permissions, or file access controls to detect excessive privileges, unauthorized access, or potential insider threats.",
+      "tools": [
+        "AD Users and Computers",
+        "BloodHound",
+        "ScoutSuite",
+        "Prowler"
+      ],
+      "cost": "2 RP"
     },
     {
       "name": "False Alarm: It Was a Penetration Test",
@@ -411,35 +694,57 @@
       "image": "../../shared/decks/datadog/DATADOG_01.webp",
       "type": "procedure",
       "id": "053",
-      "details": "<a target=\"_blank\" href=\"https://www.datadoghq.com/product/code-security/\">https://www.datadoghq.com/product/code-security/</a><a target=\"_blank\" href=\"https://opentelemetry.io/\">https://opentelemetry.io/</a>"
+      "details": "<a target=\"_blank\" href=\"https://www.datadoghq.com/product/code-security/\">https://www.datadoghq.com/product/code-security/</a><a target=\"_blank\" href=\"https://opentelemetry.io/\">https://opentelemetry.io/</a>",
+      "description": "The Defenders use their Application Runtime Security solution to view process tree traces of attacks against their applications.",
+      "tools": [
+        "Datadog Code Security",
+        "OpenTelemetry"
+      ]
     },
     {
       "name": "Cloud Security Information and Event Management (SIEM) Log Analysis",
       "image": "../../shared/decks/datadog/DATADOG_02.webp",
       "type": "procedure",
       "id": "054",
-      "details": "<a target=\"_blank\" href=\"https://www.datadoghq.com/product/cloud-siem/\">https://www.datadoghq.com/product/cloud-siem/</a>"
+      "details": "<a target=\"_blank\" href=\"https://www.datadoghq.com/product/cloud-siem/\">https://www.datadoghq.com/product/cloud-siem/</a>",
+      "description": "The Defenders use Cloud SIEM to aggregate logs from the cloud provider, applications, and devices to identify abnormal patterns, such as unusual access, traffic, or attack signatures.",
+      "tools": [
+        "Datadog Cloud SIEM"
+      ]
     },
     {
       "name": "Cloud Identity and Entitlement Management (CIEM)",
       "image": "../../shared/decks/datadog/DATADOG_03.webp",
       "type": "procedure",
       "id": "055",
-      "details": "<a target=\"_blank\" ></a>"
+      "details": "<a target=\"_blank\" ></a>",
+      "description": "The Defenders use CIEM (pronounced kim) to determine the potential overprivileged paths to sensitive access. They learn the names of the roles and the Identity and Access Management (IAM) users that are risky.",
+      "tools": [
+        "Datadog Identity Risks",
+        "IAMSpy"
+      ]
     },
     {
       "name": "Workload Protection",
       "image": "../../shared/decks/datadog/DATADOG_04.webp",
       "type": "procedure",
       "id": "056",
-      "details": "<a target=\"_blank\" href=\"https://www.datadoghq.com/product/workload-protection/\">https://www.datadoghq.com/product/workload-protection/</a>"
+      "details": "<a target=\"_blank\" href=\"https://www.datadoghq.com/product/workload-protection/\">https://www.datadoghq.com/product/workload-protection/</a>",
+      "description": "The Defenders use their cloud-native workload protection software to understand commands that were executed on the compromised workload.",
+      "tools": [
+        "Datadog Workload Protection"
+      ]
     },
     {
       "name": "Software Bill of Materials (SBOM) Analysis",
       "image": "../../shared/decks/datadog/DATADOG_05.webp",
       "type": "procedure",
       "id": "057",
-      "details": "<a target=\"_blank\" href=\"https://www.datadoghq.com/product/code-security/\">https://www.datadoghq.com/product/code-security/</a>"
+      "details": "<a target=\"_blank\" href=\"https://www.datadoghq.com/product/code-security/\">https://www.datadoghq.com/product/code-security/</a>",
+      "description": "The Defenders use an inventory of SBOM to correlate whether or not a specific software package is present in their environment.",
+      "tools": [
+        "Datadog Code Security"
+      ]
     },
     {
       "name": "Compromised Single Sign-On (SSO) Federated Identity",
@@ -447,7 +752,11 @@
       "image": "../../shared/decks/datadog/DATADOG_06.webp",
       "type": "initial",
       "id": "058",
-      "details": "<a target=\"_blank\"></a>"
+      "details": "<a target=\"_blank\"></a>",
+      "tools": [
+        "CursedChrome",
+        "Evilgnix"
+      ]
     },
     {
       "name": "Poisoned Cloud Image Supply Chain",
@@ -455,7 +764,11 @@
       "image": "../../shared/decks/datadog/DATADOG_07.webp",
       "type": "initial",
       "id": "058",
-      "details": "<a target=\"_blank\" href=\"https://github.com/DataDog/whoAMI-scanner/\">https://github.com/DataDog/whoAMI-scanner/</a>"
+      "details": "<a target=\"_blank\" href=\"https://github.com/DataDog/whoAMI-scanner/\">https://github.com/DataDog/whoAMI-scanner/</a>",
+      "tools": [
+        "CloudAPIs",
+        "Native CLIs"
+      ]
     },
     {
       "name": "Cloud-Native Serverless Function Compromised",
@@ -463,7 +776,12 @@
       "image": "../../shared/decks/datadog/DATADOG_08.webp",
       "type": "initial",
       "id": "059",
-      "details": "<a target=\"_blank\"></a>"
+      "details": "<a target=\"_blank\"></a>",
+      "tools": [
+        "Browser",
+        "Censys",
+        "Shodan"
+      ]
     },
     {
       "name": "Confused Deputy Attack",
@@ -471,7 +789,11 @@
       "image": "../../shared/decks/datadog/DATADOG_09.webp",
       "type": "initial",
       "id": "060",
-      "details": "<a target=\"_blank\" ></a>"
+      "details": "<a target=\"_blank\" ></a>",
+      "tools": [
+        "CloudAPIs",
+        "Native CLIs"
+      ]
     },
     {
       "name": "Github Action Compromised",
@@ -479,7 +801,11 @@
       "image": "../../shared/decks/datadog/DATADOG_10.webp",
       "type": "initial",
       "id": "061",
-      "details": "<a target=\"_blank\" href=\"https://github.com/praetorian-inc/gato/\">https://github.com/praetorian-inc/gato</a>"
+      "details": "<a target=\"_blank\" href=\"https://github.com/praetorian-inc/gato/\">https://github.com/praetorian-inc/gato</a>",
+      "tools": [
+        "Gato",
+        "Manual security research"
+      ]
     },
     {
       "name": "Backdoored Software Supply Chain",
@@ -487,7 +813,10 @@
       "image": "../../shared/decks/datadog/DATADOG_11.webp",
       "type": "initial",
       "id": "062",
-      "details": "<a target=\"_blank\"></a>"
+      "details": "<a target=\"_blank\"></a>",
+      "tools": [
+        "Git"
+      ]
     },
     {
       "name": "Cloud Application Compromised",
@@ -495,7 +824,13 @@
       "image": "../../shared/decks/datadog/DATADOG_12.webp",
       "type": "initial",
       "id": "063",
-      "details": "<a target=\"_blank\" ></a>"
+      "details": "<a target=\"_blank\" ></a>",
+      "tools": [
+        "Browser",
+        "Censys",
+        "Shodan",
+        "Application scanners"
+      ]
     },
     {
       "name": "Exposed Cloud Credentials via Unauthenticated Kubernetes Dashboard",
@@ -503,7 +838,13 @@
       "image": "../../shared/decks/datadog/DATADOG_13.webp",
       "type": "initial",
       "id": "064",
-      "details": "<a target=\"_blank\" href=\"https://github.com/BishopFox/badPods/\">https://github.com/BishopFox/badPods/</a>"
+      "details": "<a target=\"_blank\" href=\"https://github.com/BishopFox/badPods/\">https://github.com/BishopFox/badPods/</a>",
+      "tools": [
+        "Browser",
+        "Censys",
+        "Shodan",
+        "badPods"
+      ]
     },
     {
       "name": "Credentials Exposed in Storage Bucket",
@@ -511,7 +852,13 @@
       "image": "../../shared/decks/datadog/DATADOG_14.webp",
       "type": "pivot",
       "id": "065",
-      "details": "<a target=\"_blank\"></a>"
+      "details": "<a target=\"_blank\"></a>",
+      "tools": [
+        "CloudFox buckets command",
+        "Pacu download_bucket module",
+        "CloudAPIs",
+        "Native CLIs"
+      ]
     },
     {
       "name": "Instance Takeover via User Data",
@@ -519,7 +866,12 @@
       "image": "../../shared/decks/datadog/DATADOG_15.webp",
       "type": "pivot",
       "id": "066",
-      "details": "<a target=\"_blank\"></a>"
+      "details": "<a target=\"_blank\"></a>",
+      "tools": [
+        "Pacu ec2_startup_shell_script",
+        "CloudAPIs",
+        "Native CLIs"
+      ]
     },
     {
       "name": "Kubernetes Service Account PrivEsc",
@@ -527,7 +879,12 @@
       "image": "../../shared/decks/datadog/DATADOG_16.webp",
       "type": "pivot",
       "id": "067",
-      "details": "<a target=\"_blank\" href=\"https://kubernetes.io/docs/reference/kubectl/\">https://kubernetes.io/docs/reference/kubectl/</a><a target=\"_blank\" href=\"https://github.com/quarkslab/kdigger/\">https://github.com/quarkslab/kdigger/</a>"
+      "details": "<a target=\"_blank\" href=\"https://kubernetes.io/docs/reference/kubectl/\">https://kubernetes.io/docs/reference/kubectl/</a><a target=\"_blank\" href=\"https://github.com/quarkslab/kdigger/\">https://github.com/quarkslab/kdigger/</a>",
+      "tools": [
+        "kubectl",
+        "curl",
+        "kdigger"
+      ]
     },
     {
       "name": "Instance Metadata Service (IMDS) Access",
@@ -535,7 +892,13 @@
       "image": "../../shared/decks/datadog/DATADOG_17.webp",
       "type": "pivot",
       "id": "068",
-      "details": "<a target=\"_blank\"></a>"
+      "details": "<a target=\"_blank\"></a>",
+      "tools": [
+        "CloudFox instances command",
+        "Pacu ec2_download_userdata module",
+        "CloudAPIs",
+        "Native CLIs"
+      ]
     },
     {
       "name": "Credential Store Compromise",
@@ -543,7 +906,14 @@
       "image": "../../shared/decks/datadog/DATADOG_18.webp",
       "type": "pivot",
       "id": "069",
-      "details": "<a target=\"_blank\"></a>"
+      "details": "<a target=\"_blank\"></a>",
+      "tools": [
+        "CloudFox secrets command",
+        "Pacu secrets_enum",
+        "CloudAPIs",
+        "Native CLIs",
+        "MicroBurst"
+      ]
     },
     {
       "name": "Identity and Access Management (IAM) Policy Abuse",
@@ -551,7 +921,13 @@
       "image": "../../shared/decks/datadog/DATADOG_19.webp",
       "type": "pivot",
       "id": "070",
-      "details": "<a target=\"_blank\" href=\"https://github.com/nccgroup/PMapper/\">https://github.com/nccgroup/PMapper/</a><a target=\"_blank\" href=\"https://github.com/SpecterOps/AzureHound/\">https://github.com/SpecterOps/AzureHound/</a>"
+      "details": "<a target=\"_blank\" href=\"https://github.com/nccgroup/PMapper/\">https://github.com/nccgroup/PMapper/</a><a target=\"_blank\" href=\"https://github.com/SpecterOps/AzureHound/\">https://github.com/SpecterOps/AzureHound/</a>",
+      "tools": [
+        "PMapper",
+        "CloudFox",
+        "Pacu",
+        "AzureHound"
+      ]
     },
     {
       "name": "Backdoored Container Image",
@@ -559,7 +935,12 @@
       "image": "../../shared/decks/datadog/DATADOG_20.webp",
       "type": "persist",
       "id": "071",
-      "details": "<a target=\"_blank\"></a>"
+      "details": "<a target=\"_blank\"></a>",
+      "tools": [
+        "Docker",
+        "CloudAPIs",
+        "Native CLIs"
+      ]
     },
     {
       "name": "Additional Credential Creation",
@@ -567,7 +948,12 @@
       "image": "../../shared/decks/datadog/DATADOG_21.webp",
       "type": "persist",
       "id": "072",
-      "details": "<a target=\"_blank\"></a>"
+      "details": "<a target=\"_blank\"></a>",
+      "tools": [
+        "Pacu iam_backdoor_users_keys",
+        "CloudAPIs",
+        "Native CLIs"
+      ]
     },
     {
       "name": "Cloned Kubernetes Credentials",
@@ -575,7 +961,11 @@
       "image": "../../shared/decks/datadog/DATADOG_22.webp",
       "type": "persist",
       "id": "073",
-      "details": "<a target=\"_blank\"></a>"
+      "details": "<a target=\"_blank\"></a>",
+      "tools": [
+        "kubectl",
+        "teisteanas"
+      ]
     },
     {
       "name": "Backdoored Role Trust Policy",
@@ -583,7 +973,12 @@
       "image": "../../shared/decks/datadog/DATADOG_23.webp",
       "type": "persist",
       "id": "074",
-      "details": "<a target=\"_blank\"></a>"
+      "details": "<a target=\"_blank\"></a>",
+      "tools": [
+        "Pacu",
+        "CloudAPIs",
+        "Native CLIs"
+      ]
     },
     {
       "name": "Living Off the Cloud as Exfil",
@@ -591,7 +986,11 @@
       "image": "../../shared/decks/datadog/DATADOG_24.webp",
       "type": "c2",
       "id": "075",
-      "details": "<a target=\"_blank\"></a>"
+      "details": "<a target=\"_blank\"></a>",
+      "tools": [
+        "CloudAPIs",
+        "Native CLIs"
+      ]
     },
     {
       "name": "Snapshotting Resources as Exfil",
@@ -599,7 +998,11 @@
       "image": "../../shared/decks/datadog/DATADOG_25.webp",
       "type": "c2",
       "id": "076",
-      "details": "<a target=\"_blank\"></a>"
+      "details": "<a target=\"_blank\"></a>",
+      "tools": [
+        "Pacu",
+        "Cloud CLI Tools (AWS, az, gcloud)"
+      ]
     },
     {
       "name": "Software as a Service (SaaS) Tunneling Virtual Private Network (VPN) as C2",
@@ -607,7 +1010,12 @@
       "image": "../../shared/decks/datadog/DATADOG_26.webp",
       "type": "c2",
       "id": "077",
-      "details": "<a target=\"_blank\"></a>"
+      "details": "<a target=\"_blank\"></a>",
+      "tools": [
+        "Tailscale",
+        "WireGuard",
+        "LogMeIn"
+      ]
     },
     {
       "name": "Undocumented Application Programming Interfaces (API)",

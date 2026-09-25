@@ -355,7 +355,10 @@
                                 const entry = {
                                     deck: deck.deck, id: card.id, type: type, name: card.name,
                                     image: card.image, detection: card.detection,
-                                    details: card.details, description: card.description
+                                    details: card.details, description: card.description,
+                                    tools: card.tools, notes: card.notes,
+                                    specialties: card.specialties, quote: card.quote,
+                                    cost: card.cost
                                 };
                                 const byImage = detection.byImage.get(card.image);
                                 if (byImage) byImage.push(entry);
@@ -413,6 +416,29 @@
             const body = [];
             const description = String(entry.description || '').trim();
             if (description) body.push(`<p>${esc(description)}</p>`);
+
+            // The rest of the text printed on the card face: an inject's NOTES
+            // paragraph, the TOOLS list on procedures and scenario cards, a
+            // consultant's SPECIALTIES and quote, and the v3.1 price badge.
+            const notes = String(entry.notes || '').trim();
+            if (notes) body.push(`<p class="cv-note"><b>NOTES:</b> ${esc(notes)}</p>`);
+
+            const strings = (value) => (Array.isArray(value) ? value : [])
+                .map(v => String(v || '').trim()).filter(Boolean);
+            const list = (label, values) => {
+                const items = strings(values);
+                if (!items.length) return;
+                body.push(`<p class="cv-sub">${label}</p>`
+                    + '<ul class="cv-list">' + items.map(v => `<li>${esc(v)}</li>`).join('') + '</ul>');
+            };
+            list('Tools', entry.tools);
+            list('Specialties', entry.specialties);
+
+            const quote = String(entry.quote || '').trim();
+            if (quote) body.push(`<blockquote class="cv-quote">${esc(quote)}</blockquote>`);
+
+            const cost = String(entry.cost || '').trim();
+            if (cost) body.push(`<p class="cv-meta">Competitive Price · ${esc(cost)}</p>`);
 
             const links = (Array.isArray(entry.details) ? entry.details : []).filter(l => l && (l.text || l.url));
             if (links.length) {

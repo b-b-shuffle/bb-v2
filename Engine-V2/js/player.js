@@ -208,6 +208,10 @@ const PlayerController = {
                 image: c && c.image, description: (c && c.description) || '',
                 details: (c && c.details) || ''
             };
+            // Card-face text read off the art (tools / notes / specialties / quote / cost)
+            ['tools', 'notes', 'specialties', 'quote', 'cost'].forEach(field => {
+                if (c && c[field]) o[field] = c[field];
+            });
             return extra ? { ...o, ...extra } : o;
         };
 
@@ -287,7 +291,9 @@ const PlayerController = {
                     type: c.type,
                     image: Utils.assetPath(c.image),
                     description: (c && c.description) || '',
-                    details: (c && c.details) || ''
+                    details: (c && c.details) || '',
+                    tools: (c && c.tools) || undefined,
+                    cost: (c && c.cost) || undefined
                 }));
             if (!pool.length) return 0;
 
@@ -346,7 +352,9 @@ const PlayerController = {
                     type: 'consultant',
                     image: Utils.assetPath(c.image),
                     description: (c && c.description) || '',
-                    details: (c && c.details) || ''
+                    details: (c && c.details) || '',
+                    specialties: (c && c.specialties) || undefined,
+                    quote: (c && c.quote) || undefined
                 }));
             this.consultant = (this.scenario && this.scenario.consultant) || null;
             return this.consultants;
@@ -1073,9 +1081,30 @@ const PlayerController = {
      */
     buildCardDetailsHtml(data) {
         if (!data) return '';
+        const esc = (value) => Utils.escapeHtml(String(value));
         const parts = [];
         const description = (data.description || '').trim();
-        if (description) parts.push(`<p>${Utils.escapeHtml(description)}</p>`);
+        if (description) parts.push(`<p>${esc(description)}</p>`);
+
+        // Text printed on the card face alongside the body - see docs/card-details-README.md.
+        const notes = String(data.notes || '').trim();
+        if (notes) parts.push(`<p class="cv-note"><b>NOTES:</b> ${esc(notes)}</p>`);
+
+        const list = (label, values) => {
+            const items = (Array.isArray(values) ? values : [])
+                .map(v => String(v || '').trim()).filter(Boolean);
+            if (!items.length) return '';
+            return `<p class="cv-sub">${label}</p><ul class="cv-detail-list">`
+                + items.map(v => `<li>${esc(v)}</li>`).join('') + '</ul>';
+        };
+        parts.push(list('Tools', data.tools));
+        parts.push(list('Specialties', data.specialties));
+
+        const quote = String(data.quote || '').trim();
+        if (quote) parts.push(`<blockquote class="cv-quote">${esc(quote)}</blockquote>`);
+
+        const cost = String(data.cost || '').trim();
+        if (cost) parts.push(`<dl class="cv-info-list"><dt>Competitive Price</dt><dd>${esc(cost)}</dd></dl>`);
 
         const details = this.sanitizeDetails(data.details);
         if (details) parts.push(details);
