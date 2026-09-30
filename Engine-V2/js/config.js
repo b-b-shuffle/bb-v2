@@ -188,6 +188,20 @@ const CONFIG = {
         injectCount: 4
     },
 
+    // Solo AI (PvE) mode - see js/solo-master.js.
+    // The scenario is hidden from the player and the AI Incident Master narrates
+    // clues. Turns are spent by rolling a die and strikes come from a wrong
+    // accusation, so both halves stay on the existing GameState counters.
+    solo: {
+        maxTurns: 10,
+        maxStrikes: 3,
+        // How many previous investigations are sent back as prompt context.
+        clueHistoryLimit: 8,
+        // Wait this long between provider calls (ms) so a fast roller cannot
+        // queue a burst of requests.
+        minCallInterval: 1200
+    },
+
     // Storage keys
     storage: {
         preferredDeck: 'bb-shuffle-deck'
@@ -202,6 +216,7 @@ const CONFIG = {
 // Freeze config to prevent accidental modifications
 Object.freeze(CONFIG);
 Object.freeze(CONFIG.game);
+Object.freeze(CONFIG.solo);
 Object.freeze(CONFIG.storage);
 Object.freeze(CONFIG.sync);
 Object.freeze(CONFIG.cardbackSets);

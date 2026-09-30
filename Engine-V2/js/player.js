@@ -7,6 +7,20 @@
 // Canonical definition lives in Utils; this alias keeps existing call sites.
 const CARD_TYPE_LABELS = Utils.CARD_TYPE_LABELS;
 
+/**
+ * Whether this page is the Solo AI (PvE) board (`?mode=solo`).
+ *
+ * Deliberately checks the page-level flag, not `SoloMaster.isActive()`: the
+ * first deal renders the procedure hand before the module has marked the game
+ * ready, and the chip has to exist on that very first paint.
+ * @returns {boolean}
+ */
+function isSoloPage() {
+    return typeof SoloMaster !== 'undefined'
+        && typeof SoloMaster.isSolo === 'function'
+        && SoloMaster.isSolo();
+}
+
 const PlayerController = {
     // State
     scenario: null,
@@ -789,8 +803,13 @@ const PlayerController = {
 
         container.innerHTML = procedures.map((card, index) => {
             const isActive = this.activeProcIndex === index;
-            const chip = card.enhanced
-                ? `<button type="button" class="proc-arm${isActive ? ' armed' : ''}" data-index="${index}" title="Enhanced (+3)${isActive ? ' — armed, click to disarm' : ' — click to arm for the next roll'}">${isActive ? '✓ +3' : '✦ +3'}</button>`
+            // Solo AI (PvE): the player investigates with a chosen procedure, so
+            // every card is selectable - but only an enhanced card grants +3.
+            const selectable = card.enhanced || isSoloPage();
+            const chip = selectable
+                ? `<button type="button" class="proc-arm${isActive ? ' armed' : ''}${card.enhanced ? '' : ' proc-arm-plain'}" data-index="${index}" title="${card.enhanced
+                    ? `Enhanced (+3)${isActive ? ' — armed, click to disarm' : ' — click to arm for the next roll'}`
+                    : `Use this procedure${isActive ? ' — selected, click to clear' : ' — click to investigate with it'}`}">${isActive ? (card.enhanced ? '✓ +3' : '✓ Use') : (card.enhanced ? '✦ +3' : '✦ Use')}</button>`
                 : '';
             return `
                 <div class="flip-card${card.enhanced ? ' enhanced' : ''}${isActive ? ' active' : ''}" data-procedure-index="${index}">
@@ -820,20 +839,62 @@ const PlayerController = {
             btn.addEventListener('click', () => this.toggleEnhancedProc(parseInt(btn.dataset.index)));
         });
 
-        // A fresh render deals the hand back face-down
-        this.setProcedureRevealState(false);
+        // A fresh render starts face-down, but a hand the player has already
+        // turned over (Solo AI deals it face-up) must not flip back on every
+        // repaint — the revealed state is the player's, not the render's.
+        const revealBtn = Utils.getElement('reveal-procedures-btn');
+        const wasRevealed = !!(revealBtn && revealBtn.dataset.state === 'shown');
+        this.setProcedureRevealState(wasRevealed);
+        if (wasRevealed) {
+            Utils.$$('.procedure-cards .flip-card').forEach(card => card.classList.add('flipped'));
+        }
     },
 
     /**
-     * Arm / disarm an enhanced procedure (only one active at a time)
+     * Select / clear the procedure a roll is made with (only one at a time).
+     *
+     * An enhanced card carries the flat +3 (getEnhancedBonus reads the same
+     * slot). On the tabletop only enhanced cards can be picked; Solo AI (PvE)
+     * allows any procedure, because the Incident Master's clue depends on which
+     * procedure was used.
      * @param {number} index - Procedure index
      */
     toggleEnhancedProc(index) {
         const procedures = this.scenario?.procedures || [];
-        if (index < 0 || index >= procedures.length || !procedures[index].enhanced) return;
+        if (index < 0 || index >= procedures.length) return;
+        if (!procedures[index].enhanced && !isSoloPage()) return;
 
-        this.activeProcIndex = this.activeProcIndex === index ? -1 : index;
-        this.updateProcedureCards();
+        const previous = this.activeProcIndex;
+        this.activeProcIndex = (previous === index) ? -1 : index;
+
+        // Repaint only the cards involved. Re-rendering the whole hand would
+        // rebuild it face-down (the render's resting state) and yank the player's
+        // place — selecting a card must highlight it, nothing more.
+        if (previous !== -1) this.updateProcedureSelection(previous);
+        this.updateProcedureSelection(index);
+    },
+
+    /**
+     * Repaint the selected-procedure affordances on ONE card, in place.
+     * @param {number} index - Procedure index
+     */
+    updateProcedureSelection(index) {
+        const card = (this.scenario?.procedures || [])[index];
+        if (!card) return;
+        const el = document.querySelector(`.procedure-cards .flip-card[data-procedure-index="${index}"]`);
+        if (!el) return;
+
+        const isActive = this.activeProcIndex === index;
+        const enhanced = !!card.enhanced;
+        el.classList.toggle('active', isActive);
+
+        const chip = el.querySelector('.proc-arm');
+        if (!chip) return;
+        chip.classList.toggle('armed', isActive);
+        chip.textContent = isActive ? (enhanced ? '✓ +3' : '✓ Use') : (enhanced ? '✦ +3' : '✦ Use');
+        chip.title = enhanced
+            ? `Enhanced (+3)${isActive ? ' — armed, click to disarm' : ' — click to arm for the next roll'}`
+            : `Use this procedure${isActive ? ' — selected, click to clear' : ' — click to investigate with it'}`;
     },
 
     /**
@@ -885,6 +946,17 @@ const PlayerController = {
         const name = this.injectQueue[this.activeInjectIndex]?.name || 'inject';
         Utils.showToast(`Inject: ${name}`, 'warning');
         this.showRollStatus(`INJECT drawn (${name}) — ${source}`, 'warn');
+
+        // Solo AI (PvE): narrate the inject. The printed card text stays the
+        // authority - the Incident Master only sets the scene for it.
+        if (typeof SoloMaster !== 'undefined' && typeof SoloMaster.onInject === 'function') {
+            try {
+                SoloMaster.onInject(source);
+            } catch (error) {
+                console.error('SoloMaster.onInject failed:', error);
+            }
+        }
+
         return name;
     },
 
@@ -1325,13 +1397,25 @@ const PlayerController = {
         else if (injected) kind = 'inject';
         else if (!isSuccess) kind = 'fail';
 
-        return {
+        const meta = {
             base, bonus, total, target,
             isCritFail, isCritSuccess, isSuccess, injected,
             headline: base,
             kind,
             message
         };
+
+        // Solo AI (PvE): the Incident Master reads this outcome and answers with
+        // a clue. Guarded so a plain Player page never depends on the module.
+        if (typeof SoloMaster !== 'undefined' && typeof SoloMaster.onRoll === 'function') {
+            try {
+                SoloMaster.onRoll(meta);
+            } catch (error) {
+                console.error('SoloMaster.onRoll failed:', error);
+            }
+        }
+
+        return meta;
     },
 
     /**

@@ -760,6 +760,19 @@
         });
     }
 
+    /**
+     * Whether this page wants a session sheet at all.
+     *
+     * The button is disabled until a scenario is loaded, and Solo AI (PvE)
+     * disables it for the whole game (the sheet prints the scenario cards and
+     * their DETECTION lists). `beforeprint` has to honour the same flag, since
+     * Ctrl+P reaches it without touching the button.
+     * @returns {boolean}
+     */
+    function sheetEnabled() {
+        return !!btn && !btn.disabled;
+    }
+
     function restoreTitle() {
         if (prevTitle !== null) {
             document.title = prevTitle;
@@ -776,7 +789,13 @@
             bound = true;
             btn.addEventListener('click', print);
             // Rebuild for Ctrl+P / the browser menu too, not just the button.
-            global.addEventListener('beforeprint', function () { syncLogo(); syncCover(); build(); });
+            // A disabled button means "this page does not want a sheet right
+            // now" - either no game is loaded, or Solo AI (PvE) is on, where the
+            // sheet would print the hidden scenario and spoil the game.
+            global.addEventListener('beforeprint', function () {
+                if (!sheetEnabled()) return;
+                syncLogo(); syncCover(); build();
+            });
             global.addEventListener('afterprint', restoreTitle);
             // `setupGame()` is the single funnel for starting a game (init,
             // Quick Start and Load all reach it), so wrap it to rebuild the
@@ -805,7 +824,7 @@
     }
 
     global.PrintSheet = {
-        isEnabled: function () { return !!btn && !btn.disabled; },
+        isEnabled: sheetEnabled,
         build: build,
         refresh: refresh,
         print: print

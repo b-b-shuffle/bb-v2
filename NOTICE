@@ -23,6 +23,10 @@ This repository is a modified version of the following GPL-3.0 projects:
   * blackhillsinfosec/play.backdoorsandbreaches.com
       https://github.com/blackhillsinfosec/play.backdoorsandbreaches.com
       (fork of the project above)
+  * 0xJaeg3r/backdoorsandbreaches-socinvader
+      https://github.com/0xJaeg3r/backdoorsandbreaches-socinvader
+      (Engine-V1 derivative; its solo AI "SOC Invader" play mode is the
+       origin of Engine-V2's Solo AI (PvE) mode - see Engine-V2/js/solo-master.js)
 
 Engine-V2 is a refactored/rewritten version of that codebase, modified by the
 B&B Shuffle contributors. This static (GitHub Pages) branch adds a browser-side
