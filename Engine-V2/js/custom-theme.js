@@ -13,6 +13,10 @@
     // footer already loads, so showing it costs no extra download.
     var DEFAULT_LOGO = '../shared/img/bb-logo-transparent-w.png';
 
+    // Shipped default table background (1920x1080). Used whenever this browser
+    // has no custom background stored, so the board always sits on the felt.
+    var DEFAULT_BG = '../shared/img/background_default.png';
+
     function el(id) { return document.getElementById(id); }
 
     // Storage goes through Utils so there is one implementation of the
@@ -63,19 +67,14 @@
 
     function applyBackground(dataUrl) {
         var body = document.body;
-        // Flagged so player.css can drop the card-tray fills and let the image through.
-        body.classList.toggle('has-custom-bg', !!dataUrl);
-        if (!dataUrl) {
-            body.style.backgroundImage = '';
-            body.style.backgroundSize = '';
-            body.style.backgroundRepeat = '';
-            body.style.backgroundPosition = '';
-            body.style.backgroundAttachment = '';
-            return;
-        }
+        // The bundled image is the fallback, so there is always a table behind
+        // the board. `has-custom-bg` therefore means "an image is displayed":
+        // player.css drops the card-tray fills so the surface shows through.
+        var src = dataUrl || DEFAULT_BG;
+        body.classList.toggle('has-custom-bg', !!src);
         // A translucent dark layer sits over the image so cards/text stay readable.
         body.style.backgroundImage =
-            'linear-gradient(rgba(8,10,15,0.62), rgba(8,10,15,0.62)), url("' + dataUrl + '")';
+            'linear-gradient(rgba(8,10,15,0.62), rgba(8,10,15,0.62)), url("' + src + '")';
         body.style.backgroundSize = 'cover';
         body.style.backgroundRepeat = 'no-repeat';
         body.style.backgroundPosition = 'center';
@@ -102,10 +101,10 @@
         if (!box) return;
 
         if (kind === 'bg') {
-            var url = storeGet(KEYS.bg);
-            box.innerHTML = url
-                ? '<img src="' + url + '" alt="">'
-                : '<span class="theme-preview-empty">No background set</span>';
+            // The bundled image is the baseline, so the preview always shows
+            // what the board will actually render.
+            var url = storeGet(KEYS.bg) || DEFAULT_BG;
+            box.innerHTML = '<img src="' + url + '" alt="">';
             return;
         }
 
@@ -144,6 +143,7 @@
         });
     }
 
+    /** "Reset to default" - drop the upload and return to the bundled image. */
     function clearBackground() {
         storeDel(KEYS.bg);
         applyBackground(null);
