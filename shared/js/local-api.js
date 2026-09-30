@@ -281,6 +281,7 @@
         'bb-card-fx',             // card animation toggle
         'bb-dice-fx',             // dice animation toggle
         'bb-theme-bg',
+        'bb-theme-bgShow',
         'bb-theme-logo',
         'bb-theme-logoShow'
     ];
