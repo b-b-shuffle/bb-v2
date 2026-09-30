@@ -446,6 +446,48 @@
     color: #16130a;
 }
 
+/* ===== Procedure cooldown token =====
+   Rule book: "After a DETECTION has been played, regardless of outcome, that
+   card will have a 3-turn cooldown period during which it cannot be used again."
+   The token is that countdown, drawn on the card: it ticks down as turns are
+   consumed and is removed when the card is usable again. While it shows, the arm
+   chip is withdrawn (see updateProcedureCards), so the card carries nothing
+   clickable — the token is read, not pressed.
+
+   The dimming goes on the FACES, not on .flip-card or .flip-card-inner: a
+   `filter` on either of those flattens the 3D flip and the card would stop
+   turning over. */
+.procedure-cards .flip-card.on-cooldown .flip-card-front,
+.procedure-cards .flip-card.on-cooldown .flip-card-back {
+    filter: grayscale(0.6) brightness(0.72);
+    border-color: var(--color-border-hover);
+}
+
+.proc-token {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    z-index: 7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 5px;
+    border-radius: 999px;
+    /* A chip, not a label: an inner ring reads as a physical counter. */
+    background:
+        radial-gradient(circle at 50% 50%, rgba(251, 191, 36, 0.22) 0 36%, transparent 37%),
+        rgba(18, 14, 4, 0.92);
+    border: 1px solid rgba(251, 191, 36, 0.9);
+    color: #fcd34d;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    pointer-events: none;   /* clicks belong to the card underneath */
+}
+
 /* ===== 1920x1080 fit (compact) ===== */
 .player-main {
     padding: var(--space-4);

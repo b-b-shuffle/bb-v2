@@ -803,16 +803,28 @@ const PlayerController = {
 
         container.innerHTML = procedures.map((card, index) => {
             const isActive = this.activeProcIndex === index;
+            // A played card is benched for its cooldown (rule book: 3 turns,
+            // "regardless of outcome"). While it is out, the token IS the card's
+            // only control: the arm chip is withdrawn so there is nothing to
+            // click, and the countdown is the one thing left to read.
+            const remaining = GameState.cooldownRemaining(index);
+            const blocked = remaining > 0;
+            const cooldownNote = `On cooldown — ${remaining} turn${remaining === 1 ? '' : 's'} until this procedure can be used again`;
             // Solo AI (PvE): the player investigates with a chosen procedure, so
             // every card is selectable - but only an enhanced card grants +3.
+            // A benched card still RENDERS its chip; updateProcedureCooldowns()
+            // withdraws it, so the two passes agree on what is visible.
             const selectable = card.enhanced || isSoloPage();
             const chip = selectable
                 ? `<button type="button" class="proc-arm${isActive ? ' armed' : ''}${card.enhanced ? '' : ' proc-arm-plain'}" data-index="${index}" title="${card.enhanced
                     ? `Enhanced (+3)${isActive ? ' — armed, click to disarm' : ' — click to arm for the next roll'}`
                     : `Use this procedure${isActive ? ' — selected, click to clear' : ' — click to investigate with it'}`}">${isActive ? (card.enhanced ? '✓ +3' : '✓ Use') : (card.enhanced ? '✦ +3' : '✦ Use')}</button>`
                 : '';
+            const token = blocked
+                ? `<span class="proc-token" title="${cooldownNote}" aria-label="${cooldownNote}">${remaining}</span>`
+                : '';
             return `
-                <div class="flip-card${card.enhanced ? ' enhanced' : ''}${isActive ? ' active' : ''}" data-procedure-index="${index}">
+                <div class="flip-card${card.enhanced ? ' enhanced' : ''}${isActive ? ' active' : ''}${blocked ? ' on-cooldown' : ''}" data-procedure-index="${index}"${blocked ? ` title="${cooldownNote}"` : ''}>
                     <div class="flip-card-inner">
                         <div class="flip-card-front">
                             <img src="${this.procedureBackUrl()}" alt="Procedure Card Back">
@@ -821,6 +833,7 @@ const PlayerController = {
                             <img src="${Utils.assetPath(card.image)}" alt="${Utils.escapeHtml(card.name || 'Procedure')}" onerror="Utils.onImgError(event)">
                         </div>
                     </div>
+                    ${token}
                     ${chip}
                 </div>
             `;
@@ -848,6 +861,8 @@ const PlayerController = {
         if (wasRevealed) {
             Utils.$$('.procedure-cards .flip-card').forEach(card => card.classList.add('flipped'));
         }
+
+        this.updateProcedureCooldowns();
     },
 
     /**
@@ -863,6 +878,19 @@ const PlayerController = {
         const procedures = this.scenario?.procedures || [];
         if (index < 0 || index >= procedures.length) return;
         if (!procedures[index].enhanced && !isSoloPage()) return;
+
+        // A card that has already been played cannot be picked again until its
+        // token runs out — say so rather than silently ignoring the click. A
+        // toast, not the roll-status line: that line persists until the next
+        // roll and would still be naming this card long after it came back.
+        if (GameState.isOnCooldown(index)) {
+            const remaining = GameState.cooldownRemaining(index);
+            Utils.showToast(
+                `${procedures[index].name || 'That procedure'} is on cooldown — ${remaining} turn${remaining === 1 ? '' : 's'} to go.`,
+                'warning'
+            );
+            return;
+        }
 
         const previous = this.activeProcIndex;
         this.activeProcIndex = (previous === index) ? -1 : index;
@@ -898,12 +926,61 @@ const PlayerController = {
     },
 
     /**
+     * Repaint the cooldown tokens in place.
+     *
+     * Runs on every turn change so the counters tick down as turns are consumed.
+     * Deliberately does NOT re-render the hand: a full render rebuilds it
+     * face-down and drops the player's place, which is why the token is patched
+     * onto the existing cards instead.
+     */
+    updateProcedureCooldowns() {
+        const cards = Utils.$$('.procedure-cards .flip-card');
+        if (!cards || !cards.length) return;
+
+        cards.forEach(el => {
+            const index = parseInt(el.dataset.procedureIndex, 10);
+            if (!(index >= 0)) return;
+
+            const remaining = GameState.cooldownRemaining(index);
+            const blocked = remaining > 0;
+            el.classList.toggle('on-cooldown', blocked);
+
+            // Withdraw the arm chip while the card is benched: there is nothing
+            // to pick, so offering a button that refuses the click is worse than
+            // offering none. Toggled rather than removed so a card that comes
+            // back keeps the chip the render gave it.
+            const chip = el.querySelector('.proc-arm');
+            if (chip) (blocked ? Utils.hideElement(chip) : Utils.showElement(chip));
+
+            let token = el.querySelector('.proc-token');
+            if (remaining <= 0) {
+                if (token) token.remove();
+                el.removeAttribute('title');
+                return;
+            }
+
+            const note = `On cooldown — ${remaining} turn${remaining === 1 ? '' : 's'} until this procedure can be used again`;
+            if (!token) {
+                token = document.createElement('span');
+                token.className = 'proc-token';
+                el.appendChild(token);
+            }
+            token.textContent = remaining;
+            token.title = note;
+            token.setAttribute('aria-label', note);
+            el.title = note;
+        });
+    },
+
+    /**
      * Current enhanced bonus for a roll (flat +3 while an enhanced card is armed)
      * @returns {number} Bonus to apply
      */
     getEnhancedBonus() {
         const procedures = this.scenario?.procedures || [];
         const active = procedures[this.activeProcIndex];
+        // A benched card is spent, so it cannot still be carrying its bonus.
+        if (GameState.isOnCooldown(this.activeProcIndex)) return 0;
         return active && active.enhanced ? (CONFIG.game.enhancedBonus || 3) : 0;
     },
 
@@ -994,6 +1071,9 @@ const PlayerController = {
                 `<span class="strike-dot ${i < currentStrikes ? 'active' : ''}"></span>`
             ).join('');
         }
+
+        // Turns have moved, so any procedure sitting out its cooldown ticks down.
+        this.updateProcedureCooldowns();
     },
 
     /**
@@ -1322,6 +1402,10 @@ const PlayerController = {
      */
     resolveRoll(base, bonus, opts = {}) {
         const headerTumble = opts.headerTumble !== false;
+        // Captured before anything can spend a turn: Solo AI spends one from
+        // inside SoloMaster.onRoll below, and the cooldown has to count from the
+        // turn the card was actually played on in both modes.
+        const turnAtRoll = GameState.turnNumber();
         const total = base + bonus;
         const target = this.successTarget || 11;
         const isCritFail = base === 1;
@@ -1413,6 +1497,18 @@ const PlayerController = {
             } catch (error) {
                 console.error('SoloMaster.onRoll failed:', error);
             }
+        }
+
+        // The DETECTION that was just played goes on cooldown, whatever the roll
+        // said ("regardless of outcome"). This runs AFTER SoloMaster.onRoll,
+        // which reads the armed procedure to pick its clue — clearing the
+        // selection first would leave it narrating a procedure nobody chose.
+        const played = this.activeProcIndex;
+        if (played >= 0 && this.scenario?.procedures?.[played]) {
+            GameState.startCooldown(played, undefined, turnAtRoll);
+            this.activeProcIndex = -1;
+            this.updateProcedureSelection(played);
+            this.updateProcedureCooldowns();
         }
 
         return meta;

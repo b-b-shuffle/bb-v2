@@ -178,6 +178,11 @@ const CONFIG = {
         procedureCount: 7,
         enhancedDefault: 3,
         enhancedBonus: 3,
+        // Rule book: "After a DETECTION has been played, regardless of outcome,
+        // that card will have a 3-turn cooldown period during which it cannot be
+        // used again." A card played on turn N is therefore unavailable on
+        // N+1..N+3 and usable again on N+4 — see GameState.startCooldown().
+        cooldownTurns: 3,
         // Starting inject plus the queued pool. This is a DEFAULT only: the Scenario
         // Editor's Count field, its three clamps and the quick-start deal all read it,
         // and a loaded scenario's own gameConfig.injectCount wins over it.
