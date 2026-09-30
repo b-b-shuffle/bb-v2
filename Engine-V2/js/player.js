@@ -7,20 +7,6 @@
 // Canonical definition lives in Utils; this alias keeps existing call sites.
 const CARD_TYPE_LABELS = Utils.CARD_TYPE_LABELS;
 
-/**
- * Whether this page is the Solo AI (PvE) board (`?mode=solo`).
- *
- * Deliberately checks the page-level flag, not `SoloMaster.isActive()`: the
- * first deal renders the procedure hand before the module has marked the game
- * ready, and the chip has to exist on that very first paint.
- * @returns {boolean}
- */
-function isSoloPage() {
-    return typeof SoloMaster !== 'undefined'
-        && typeof SoloMaster.isSolo === 'function'
-        && SoloMaster.isSolo();
-}
-
 const PlayerController = {
     // State
     scenario: null,
@@ -39,6 +25,9 @@ const PlayerController = {
     isRolling: false,
     successTarget: 11,
     loadMenuScenarios: [],
+    // Solo AI (PvE) overrides this so the shared "no procedure selected" prompt
+    // explains that mode's untargeted sweep instead of the tabletop's roll.
+    rollPromptHint: null,
     // "Call a Consultant": consultants[] is the pool available in this game's
     // deck, consultant is the one currently sitting on the board.
     consultants: [],
@@ -132,6 +121,14 @@ const PlayerController = {
         Utils.getElement('qs-cancel-btn')?.addEventListener('click', () => this.closeQuickStart());
         Utils.getElement('qs-start-btn')?.addEventListener('click', () => this.startQuickStart());
 
+        // "No procedure selected" prompt (shown by rollDice(); see rollPromptHint)
+        Utils.getElement('roll-modal')?.addEventListener('click', (e) => {
+            if (e.target.id === 'roll-modal') this.closeRollPrompt();
+        });
+        Utils.getElement('roll-modal-close')?.addEventListener('click', () => this.closeRollPrompt());
+        Utils.getElement('roll-prompt-pick-btn')?.addEventListener('click', () => this.closeRollPrompt());
+        Utils.getElement('roll-prompt-anyway-btn')?.addEventListener('click', () => this.rollAnyway());
+
         // Reveal / hide all scenario cards (GM quick view)
         Utils.getElement('reveal-cards-btn')?.addEventListener('click', () => this.toggleRevealScenario());
 
@@ -145,6 +142,7 @@ const PlayerController = {
                 this.closeQuickStart();
                 this.closeLightbox();
                 this.closeConsultantPicker();
+                this.closeRollPrompt();
                 if (typeof DiceFX !== 'undefined' && DiceFX.close) DiceFX.close();
             }
             if (e.key === 'r' || e.key === 'R') {
@@ -810,16 +808,12 @@ const PlayerController = {
             const remaining = GameState.cooldownRemaining(index);
             const blocked = remaining > 0;
             const cooldownNote = `On cooldown — ${remaining} turn${remaining === 1 ? '' : 's'} until this procedure can be used again`;
-            // Solo AI (PvE): the player investigates with a chosen procedure, so
-            // every card is selectable - but only an enhanced card grants +3.
-            // A benched card still RENDERS its chip; updateProcedureCooldowns()
-            // withdraws it, so the two passes agree on what is visible.
-            const selectable = card.enhanced || isSoloPage();
-            const chip = selectable
-                ? `<button type="button" class="proc-arm${isActive ? ' armed' : ''}${card.enhanced ? '' : ' proc-arm-plain'}" data-index="${index}" title="${card.enhanced
-                    ? `Enhanced (+3)${isActive ? ' — armed, click to disarm' : ' — click to arm for the next roll'}`
-                    : `Use this procedure${isActive ? ' — selected, click to clear' : ' — click to investigate with it'}`}">${isActive ? (card.enhanced ? '✓ +3' : '✓ Use') : (card.enhanced ? '✦ +3' : '✦ Use')}</button>`
-                : '';
+            // Every procedure is playable, so every card carries a control and
+            // can be put on cooldown; only an enhanced card adds the flat +3.
+            // Cooldown updates hide the rendered control while it sits out.
+            const chip = `<button type="button" class="proc-arm${isActive ? ' armed' : ''}${card.enhanced ? '' : ' proc-arm-plain'}" data-index="${index}" title="${card.enhanced
+                ? `Enhanced (+3)${isActive ? ' — armed, click to disarm' : ' — click to arm for the next roll'}`
+                : `Use this procedure${isActive ? ' — selected, click to clear' : ' — click to use for the next roll'}`}">${isActive ? (card.enhanced ? '✓ +3' : '✓ Use') : (card.enhanced ? '✦ +3' : '✦ Use')}</button>`;
             const token = blocked
                 ? `<span class="proc-token" title="${cooldownNote}" aria-label="${cooldownNote}">${remaining}</span>`
                 : '';
@@ -868,16 +862,14 @@ const PlayerController = {
     /**
      * Select / clear the procedure a roll is made with (only one at a time).
      *
-     * An enhanced card carries the flat +3 (getEnhancedBonus reads the same
-     * slot). On the tabletop only enhanced cards can be picked; Solo AI (PvE)
-     * allows any procedure, because the Incident Master's clue depends on which
-     * procedure was used.
+     * Every procedure in the hand is selectable, so any DETECTION can be played
+     * and then sits out its cooldown. Only an enhanced card adds the flat +3
+     * (getEnhancedBonus reads the same slot).
      * @param {number} index - Procedure index
      */
     toggleEnhancedProc(index) {
         const procedures = this.scenario?.procedures || [];
         if (index < 0 || index >= procedures.length) return;
-        if (!procedures[index].enhanced && !isSoloPage()) return;
 
         // A card that has already been played cannot be picked again until its
         // token runs out — say so rather than silently ignoring the click. A
@@ -922,7 +914,7 @@ const PlayerController = {
         chip.textContent = isActive ? (enhanced ? '✓ +3' : '✓ Use') : (enhanced ? '✦ +3' : '✦ Use');
         chip.title = enhanced
             ? `Enhanced (+3)${isActive ? ' — armed, click to disarm' : ' — click to arm for the next roll'}`
-            : `Use this procedure${isActive ? ' — selected, click to clear' : ' — click to investigate with it'}`;
+            : `Use this procedure${isActive ? ' — selected, click to clear' : ' — click to use for the next roll'}`;
     },
 
     /**
@@ -1358,15 +1350,67 @@ const PlayerController = {
     },
 
     /**
+     * Is this roll missing a procedure?
+     *
+     * A bare roll is legal, but it plays no DETECTION: nothing goes on cooldown
+     * and no +3 applies, so it is worth confirming before the turn is spent.
+     * @returns {boolean}
+     */
+    needsProcedurePrompt() {
+        return !!this.scenario && this.activeProcIndex < 0;
+    },
+
+    /** Show the "no procedure selected" prompt (shared with Solo AI, PvE). */
+    openRollPrompt() {
+        const body = Utils.getElement('roll-prompt-body');
+        if (body && this.rollPromptHint) body.textContent = this.rollPromptHint;
+        Utils.showElement('roll-modal');
+    },
+
+    /** Hide the "no procedure selected" prompt. */
+    closeRollPrompt() {
+        Utils.hideElement('roll-modal');
+    },
+
+    /** The player chose to roll untargeted: run the die without asking again. */
+    rollAnyway() {
+        this.closeRollPrompt();
+        return this.performRoll();
+    },
+
+    /**
      * Roll the d20.
-     * When Dice FX is enabled this opens the big animated d20 modal, tosses the
-     * die to the natural roll, then applies and reveals the outcome. When it is
-     * off the game rolls instantly into the plain header readout as before.
+     *
+     * Asks first when no procedure is selected, so the player is not left
+     * wondering why nothing went on cooldown. `rollAnyway()` skips the question.
      */
     async rollDice() {
-        if (this.isRolling) return;
+        if (!this.canRoll()) return;
+        if (this.needsProcedurePrompt()) {
+            this.openRollPrompt();
+            return;
+        }
+        return this.performRoll();
+    },
+
+    /**
+     * Whether a roll may start (nothing already in flight).
+     * @returns {boolean}
+     */
+    canRoll() {
+        if (this.isRolling) return false;
         // Never stack rolls while the die modal is up
-        if (typeof DiceFX !== 'undefined' && DiceFX.isOpen && DiceFX.isOpen()) return;
+        if (typeof DiceFX !== 'undefined' && DiceFX.isOpen && DiceFX.isOpen()) return false;
+        return true;
+    },
+
+    /**
+     * Roll the d20 immediately, without the "no procedure selected" prompt.
+     * With Dice FX on this opens the animated d20 modal; off, the game rolls
+     * instantly into the plain header readout.
+     */
+    async performRoll() {
+        if (!this.canRoll()) return;
 
         this.isRolling = true;
         const rollBtn = Utils.getElement('roll-dice-btn');

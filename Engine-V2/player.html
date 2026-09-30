@@ -364,19 +364,20 @@
         </div>
     </div>
 
-    <!-- Solo AI (PvE): rolling with nothing selected -->
-    <div id="solo-roll-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-label="No procedure selected">
+    <!-- "No procedure selected". PlayerController owns this prompt for both modes
+         (see rollDice()); Solo AI (PvE) swaps the body copy via rollPromptHint. -->
+    <div id="roll-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-label="No procedure selected">
         <div class="modal im-roll-modal">
             <div class="modal-header">
                 <h2 class="modal-title">No procedure selected</h2>
-                <button type="button" id="solo-roll-close-btn" class="modal-close" aria-label="Close">&times;</button>
+                <button type="button" id="roll-modal-close" class="modal-close" aria-label="Close">&times;</button>
             </div>
             <div class="modal-body">
-                <p class="hint">Rolling without a procedure sweeps everything at once: a good roll still tells you which phase looks loudest, but it cannot use a card's DETECTION list to name the technique — and it still spends a turn.</p>
+                <p class="hint" id="roll-prompt-body">Rolling without a procedure still spends the turn, but it plays no DETECTION: no card goes on cooldown and no bonus is added. Pick a card to play, or roll anyway.</p>
             </div>
             <div class="modal-footer">
-                <button type="button" id="solo-roll-pick-btn" class="btn btn-secondary">Choose a card</button>
-                <button type="button" id="solo-roll-anyway-btn" class="btn btn-primary">Roll anyway</button>
+                <button type="button" id="roll-prompt-pick-btn" class="btn btn-secondary">Choose a card</button>
+                <button type="button" id="roll-prompt-anyway-btn" class="btn btn-primary">Roll anyway</button>
             </div>
         </div>
     </div>

@@ -446,6 +446,23 @@
     color: #16130a;
 }
 
+/* A card that is not enhanced still gets a control: it can be played (and then
+   sits out its cooldown), it just carries no +3. The plain chip stays neutral
+   so the amber chip keeps meaning "enhanced"; selecting either one reads the
+   same amber, matching the active card ring. */
+.proc-arm-plain {
+    border-color: var(--color-border-hover);
+    background: rgba(15, 17, 23, 0.88);
+    color: var(--color-text-secondary);
+}
+
+.proc-arm-plain:hover,
+.procedure-cards .flip-card.active .proc-arm-plain {
+    background: #fbbf24;
+    border-color: #fbbf24;
+    color: #16130a;
+}
+
 /* ===== Procedure cooldown token =====
    Rule book: "After a DETECTION has been played, regardless of outcome, that
    card will have a 3-turn cooldown period during which it cannot be used again."

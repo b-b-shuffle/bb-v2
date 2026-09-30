@@ -37,7 +37,12 @@
     const ACCUSE_BTN_ID = 'im-accuse-btn';
     const ACCUSATION_MODAL_ID = 'accusation-modal';
     const ACCUSATION_RESULT_ID = 'accusation-result';
-    const ROLL_MODAL_ID = 'solo-roll-modal';
+    // Body copy for the shared "no procedure selected" prompt. PlayerController
+    // owns that modal for both modes; an untargeted sweep means something
+    // different here, so this mode supplies its own wording.
+    const ROLL_PROMPT_HINT = 'Rolling without a procedure sweeps everything at once: a good roll still tells ' +
+        'you which phase looks loudest, but it cannot use a card\'s DETECTION list to name the technique ' +
+        '— and it still spends a turn.';
     const INTRO_MODAL_ID = 'solo-intro-modal';
     const CREDIT_ID = 'solo-credit';
     const SETTINGS_MODAL_ID = 'im-settings-modal';
@@ -75,7 +80,6 @@
         // Phases the player has legitimately detected: their cards are the only
         // ones allowed to stay face-up (see enforceHidden).
         revealedTypes: new Set(),
-        rollConfirmed: false,
         // Set while the AI target dialog is standing in for a deal prompt: an
         // empty board is only offered Quick Start once that dialog closes.
         dealAfterSettings: false,
@@ -1623,7 +1627,6 @@
         state.queue = [];
         state.draining = false;
         state.pendingGameOver = false;
-        state.rollConfirmed = false;
         state.revealedTypes = new Set();
         closeRollPrompt();
         setBusy(false);
@@ -1684,42 +1687,10 @@
         pc._soloWrapped = true;
     }
 
-    /**
-     * Intercept the roll when nothing is selected.
-     *
-     * The question has to come BEFORE the die, not after: the turn is spent on
-     * the roll, so asking afterwards would only scold the player for a turn they
-     * have already paid.
-     */
-    function wrapRollDice() {
-        const pc = controller();
-        if (!pc || pc._soloRollWrapped) return;
-        const original = pc.rollDice;
-        pc.rollDice = function () {
-            if (state.active && state.ready && !state.rollConfirmed && !activeProcedure()) {
-                openRollPrompt();
-                return undefined;
-            }
-            state.rollConfirmed = false;
-            return original.apply(this, arguments);
-        };
-        pc._soloRollWrapped = true;
-    }
-
-    function openRollPrompt() {
-        Utils.showElement(ROLL_MODAL_ID);
-    }
-
+    /** Close the shared roll prompt (PlayerController owns that modal). */
     function closeRollPrompt() {
-        Utils.hideElement(ROLL_MODAL_ID);
-    }
-
-    /** The player chose to roll untargeted: run the die as normal. */
-    function confirmRollAnyway() {
-        closeRollPrompt();
-        state.rollConfirmed = true;
         const pc = controller();
-        if (pc) pc.rollDice();
+        if (pc && typeof pc.closeRollPrompt === 'function') pc.closeRollPrompt();
     }
 
     // -------------------------------------------------------------- lifecycle
@@ -1739,14 +1710,6 @@
         byId('accusation-submit-btn')?.addEventListener('click', submitAccusation);
         byId(ACCUSATION_MODAL_ID)?.addEventListener('click', (e) => {
             if (e.target.id === ACCUSATION_MODAL_ID) closeAccusation();
-        });
-
-        // "No procedure selected" prompt
-        byId('solo-roll-pick-btn')?.addEventListener('click', closeRollPrompt);
-        byId('solo-roll-close-btn')?.addEventListener('click', closeRollPrompt);
-        byId('solo-roll-anyway-btn')?.addEventListener('click', confirmRollAnyway);
-        byId(ROLL_MODAL_ID)?.addEventListener('click', (e) => {
-            if (e.target.id === ROLL_MODAL_ID) closeRollPrompt();
         });
 
         // Rules card — every exit runs the same follow-up (see afterIntro)
@@ -1821,7 +1784,9 @@
         readSettings();
         bindPanel();
         wrapSetupGame();
-        wrapRollDice();
+        // The "no procedure selected" prompt belongs to PlayerController; hand it
+        // this mode's wording instead of wrapping the roll ourselves.
+        if (typeof PlayerController !== 'undefined') PlayerController.rollPromptHint = ROLL_PROMPT_HINT;
         // Close the spoiler routes immediately, not just once a game is dealt:
         // the Scenario Editor button is live the moment the page paints.
         applyGating();
