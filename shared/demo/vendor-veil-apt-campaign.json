@@ -141,19 +141,19 @@
     "estimatedDuration": "45-60",
     "tags": [],
     "createdAt": "2026-09-05T19:04:47.046Z",
-    "modifiedAt": "2026-09-06T03:44:20.516011"
+    "modifiedAt": "2026-10-03T22:54:44.598711"
   },
   "notes": "The APT first abuses a trusted vendor relationship to gain initial foothold. Once inside, the attacker performs Kerberoasting to harvest service account credentials for lateral movement and privilege escalation. Command and control is established via domain fronting to blend with legitimate cloud traffic. Persistence is achieved by registering a malicious service that survives reboots and provides ongoing access.",
   "injects": [
     {
-      "name": "Inject 3",
+      "name": "This Isn't the First Time, and Won't Be the Last",
       "image": "../shared/decks/expansion1/inject-3.webp",
       "type": "inject",
       "id": "EX1-017",
       "details": ""
     },
     {
-      "name": "Inject 8",
+      "name": "Our Friend 'Hacky'",
       "image": "../shared/decks/expansion1/inject-8.webp",
       "type": "inject",
       "id": "EX1-022",
@@ -173,14 +173,14 @@
       "details": "<li><a target=\"_blank\" href=\"https://www.activecountermeasures.com/free-tools/adhd\">https://www.activecountermeasures.com/free-tools/adhd</a></li><li><a target=\"_blank\" href=\"https://canarytokens.org/generate\">https://canarytokens.org/generate</a></li>"
     },
     {
-      "name": "Inject 9",
+      "name": "Is It Getting Hot in Here?",
       "image": "../shared/decks/expansion1/inject-9.webp",
       "type": "inject",
       "id": "EX1-023",
       "details": ""
     },
     {
-      "name": "Inject 1",
+      "name": "Food Poisoning",
       "image": "../shared/decks/expansion1/inject-1.webp",
       "type": "inject",
       "id": "EX1-015",

@@ -41,10 +41,8 @@ const GameState = {
         persist: false
     },
 
-    // Procedure cooldowns: procedure index -> the turn it becomes available on.
-    // A played DETECTION sits out a fixed number of turns (CONFIG.game.cooldownTurns),
-    // regardless of whether it succeeded. Keyed by index rather than card id so it
-    // lines up with the hand the player is looking at.
+    // Procedure index -> the first turn on which the card is available again.
+    // Cooldowns apply regardless of outcome and align with the rendered hand.
     cooldowns: {},
 
     // Sync state for admin/player communication
@@ -53,6 +51,11 @@ const GameState = {
         lastUpdate: null,
         version: 0
     },
+
+    // Highest sync version this document has ever seen, local or imported.
+    // `markAuthoritative()` uses it so a fresh deal always outranks a snapshot
+    // the GM console handed us earlier in the session.
+    _seenVersion: 0,
 
     /**
      * Initialize or reset game state
@@ -89,8 +92,7 @@ const GameState = {
 
         this.cooldowns = {};
 
-        this.sync.version++;
-        this.sync.lastUpdate = Date.now();
+        this.markAuthoritative();
 
         this.notifyChange('init');
     },
@@ -108,8 +110,7 @@ const GameState = {
                 this.game.status = 'completed';
             }
             
-            this.sync.version++;
-            this.sync.lastUpdate = Date.now();
+            this.bumpVersion();
             this.notifyChange('turn');
             return true;
         }
@@ -123,10 +124,8 @@ const GameState = {
     /**
      * The turn currently in progress, 1-based.
      *
-     * Derived, never stored: `turnsRemaining` is the only clock, so deriving the
-     * turn number keeps the two from drifting apart however the turn was spent —
-     * the Roll button spends one in solo, the "Use Turn" button does it on the
-     * tabletop, and both land here.
+    * Derived from `turnsRemaining` to keep turn state consistent across solo
+    * rolls and tabletop turn advances.
      * @returns {number}
      */
     turnNumber() {
@@ -136,8 +135,7 @@ const GameState = {
     /**
      * Send a procedure card to the bench after it has been played.
      *
-     * The rule is unconditional ("regardless of outcome"), so this is called on
-     * a miss just as much as on a hit.
+    * Apply the rule-book cooldown regardless of roll outcome.
      * @param {number} index - Procedure index in the hand
      * @param {number} [turns] - Cooldown length; defaults to CONFIG.game.cooldownTurns
      * @param {number} [asOfTurn] - The turn the card was played on. Callers that
@@ -149,19 +147,18 @@ const GameState = {
         if (!(index >= 0)) return;
         const length = Math.max(1, turns || CONFIG.game.cooldownTurns || 3);
         const fromTurn = asOfTurn || this.turnNumber();
-        // +1 because the turn it was played on is already half spent: the card
-        // has to survive the rest of THIS turn plus `length` full turns.
+        // Include the play turn so the card remains unavailable for `length`
+        // complete turns after it is played.
         this.cooldowns[index] = fromTurn + length + 1;
-        this.sync.version++;
-        this.sync.lastUpdate = Date.now();
+        this.bumpVersion();
         this.notifyChange('cooldown');
     },
 
     /**
      * Turns a procedure still has to sit out, for display on its token.
      *
-     * Clamped to the cooldown length: on the turn it was played the raw gap is
-     * length + 1, and a token reading "4" for a 3-turn cooldown looks like a bug.
+    * Clamp the displayed value to the configured cooldown length; the raw gap
+    * includes the turn on which the procedure was played.
      * @param {number} index - Procedure index
      * @returns {number} 0 when the card is usable again
      */
@@ -169,7 +166,15 @@ const GameState = {
         const until = this.cooldowns[index];
         if (!until) return 0;
         const gap = until - this.turnNumber();
-        if (gap <= 0) return 0;
+        if (gap <= 0) {
+            // The stamp has run out. Drop it rather than leave a stale "until"
+            // number behind: `cooldowns` is a plain map of expiry turns, and a
+            // consumer that tests for mere PRESENCE (the GM console's hand) would
+            // otherwise read an expired card as still cooling for the rest of the
+            // session. Deleting here means the map only ever holds live entries.
+            delete this.cooldowns[index];
+            return 0;
+        }
         return Math.min(CONFIG.game.cooldownTurns || 3, gap);
     },
 
@@ -182,9 +187,85 @@ const GameState = {
         return this.cooldownRemaining(index) > 0;
     },
 
-    /** Drop every cooldown (a fresh deal). */
+    /**
+     * Drop every cooldown (a fresh deal, or the GM console's clear-override).
+     *
+     * This used to mutate `cooldowns` silently, which meant a remote clear was
+     * visible only to the tab that issued it: no version bump, so no broadcast,
+     * so every other document kept rendering its stale tokens.
+     */
     clearCooldowns() {
         this.cooldowns = {};
+        this.bumpVersion();
+        this.notifyChange('cooldown');
+    },
+
+    /**
+     * Re-key cooldowns after a card leaves the hand.
+     *
+     * Cooldowns are keyed by hand INDEX, so removing a card shifts every later
+     * entry down one. Without this the token for a benched card jumps to
+     * whichever card now occupies the vacated slot - the GM would see a card
+     * cooling that was never played, while the real one silently freed up.
+     * @param {number} removedIndex - Index of the card that left the hand
+     */
+    shiftCooldowns(removedIndex) {
+        const next = {};
+        Object.keys(this.cooldowns).forEach((key) => {
+            const index = parseInt(key, 10);
+            if (!(index >= 0) || index === removedIndex) return;
+            next[index > removedIndex ? index - 1 : index] = this.cooldowns[key];
+        });
+        this.cooldowns = next;
+        this.bumpVersion();
+        this.notifyChange('cooldown');
+    },
+
+    /**
+     * Advance the sync clock by one and stamp the time.
+     *
+     * Every local mutation that a peer should hear about goes through here, so
+     * the version is the single ordering key for the whole session.
+     * @returns {number} The new version
+     */
+    bumpVersion() {
+        this.sync.version++;
+        this.sync.lastUpdate = Date.now();
+        return this.sync.version;
+    },
+
+    /**
+     * Make this document's state win the version race.
+     *
+     * A fresh deal (`init` / `fromScenario`) is the authority on what is on the
+     * board, but it used to land on whatever `version++` produced - which can be
+     * the SAME number a GM snapshot already carries, and the strict `>` gate in
+     * `importFromSync` then rejects the deal. Advancing past any version this
+     * document has ever seen (local or imported) keeps a new deal winning.
+     * @returns {number} The new version
+     */
+    markAuthoritative() {
+        this.sync.version = Math.max(this.sync.version, this._seenVersion || 0) + 1;
+        this.sync.lastUpdate = Date.now();
+        return this.sync.version;
+    },
+
+    /**
+     * Adopt a peer's version as the high-water mark without applying its state.
+     *
+     * The GM console is authoritative but does not own the board, so the Player
+     * takes the GM's clock and lets its own actions continue from there. Without
+     * this the next local action would be numbered below the GM's and silently
+     * rejected by every listener.
+     * @param {number} version - Version to accept
+     * @returns {number} The resulting version
+     */
+    acceptVersion(version) {
+        const next = Math.max(0, Number(version) || 0);
+        this._seenVersion = Math.max(this._seenVersion || 0, next);
+        this.sync.version = Math.max(this.sync.version, next);
+        this.sync.lastUpdate = Date.now();
+        return this.sync.version;
     },
 
     /**
@@ -200,8 +281,7 @@ const GameState = {
                 this.game.status = 'completed';
             }
             
-            this.sync.version++;
-            this.sync.lastUpdate = Date.now();
+            this.bumpVersion();
             this.notifyChange('strike');
             return this.game.isGameOver;
         }
@@ -213,8 +293,7 @@ const GameState = {
      * the caller; this only bumps the sync version and notifies listeners.
      */
     logDiceRoll() {
-        this.sync.version++;
-        this.sync.lastUpdate = Date.now();
+        this.bumpVersion();
         this.notifyChange('dice');
     },
 
@@ -237,18 +316,30 @@ const GameState = {
     },
 
     /**
-     * Import state from sync
+     * Import state from sync.
+     *
+     * The version gate is last-write-wins for the Editor <-> Player topology,
+     * where either side may legitimately move the clock. `force` exists for the
+     * GM console, which is authoritative and must be able to overwrite the board
+     * even when it has not out-raced it.
      * @param {Object} state - State to import
+     * @param {boolean} [force=false] - Apply regardless of the version gate
+     * @returns {boolean} Whether the state was applied
      */
-    importFromSync(state) {
-        if (state.sync?.version > this.sync.version) {
-            this.selected = state.selected || this.selected;
-            this.game = state.game || this.game;
-            this.revealed = state.revealed || this.revealed;
-            this.cooldowns = state.cooldowns || {};
-            this.sync = state.sync;
-            this.notifyChange('sync');
-        }
+    importFromSync(state, force = false) {
+        // `state` itself must be guarded: this runs inside a BroadcastChannel
+        // handler, so a malformed message used to throw rather than be ignored.
+        if (!state || !state.sync) return false;
+        if (!force && !(state.sync.version > this.sync.version)) return false;
+
+        this.selected = state.selected || this.selected;
+        this.game = state.game || this.game;
+        this.revealed = state.revealed || this.revealed;
+        this.cooldowns = state.cooldowns || {};
+        this.sync = state.sync;
+        this._seenVersion = Math.max(this._seenVersion || 0, state.sync.version || 0);
+        this.notifyChange('sync');
+        return true;
     },
 
     /**
@@ -291,8 +382,9 @@ const GameState = {
             }
         }
 
-        this.sync.version++;
-        this.sync.lastUpdate = Date.now();
+        // A deal is the authority on the board, so it must outrank any snapshot
+        // an earlier GM hand-off left in this document's version clock.
+        this.markAuthoritative();
         this.notifyChange('load');
     },
 
