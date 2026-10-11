@@ -8,7 +8,7 @@
 # so keep that list deliberate - anything committed here is also downloadable
 # from the public site.
 # ---------------------------------------------------------------------------
-
+docs/detection/*
 # --- OS / editor ---
 .DS_Store
 Thumbs.db
