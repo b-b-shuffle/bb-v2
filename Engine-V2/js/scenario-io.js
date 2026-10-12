@@ -64,10 +64,7 @@ const ScenarioIO = {
                 createdAt: now,
                 modifiedAt: now
             },
-            notes: {
-                adminNotes: '',
-                playerNotes: ''
-            }
+            notes: ''
         };
     },
 

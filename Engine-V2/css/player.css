@@ -3438,6 +3438,56 @@ body.solo-match .fab-container {
         color: #6b7280;
     }
 
+    /* ---- Printed scenario notes (Description + Moderator Notes) ---- */
+    /* One under the other, full width. A two-column split halves each column, which
+       doubles its line count for the same text - and with the cards, the procedures
+       and the inject queue above, those extra lines overran the space above the
+       footer and clipped the note. Full width is the shortest the block can be, which
+       is what lets it reach the footer without cutting anything off. */
+    .ps-notes-block {
+        /* Explicit: a browser still holding the old grid rule would otherwise keep
+           the two columns, since a dropped declaration is not an override. */
+        display: block;
+        margin-top: 1mm;
+    }
+    .ps-notes-block section + section { margin-top: 3mm; }
+    .ps-notes-block .ps-h {
+        margin-top: 0;
+        margin-bottom: 1mm;
+    }
+    .ps-note-text {
+        margin: 0;
+        font-size: 9px;
+        line-height: 1.35;
+        color: #334155;
+        /* Preserve the author's line breaks. The notes block (below) clips rather
+           than spilling, so the text itself needs no height cap. */
+        white-space: pre-wrap;
+    }
+    /* Real notes replace the ruled handwriting box - they would otherwise fight
+       for the same strip above the footer. With no notes the ruled lines return. */
+    .print-sheet.has-printed-notes .ps-notes { display: none; }
+
+    /* The strip the ruled box vacated goes to the printed notes: the body stretches
+       to fill the sheet, the notes block fills the body, and the footer is pushed to
+       the bottom of the page. Before this the footer floated up and left a blank band
+       at the foot of the sheet, while the notes were clipped at a fixed 34mm however
+       much paper was free. `overflow: hidden` on the body and the block is what keeps
+       a long note to a single sheet. */
+    .print-sheet.has-printed-notes #ps-body {
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow: hidden;
+    }
+    .print-sheet.has-printed-notes .ps-notes-block {
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow: hidden;
+    }
+    .print-sheet.has-printed-notes .ps-foot { margin-top: auto; }
+
     /* Notes sit directly above the footer, and the ruled lines share out whatever
        height the paper leaves between the two. */
     .ps-notes {
