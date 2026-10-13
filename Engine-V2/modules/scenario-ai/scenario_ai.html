@@ -64,8 +64,7 @@
                             <option value="groq">Groq</option>
                             <option value="deepseek">DeepSeek</option>
                             <option value="gemini">Google Gemini</option>
-                            <option value="ollama">Ollama (Local)</option>
-                            <option value="custom">Custom Endpoint</option>
+                            <option value="custom">Custom / Local Endpoint</option>
                         </select>
                     </div>
                     <div class="form-group" id="api-key-group">
@@ -90,11 +89,15 @@
                                 </svg>
                             </button>
                         </div>
+                        <input type="text" id="api-model-manual" class="form-input hidden" autocomplete="off"
+                            placeholder="Model name served by the endpoint, e.g. llama3.2"
+                            title="Local servers need the exact model name they serve. Refresh lists them; type one here if the server does not expose a list.">
                         <small class="form-hint" id="model-hint">Enter your API key to load available models.</small>
                     </div>
                     <div class="form-group hidden" id="custom-endpoint-group">
-                        <label for="custom-endpoint" class="form-label">Custom Endpoint</label>
-                        <input type="url" id="custom-endpoint" class="form-input" placeholder="https://api.example.com/v1/chat/completions">
+                        <label for="custom-endpoint" class="form-label">Custom / local endpoint</label>
+                        <input type="url" id="custom-endpoint" class="form-input" placeholder="http://localhost:11434/v1/chat/completions">
+                        <small class="form-hint">Any OpenAI-compatible server. Offline options: Ollama <code>http://localhost:11434/v1/chat/completions</code> &middot; LM Studio <code>http://localhost:1234/v1/chat/completions</code>. A local server needs no API key.</small>
                     </div>
                 </div>
 
@@ -288,7 +291,7 @@
     <script src="../../js/utils.js"></script>
     <script src="../../js/config.js"></script>
     <script src="../../js/scenario-io.js"></script>
-    <script src="scenario_ai.js"></script>
+    <script src="scenario_ai.js?v=1"></script>
 
     <style>
         /* AI-specific layout */

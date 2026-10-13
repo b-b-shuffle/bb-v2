@@ -77,13 +77,20 @@ const ScenarioAI = {
             modelsEndpoint: 'https://generativelanguage.googleapis.com/v1beta/openai/models',
             models: ['gemini-2.5-pro', 'gemini-2.5-flash', 'gemini-2.0-flash']
         },
-        ollama: {
-            name: 'Ollama',
-            endpoint: 'http://localhost:11434/api/generate',
-            modelsEndpoint: 'http://localhost:11434/api/tags',
-            models: ['llama3', 'mistral', 'codellama']
-        }
+        // Local servers are deliberately NOT a provider of their own: Ollama,
+        // LM Studio and llama.cpp all speak the OpenAI-compatible API, so they
+        // are the Custom Endpoint. See CUSTOM_ENDPOINTS for the addresses people
+        // actually run.
     },
+
+    // Ready-made OpenAI-compatible endpoints for the offline options - the
+    // Custom Endpoint's placeholder and hint, so nobody has to remember the
+    // `/v1/chat/completions` suffix.
+    CUSTOM_ENDPOINTS: [
+        { label: 'Ollama', url: 'http://localhost:11434/v1/chat/completions' },
+        { label: 'LM Studio', url: 'http://localhost:1234/v1/chat/completions' },
+        { label: 'llama.cpp', url: 'http://localhost:8080/v1/chat/completions' }
+    ],
 
     /**
      * Initialize the generator
@@ -98,17 +105,32 @@ const ScenarioAI = {
      * Load settings from storage
      */
     loadSettings() {
-        const saved = Utils.getFromStorage('bb-ai-settings');
-        if (saved) {
+        // parseJson must be true: the record is stored stringified, and reading it
+        // raw made `saved.provider`/`saved.apiKey` undefined - so nothing was ever
+        // restored.
+        let saved = Utils.getFromStorage('bb-ai-settings', null, true);
+        if (saved && typeof saved === 'object') {
+            // Ollama used to be a provider of its own; it is now the Custom
+            // Endpoint pointed at its OpenAI-compatible API.
+            saved = this.migrateSettings(saved);
             this.settings = { ...this.settings, ...saved };
 
             // Apply saved settings to UI
             if (saved.provider) {
                 Utils.getElement('api-provider').value = saved.provider;
                 // Populate the model list for the saved provider
-                if (this.providers[saved.provider]) this.updateProviderUI(saved.provider);
+                if (saved.provider === 'custom' || this.providers[saved.provider]) {
+                    this.updateProviderUI(saved.provider);
+                }
             }
-            if (saved.model) Utils.getElement('api-model').value = saved.model;
+            if (saved.endpoint) Utils.getElement('custom-endpoint').value = saved.endpoint;
+            if (saved.model) {
+                // A custom endpoint names its model by hand, so it is restored to
+                // the free-text field rather than a dropdown it is not in.
+                const manual = Utils.getElement('api-model-manual');
+                if (saved.provider === 'custom' && manual) manual.value = saved.model;
+                else Utils.getElement('api-model').value = saved.model;
+            }
             if (saved.apiKey) Utils.getElement('api-key').value = saved.apiKey;
             if (saved.temperature) {
                 Utils.getElement('temperature').value = saved.temperature;
@@ -116,19 +138,42 @@ const ScenarioAI = {
             }
             if (saved.maxTokens) Utils.getElement('max-tokens').value = saved.maxTokens;
 
-            // A saved full API key (or Ollama) -> list the provider's models.
+            // A saved full API key (or a local endpoint) -> list its models.
             this.maybeAutoRefreshModels();
         }
+    },
+
+    /**
+     * Bring an old saved settings record up to date. The only migration: Ollama
+     * used to be a provider of its own, and is now the Custom Endpoint aimed at
+     * its OpenAI-compatible API, so an existing setup keeps working.
+     * @param {Object} saved - Stored settings record
+     * @returns {Object} The record to use
+     */
+    migrateSettings(saved) {
+        if (!saved || saved.provider !== 'ollama') return saved;
+        return Object.assign({}, saved, {
+            provider: 'custom',
+            endpoint: saved.endpoint || 'http://localhost:11434/v1/chat/completions',
+            model: saved.model || 'llama3'
+        });
     },
 
     /**
      * Save settings to storage
      */
     saveSettings() {
+        const provider = Utils.getElement('api-provider').value;
+        const manualModel = Utils.getElement('api-model-manual')?.value?.trim() || '';
         const settings = {
-            provider: Utils.getElement('api-provider').value,
-            model: Utils.getElement('api-model').value,
+            provider,
+            // A custom endpoint may name its model by hand, and that name is the
+            // one that gets sent - so it is the one worth keeping.
+            model: (provider === 'custom' && manualModel) ? manualModel : Utils.getElement('api-model').value,
             apiKey: Utils.getElement('api-key').value,
+            // The custom endpoint is part of the setup (it is how a local server
+            // is addressed), so it is saved and restored with everything else.
+            endpoint: provider === 'custom' ? (Utils.getElement('custom-endpoint')?.value || '').trim() : '',
             temperature: parseFloat(Utils.getElement('temperature').value),
             maxTokens: parseInt(Utils.getElement('max-tokens').value)
         };
@@ -139,7 +184,7 @@ const ScenarioAI = {
 
         this.settings = settings;
         this.closeSettingsModal();
-        // Saved API key (or Ollama) -> refresh the model list from the provider.
+        // Saved API key (or a local endpoint) -> refresh the model list.
         this.maybeAutoRefreshModels();
         Utils.showToast('Settings saved', 'success');
     },
@@ -160,8 +205,8 @@ const ScenarioAI = {
         Utils.getElement('api-key')?.addEventListener('input', Utils.debounce(() => {
             const provider = Utils.getElement('api-provider')?.value || 'openai';
             const key = Utils.getElement('api-key')?.value?.trim() || '';
-            if (provider === 'custom') return;
-            if (provider === 'ollama' || key.length >= 8) {
+            if (provider === 'custom') return;   // local servers need no key
+            if (key.length >= 8) {
                 this.refreshModels();
             } else if (!key) {
                 // Key removed -> fall back to the curated list for this provider.
@@ -170,15 +215,20 @@ const ScenarioAI = {
             }
         }, 600));
 
-        // Manual refresh next to the model dropdown (re-queries when a new key is
-        // pasted after the auto-load already ran, or the list is stale).
+        // Manual refresh next to the model dropdown (re-queries when a new key or
+        // a new endpoint is entered after the auto-load already ran, or the list
+        // is stale). Custom endpoints included: they expose /v1/models too.
         Utils.getElement('refresh-models-btn')?.addEventListener('click', () => {
-            const provider = Utils.getElement('api-provider')?.value || '';
-            if (provider === 'custom') {
-                Utils.showToast('Custom endpoints do not expose a model list', 'info');
-                return;
-            }
             this.refreshModels();
+        });
+
+        // Picking a model from a custom endpoint's live list keeps the free-text
+        // name in step, so the two controls cannot disagree about what is sent.
+        Utils.getElement('api-model')?.addEventListener('change', () => {
+            if (Utils.getElement('api-provider')?.value !== 'custom') return;
+            const manual = Utils.getElement('api-model-manual');
+            const value = Utils.getElement('api-model')?.value || '';
+            if (manual && value) manual.value = value;
         });
 
         // Generate button
@@ -218,20 +268,36 @@ const ScenarioAI = {
         const modelGroup = Utils.getElement('model-group');
         const customEndpointGroup = Utils.getElement('custom-endpoint-group');
 
-        // Show/hide custom endpoint. Custom endpoints have no curated model list;
-        // the model dropdown is hidden and a raw endpoint is used instead.
+        // Custom is the offline / self-hosted option (Ollama, LM Studio,
+        // llama.cpp...). The Model controls stay visible for it, because those
+        // servers do expose /v1/models - there is just no curated list to fall
+        // back on when the server is not running.
         Utils.toggleElement(customEndpointGroup, provider === 'custom');
-        Utils.toggleElement(modelGroup, provider !== 'custom');
+        Utils.toggleElement(modelGroup, true);
 
-        // Restore the provider's curated model list as a starting point. When a
-        // full API key is present (or for Ollama) the live list replaces these.
+        if (provider === 'custom') {
+            const examples = this.CUSTOM_ENDPOINTS.map(e => `${e.label}: ${e.url}`).join('  ·  ');
+            const input = Utils.getElement('custom-endpoint');
+            if (input) {
+                input.placeholder = this.CUSTOM_ENDPOINTS[0].url;
+                input.title = examples;
+            }
+            // The curated list belongs to the hosted providers. A local server's
+            // models are not known yet, and leaving another provider's name in
+            // the dropdown would send it to the wrong server - so the dropdown
+            // starts empty and the free-text name is offered alongside it.
+            const modelSelect = Utils.getElement('api-model');
+            if (modelSelect) modelSelect.innerHTML = '';
+            Utils.showElement('api-model-manual');
+            this.setModelHint('Any OpenAI-compatible server. ' + examples);
+            return;
+        }
+
+        Utils.hideElement('api-model-manual');
+
         if (this.providers[provider]) {
             this.populateStaticModels(provider);
-            this.setModelHint(
-                provider === 'ollama'
-                    ? 'Ollama models will be loaded automatically.'
-                    : 'Enter your API key to load available models.'
-            );
+            this.setModelHint('Enter your API key to load available models.');
         }
     },
 
@@ -243,8 +309,10 @@ const ScenarioAI = {
         const modelSelect = Utils.getElement('api-model');
         if (!modelSelect) return;
         const cfg = this.providers[provider];
-        modelSelect.innerHTML = '';
+        // No curated list (custom endpoints) - leave the dropdown as it is rather
+        // than emptying it.
         if (!cfg || !Array.isArray(cfg.models)) return;
+        modelSelect.innerHTML = '';
         cfg.models.forEach(m => {
             const opt = document.createElement('option');
             opt.value = m;
@@ -272,8 +340,12 @@ const ScenarioAI = {
     maybeAutoRefreshModels() {
         const provider = Utils.getElement('api-provider')?.value || '';
         const key = Utils.getElement('api-key')?.value?.trim() || '';
-        if (provider === 'custom') return;
-        if (provider === 'ollama' || key.length >= 8) {
+        // A custom (local) endpoint needs no key: try it as soon as it is set.
+        if (provider === 'custom') {
+            if (Utils.getElement('custom-endpoint')?.value?.trim()) this.refreshModels();
+            return;
+        }
+        if (key.length >= 8) {
             this.refreshModels();
         } else {
             this.setModelHint('Enter your API key to load available models.');
@@ -292,16 +364,19 @@ const ScenarioAI = {
         const provider = Utils.getElement('api-provider')?.value || '';
         const apiKey = Utils.getElement('api-key')?.value?.trim() || '';
 
-        if (provider === 'custom') return;
-        if (provider !== 'ollama' && !apiKey) {
+        if (provider !== 'custom' && !apiKey) {
             this.setModelHint('Enter your API key to load available models.', 'error');
+            return;
+        }
+        if (provider === 'custom' && !Utils.getElement('custom-endpoint')?.value?.trim()) {
+            this.setModelHint('Enter the server address, e.g. ' + this.CUSTOM_ENDPOINTS[0].url, 'error');
             return;
         }
 
         this._loadingModels = true;
         modelSelect.disabled = true;
         if (refreshBtn) refreshBtn.disabled = true;
-        this.setModelHint(provider === 'ollama' ? 'Loading models from Ollama…' : 'Loading available models…');
+        this.setModelHint('Loading available models…');
 
         try {
             const data = await this.listProviderModels(provider, apiKey);
@@ -330,24 +405,25 @@ const ScenarioAI = {
     /**
      * Call the provider's models endpoint and return the raw response JSON.
      * @param {string} provider - Provider key
-     * @param {string} apiKey - API key ('' for Ollama)
+     * @param {string} apiKey - API key ('' for a keyless local endpoint)
      * @returns {Promise<Object>} Provider model-list response body
      */
     async listProviderModels(provider, apiKey) {
+        // A custom endpoint is deliberately not in the provider table - its
+        // address is a field, not a constant - so it is allowed to have no entry.
         const cfg = this.providers[provider];
-        if (!cfg) throw new Error('Unknown provider');
+        if (!cfg && provider !== 'custom') throw new Error('Unknown provider');
 
         const headers = { 'Accept': 'application/json' };
-        let url = cfg.modelsEndpoint || '';
+        let url = (cfg && cfg.modelsEndpoint) || '';
 
         if (provider === 'custom') {
-            // Best effort: OpenAI-compatible servers expose a sibling /models endpoint.
+            // OpenAI-compatible servers (Ollama, LM Studio, llama.cpp) expose a
+            // sibling /models endpoint. No key unless the user supplied one.
             const endpoint = Utils.getElement('custom-endpoint')?.value?.trim();
             if (!endpoint) throw new Error('Custom endpoint not configured');
             url = endpoint.replace(/\/chat\/completions\/?$/, '/models');
-            headers['Authorization'] = `Bearer ${apiKey}`;
-        } else if (provider === 'ollama') {
-            url = url || 'http://localhost:11434/api/tags';
+            if (apiKey) headers['Authorization'] = `Bearer ${apiKey}`;
         } else if (provider === 'anthropic') {
             headers['x-api-key'] = apiKey;
             headers['anthropic-version'] = '2023-06-01';
@@ -413,6 +489,13 @@ const ScenarioAI = {
         });
         if (previous && models.includes(previous)) select.value = previous;
         else if (select.options.length) select.selectedIndex = 0;
+
+        // A custom endpoint's list is a convenience: keep the free-text name in
+        // step so what is actually sent is visible.
+        if (Utils.getElement('api-provider')?.value === 'custom') {
+            const manual = Utils.getElement('api-model-manual');
+            if (manual && !manual.value.trim()) manual.value = select.value || '';
+        }
     },
 
     // ---- Server-shared key (proxy) support ----
@@ -472,8 +555,12 @@ const ScenarioAI = {
         const apiKey = Utils.getElement('api-key')?.value;
         const provider = Utils.getElement('api-provider')?.value;
 
-        if (!apiKey && provider !== 'ollama') {
+        if (!apiKey && provider !== 'custom') {
             Utils.showToast('Enter your own API key to generate — the demo has no server-side key', 'warning');
+            return;
+        }
+        if (provider === 'custom' && !Utils.getElement('custom-endpoint')?.value?.trim()) {
+            Utils.showToast('Enter the server address for the custom endpoint', 'warning');
             return;
         }
 
@@ -577,14 +664,10 @@ ${cardsByType.consultant?.length ? '- The consultant is optional: name one only 
      * @returns {string} Response text
      */
     async callAPI(provider, apiKey, prompt) {
-        const config = this.providers[provider];
-
         if (provider === 'openai') {
             return await this.callOpenAI(apiKey, prompt);
         } else if (provider === 'anthropic') {
             return await this.callAnthropic(apiKey, prompt);
-        } else if (provider === 'ollama') {
-            return await this.callOllama(prompt);
         } else if (['mistral', 'xai', 'perplexity', 'groq', 'deepseek', 'gemini'].includes(provider)) {
             return await this.callCompatible(provider, apiKey, prompt);
         } else if (provider === 'custom') {
@@ -706,43 +789,28 @@ ${cardsByType.consultant?.length ? '- The consultant is optional: name one only 
     },
 
     /**
-     * Call Ollama API (local)
-     */
-    async callOllama(prompt) {
-        const model = Utils.getElement('api-model')?.value || 'llama3';
-
-        const response = await fetch('http://localhost:11434/api/generate', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                model,
-                prompt,
-                stream: false
-            })
-        });
-
-        if (!response.ok) {
-            throw new Error('Ollama request failed. Is Ollama running?');
-        }
-
-        const data = await response.json();
-        return data.response;
-    },
-
-    /**
-     * Call custom endpoint
+     * Call a custom OpenAI-compatible endpoint - the offline / self-hosted path.
+     * Covers Ollama, LM Studio and llama.cpp as well as hosted gateways. The key
+     * is optional, so a local server needs no configuration at all.
      */
     async callCustom(apiKey, prompt) {
-        const endpoint = Utils.getElement('custom-endpoint')?.value;
+        const endpoint = Utils.getElement('custom-endpoint')?.value?.trim();
         if (!endpoint) throw new Error('Custom endpoint not configured');
+
+        // The model name is required by local servers (Ollama needs the tag it
+        // was pulled with). The hand-typed name wins over the dropdown.
+        const model = (Utils.getElement('api-model-manual')?.value || '').trim()
+            || Utils.getElement('api-model')?.value
+            || '';
+
+        const headers = { 'Content-Type': 'application/json' };
+        if (apiKey) headers['Authorization'] = `Bearer ${apiKey}`;
 
         const response = await fetch(endpoint, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${apiKey}`
-            },
+            headers,
             body: JSON.stringify({
+                model,
                 messages: [{ role: 'user', content: prompt }],
                 temperature: this.settings.temperature,
                 max_tokens: this.settings.maxTokens
@@ -750,7 +818,7 @@ ${cardsByType.consultant?.length ? '- The consultant is optional: name one only 
         });
 
         if (!response.ok) {
-            throw new Error('Custom API request failed');
+            throw new Error(`The endpoint rejected the request (${response.status}) — is the server running and the model loaded?`);
         }
 
         const data = await response.json();
