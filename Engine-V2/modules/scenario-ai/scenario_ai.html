@@ -65,6 +65,7 @@
                             <option value="deepseek">DeepSeek</option>
                             <option value="gemini">Google Gemini</option>
                             <option value="custom">Custom / Local Endpoint</option>
+                            <option value="webllm">In-browser model (no API key)</option>
                         </select>
                     </div>
                     <div class="form-group" id="api-key-group">
@@ -98,6 +99,14 @@
                         <label for="custom-endpoint" class="form-label">Custom / local endpoint</label>
                         <input type="url" id="custom-endpoint" class="form-input" placeholder="http://localhost:11434/v1/chat/completions">
                         <small class="form-hint">Any OpenAI-compatible server. Offline options: Ollama <code>http://localhost:11434/v1/chat/completions</code> &middot; LM Studio <code>http://localhost:1234/v1/chat/completions</code>. A local server needs no API key.</small>
+                    </div>
+
+                    <!-- In-browser model (WebLLM): the panel is built and
+                         maintained by webllm-provider.js and only shown for the
+                         webllm target. -->
+                    <div class="form-group hidden" id="webllm-host-group">
+                        <span class="form-label">In-browser model</span>
+                        <div id="webllm-host"></div>
                     </div>
                 </div>
 
@@ -198,6 +207,17 @@
                     <p class="loading-subtext">This may take a few seconds</p>
                 </div>
 
+                <!-- Live stream (in-browser model): tokens appear as they are written -->
+                <div class="ai-live hidden" id="result-live">
+                    <div class="ai-live-head">
+                        <div class="loading-spinner ai-live-spinner"></div>
+                        <span>Streaming from the in-browser model…</span>
+                        <span class="ai-live-spacer"></span>
+                        <button type="button" id="result-stop-btn" class="btn btn-ghost btn-sm">Stop</button>
+                    </div>
+                    <pre class="ai-live-text" id="result-live-text"></pre>
+                </div>
+
                 <!-- Empty State -->
                 <div class="result-empty" id="result-empty">
                     <div class="empty-icon">🎯</div>
@@ -291,7 +311,8 @@
     <script src="../../js/utils.js"></script>
     <script src="../../js/config.js"></script>
     <script src="../../js/scenario-io.js"></script>
-    <script src="scenario_ai.js?v=1"></script>
+    <script src="../../js/webllm-provider.js"></script>
+    <script src="scenario_ai.js?v=2"></script>
 
     <style>
         /* AI-specific layout */

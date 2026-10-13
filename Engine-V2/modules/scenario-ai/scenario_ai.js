@@ -77,6 +77,23 @@ const ScenarioAI = {
             modelsEndpoint: 'https://generativelanguage.googleapis.com/v1beta/openai/models',
             models: ['gemini-2.5-pro', 'gemini-2.5-flash', 'gemini-2.0-flash']
         },
+        // A model that runs in the browser on WebGPU (see webllm-provider.js).
+        // Keyless and address-less: callAPI routes it to WebLLM instead of fetch.
+        // The curated ids mirror WebLLMProvider.MODELS, with literals as the
+        // fallback for a page that did not load the provider script.
+        webllm: {
+            name: 'In-browser model (no API key)',
+            endpoint: '',
+            modelsEndpoint: '',
+            defaultModel: 'SmolLM2-1.7B-Instruct-q4f16_1-MLC',
+            models: (typeof WebLLMProvider !== 'undefined')
+                ? WebLLMProvider.MODELS.map(m => m.id)
+                : [
+                    'SmolLM2-360M-Instruct-q4f16_1-MLC',
+                    'SmolLM2-1.7B-Instruct-q4f16_1-MLC',
+                    'Llama-3.2-3B-Instruct-q4f16_1-MLC'
+                ]
+        },
         // Local servers are deliberately NOT a provider of their own: Ollama,
         // LM Studio and llama.cpp all speak the OpenAI-compatible API, so they
         // are the Custom Endpoint. See CUSTOM_ENDPOINTS for the addresses people
@@ -222,9 +239,21 @@ const ScenarioAI = {
             this.refreshModels();
         });
 
+        // Stop the in-browser model mid-generation (a no-op for other providers).
+        Utils.getElement('result-stop-btn')?.addEventListener('click', () => {
+            const local = (typeof WebLLMProvider !== 'undefined') ? WebLLMProvider : null;
+            if (local) local.interrupt();
+        });
+
         // Picking a model from a custom endpoint's live list keeps the free-text
         // name in step, so the two controls cannot disagree about what is sent.
         Utils.getElement('api-model')?.addEventListener('change', () => {
+            // The in-browser panel quotes the chosen model's download size, so it
+            // has to be re-rendered when the selection changes.
+            if (Utils.getElement('api-provider')?.value === 'webllm') {
+                this.renderLocalPanel(true);
+                return;
+            }
             if (Utils.getElement('api-provider')?.value !== 'custom') return;
             const manual = Utils.getElement('api-model-manual');
             const value = Utils.getElement('api-model')?.value || '';
@@ -266,13 +295,30 @@ const ScenarioAI = {
      */
     updateProviderUI(provider) {
         const modelGroup = Utils.getElement('model-group');
-        const customEndpointGroup = Utils.getElement('custom-endpoint-group');
+
+        // The in-browser model (WebLLM) is keyless and local: no key field, no
+        // endpoint field, and its own status/download panel below the pickers.
+        if (provider === 'webllm') {
+            Utils.hideElement('api-key-group');
+            Utils.hideElement('custom-endpoint-group');
+            Utils.hideElement('api-model-manual');
+            Utils.showElement('provider-group');
+            Utils.toggleElement(modelGroup, true);
+            this.populateStaticModels('webllm');
+            this.renderLocalPanel(true);
+            this.setModelHint('Runs in your browser — download the selected model once, then it works offline.');
+            return;
+        }
+
+        this.renderLocalPanel(false);
+        // Restore the per-user key field: the in-browser model hides it.
+        Utils.showElement('api-key-group');
 
         // Custom is the offline / self-hosted option (Ollama, LM Studio,
         // llama.cpp...). The Model controls stay visible for it, because those
         // servers do expose /v1/models - there is just no curated list to fall
         // back on when the server is not running.
-        Utils.toggleElement(customEndpointGroup, provider === 'custom');
+        Utils.toggleElement('custom-endpoint-group', provider === 'custom');
         Utils.toggleElement(modelGroup, true);
 
         if (provider === 'custom') {
@@ -312,6 +358,11 @@ const ScenarioAI = {
         // No curated list (custom endpoints) - leave the dropdown as it is rather
         // than emptying it.
         if (!cfg || !Array.isArray(cfg.models)) return;
+        // Keep the current pick when it is still offered, else the saved choice
+        // for this provider, else the curated default. Rebuilding the list
+        // happens on every provider change and refresh, so without this the
+        // model the user chose was silently reset to the first option.
+        const previous = modelSelect.value;
         modelSelect.innerHTML = '';
         cfg.models.forEach(m => {
             const opt = document.createElement('option');
@@ -319,6 +370,9 @@ const ScenarioAI = {
             opt.textContent = m;
             modelSelect.appendChild(opt);
         });
+        const saved = (this.settings && this.settings.provider === provider && this.settings.model) || '';
+        const want = [previous, saved, cfg.defaultModel].find(v => v && cfg.models.includes(v));
+        if (want) modelSelect.value = want;
     },
 
     /**
@@ -335,11 +389,45 @@ const ScenarioAI = {
     },
 
     /**
+     * Show or hide the in-browser model status panel. The panel is built and
+     * maintained by webllm-provider.js; this only decides visibility and where
+     * the chosen model comes from.
+     * @param {boolean} show
+     */
+    renderLocalPanel(show) {
+        const group = Utils.getElement('webllm-host-group');
+        const host = Utils.getElement('webllm-host');
+        const local = (typeof WebLLMProvider !== 'undefined') ? WebLLMProvider : null;
+        if (!group || !host || !local) return;
+        if (!show) {
+            Utils.hideElement(group);
+            return;
+        }
+        local.mount(host, {
+            getModel: () => this.webllmModel(),
+            getSelect: () => Utils.getElement('api-model')
+        });
+        Utils.showElement(group);
+    },
+
+    /** The model id the in-browser provider (webllm) should load. */
+    webllmModel() {
+        return Utils.getElement('api-model')?.value
+            || (this.providers.webllm && this.providers.webllm.defaultModel)
+            || 'SmolLM2-1.7B-Instruct-q4f16_1-MLC';
+    },
+
+    /**
      * Fetch the live model list when the current provider+key can support it.
      */
     maybeAutoRefreshModels() {
         const provider = Utils.getElement('api-provider')?.value || '';
         const key = Utils.getElement('api-key')?.value?.trim() || '';
+        // The in-browser model has no key and no live list to fetch.
+        if (provider === 'webllm') {
+            this.refreshModels();
+            return;
+        }
         // A custom (local) endpoint needs no key: try it as soon as it is set.
         if (provider === 'custom') {
             if (Utils.getElement('custom-endpoint')?.value?.trim()) this.refreshModels();
@@ -363,6 +451,14 @@ const ScenarioAI = {
 
         const provider = Utils.getElement('api-provider')?.value || '';
         const apiKey = Utils.getElement('api-key')?.value?.trim() || '';
+
+        // The in-browser model has no key and nothing to query: its list is the
+        // curated set (filtered once the engine has loaded).
+        if (provider === 'webllm') {
+            this.populateStaticModels('webllm');
+            this.setModelHint('Runs in your browser — download the selected model once, then it works offline.');
+            return;
+        }
 
         if (provider !== 'custom' && !apiKey) {
             this.setModelHint('Enter your API key to load available models.', 'error');
@@ -555,13 +651,25 @@ const ScenarioAI = {
         const apiKey = Utils.getElement('api-key')?.value;
         const provider = Utils.getElement('api-provider')?.value;
 
-        if (!apiKey && provider !== 'custom') {
+        if (!apiKey && provider !== 'custom' && provider !== 'webllm') {
             Utils.showToast('Enter your own API key to generate — the demo has no server-side key', 'warning');
             return;
         }
         if (provider === 'custom' && !Utils.getElement('custom-endpoint')?.value?.trim()) {
             Utils.showToast('Enter the server address for the custom endpoint', 'warning');
             return;
+        }
+        if (provider === 'webllm') {
+            // No key to check: the model runs in this browser. Refuse the run only
+            // when the device cannot run it at all.
+            const local = (typeof WebLLMProvider !== 'undefined') ? WebLLMProvider : null;
+            if (local) {
+                const avail = await local.available();
+                if (!avail.ok) {
+                    Utils.showToast('In-browser models need WebGPU — ' + (avail.reason || ''), 'warning');
+                    return;
+                }
+            }
         }
 
         // Show loading state
@@ -576,8 +684,17 @@ const ScenarioAI = {
             // Build prompt
             const prompt = this.buildPrompt();
 
-            // Call API
-            const response = await this.callAPI(provider, apiKey, prompt);
+            // Call API — streaming an in-browser model's tokens into a live block
+            // (which also swaps out the spinner). Every other provider ignores the
+            // hook and returns the whole reply at once.
+            const onToken = (provider === 'webllm') ? (delta, full) => this.streamLive(full) : null;
+            if (onToken) this.showLive(true);
+            let response;
+            try {
+                response = await this.callAPI(provider, apiKey, prompt, onToken);
+            } finally {
+                if (onToken) this.showLive(false);
+            }
 
             // Parse response
             const scenario = this.parseResponse(response, deckKey);
@@ -663,7 +780,7 @@ ${cardsByType.consultant?.length ? '- The consultant is optional: name one only 
      * @param {string} prompt - Prompt text
      * @returns {string} Response text
      */
-    async callAPI(provider, apiKey, prompt) {
+    async callAPI(provider, apiKey, prompt, onToken) {
         if (provider === 'openai') {
             return await this.callOpenAI(apiKey, prompt);
         } else if (provider === 'anthropic') {
@@ -672,9 +789,31 @@ ${cardsByType.consultant?.length ? '- The consultant is optional: name one only 
             return await this.callCompatible(provider, apiKey, prompt);
         } else if (provider === 'custom') {
             return await this.callCustom(apiKey, prompt);
+        } else if (provider === 'webllm') {
+            return await this.callWebLLM(prompt, onToken);
         }
 
         throw new Error('Unknown provider');
+    },
+
+    /**
+     * Run the request on the in-browser model (WebLLM / WebGPU). Keyless and
+     * offline-capable: the engine is downloaded once by webllm-provider.js.
+     * @param {string} prompt - Prompt text
+     * @param {Function} [onToken] - Called with (delta, full) as tokens arrive
+     * @returns {Promise<string>} Response text
+     */
+    async callWebLLM(prompt, onToken) {
+        const local = (typeof WebLLMProvider !== 'undefined') ? WebLLMProvider : null;
+        if (!local) throw new Error('The in-browser model needs webllm-provider.js on this page.');
+        const avail = await local.available();
+        if (!avail.ok) throw new Error('In-browser models need WebGPU. ' + (avail.reason || ''));
+        return await local.chat(String(prompt == null ? '' : prompt), {
+            model: this.webllmModel(),
+            temperature: this.settings.temperature,
+            maxTokens: this.settings.maxTokens,
+            onToken
+        });
     },
 
     /**
@@ -987,6 +1126,35 @@ ${cardsByType.consultant?.length ? '- The consultant is optional: name one only 
         Utils.toggleElement('result-empty', !show && !this.generatedScenario);
         Utils.toggleElement('result-content', !show && this.generatedScenario);
         Utils.getElement('generate-btn').disabled = show;
+    },
+
+    /**
+     * Show or hide the live token stream. It stands in for the spinner while an
+     * in-browser model writes, so the text itself is the progress indicator.
+     * @param {boolean} show
+     */
+    showLive(show) {
+        const live = Utils.getElement('result-live');
+        if (!live) return;
+        if (show) {
+            const text = Utils.getElement('result-live-text');
+            if (text) text.textContent = '';
+            Utils.hideElement('result-loading');
+            Utils.showElement(live);
+            return;
+        }
+        Utils.hideElement(live);
+    },
+
+    /**
+     * Render the reply generated so far into the live block.
+     * @param {string} text - Everything generated so far
+     */
+    streamLive(text) {
+        const pre = Utils.getElement('result-live-text');
+        if (!pre) return;
+        pre.textContent = String(text == null ? '' : text);
+        pre.scrollTop = pre.scrollHeight;
     },
 
     /**

@@ -1205,3 +1205,186 @@ body.has-fab .app-legal-content { padding-right: 76px; }
   background-attachment: fixed;
 }
 
+/* ===== In-browser model panel (Engine-V2/js/webllm-provider.js) =====
+   The status/download panel for the WebLLM (WebGPU) provider. Markup is built by
+   the provider module and mounted into a host element on both the Solo AI
+   settings modal and the AI Generator, so it lives here rather than in either
+   page stylesheet. */
+.webllm-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-tertiary);
+}
+
+.webllm-lead {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.45;
+}
+
+/* Which GPU the browser actually handed the model. */
+.webllm-gpu {
+  margin: 0;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  line-height: 1.45;
+  word-break: break-word;
+}
+
+/* Informational (not a warning): how to move onto the discrete GPU. */
+.webllm-note {
+  margin: 0;
+  padding: var(--space-2) var(--space-3);
+  border-left: 3px solid var(--color-info);
+  border-radius: var(--radius-sm);
+  background: rgba(56, 189, 248, 0.1);
+  color: var(--color-text);
+  font-size: var(--font-size-xs);
+  line-height: 1.5;
+}
+
+/* The requirements / download-size warning. Amber, not red: it is a caution, and
+   it is also the surface for the "WebGPU unavailable" reason. */
+.webllm-warning {
+  margin: 0;
+  padding: var(--space-2) var(--space-3);
+  border-left: 3px solid var(--color-warning);
+  border-radius: var(--radius-sm);
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--color-text);
+  font-size: var(--font-size-xs);
+  line-height: 1.5;
+}
+
+.webllm-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.webllm-progress {
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+}
+
+.webllm-progress-bar {
+  height: 100%;
+  width: 0;
+  border-radius: var(--radius-full);
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+  transition: width 0.2s ease;
+}
+
+.webllm-status {
+  margin: 0;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  line-height: 1.45;
+  word-break: break-word;
+}
+
+/* Models already stored in this browser: switching to one needs no download. */
+.webllm-downloads {
+  border-top: 1px solid var(--color-border);
+  padding-top: var(--space-2);
+}
+
+.webllm-downloads-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+}
+
+.webllm-downloads-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: var(--space-1);
+}
+
+.webllm-dl-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 3px 0;
+  font-size: var(--font-size-xs);
+}
+
+.webllm-dl-name {
+  flex: 1 1 auto;
+  min-width: 0;
+  color: var(--color-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.webllm-dl-size {
+  flex: 0 0 auto;
+  color: var(--color-text-muted);
+}
+
+.webllm-dl-badge {
+  flex: 0 0 auto;
+  padding: 1px 7px;
+  border-radius: var(--radius-full);
+  background: var(--color-primary-soft);
+  color: var(--color-primary-light);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+}
+
+.webllm-downloads-empty {
+  margin: var(--space-1) 0 0;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  line-height: 1.45;
+}
+
+/* Live token stream for the AI Generator (Solo streams into its own typing
+   bubble instead). Monospace so a half-written JSON object stays readable. */
+.ai-live {
+  margin: 0 var(--space-4) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-tertiary);
+  overflow: hidden;
+}
+
+.ai-live-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+}
+
+.ai-live-head .ai-live-spacer { flex: 1 1 auto; }
+
+.ai-live-text {
+  margin: 0;
+  padding: var(--space-3);
+  max-height: 260px;
+  overflow: auto;
+  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace);
+  font-size: var(--font-size-xs);
+  line-height: 1.5;
+  color: var(--color-text);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+

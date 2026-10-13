@@ -544,6 +544,12 @@
                     <input type="password" id="im-apikey" class="form-input" autocomplete="off" placeholder="Stored in this browser only">
                     <small class="form-hint">Sent straight to the provider from this browser — never to this server.</small>
                 </div>
+                <!-- In-browser model (WebLLM) — the panel is built and maintained
+                     by webllm-provider.js and only shown for the webllm target. -->
+                <div class="im-field hidden" id="im-webllm-field">
+                    <div class="form-label">In-browser model</div>
+                    <div id="im-webllm-host"></div>
+                </div>
                 <!-- Who the Incident Master is. The role decides what the speaker
                      knows (and, more usefully, what they have to defer on); the
                      personality decides how they sound. They are independent on
@@ -766,6 +772,7 @@
     <script src="js/print-sheet.js"></script>
     <!-- Solo AI (PvE). ai-client.js is the provider layer it talks to; both load
          after player.js so PlayerController/GameState already exist. -->
+    <script src="js/webllm-provider.js"></script>
     <script src="js/ai-client.js"></script>
     <script src="js/solo-master.js"></script>
     <script src="js/header-menu.js"></script>

@@ -19,7 +19,10 @@
  */
 'use strict';
 
-const VERSION = 'bb-shuffle-v3';
+const VERSION = 'bb-shuffle-v5';
+// Every cache this worker owns starts with PREFIX; anything else in Cache Storage
+// (notably the in-browser model runtime's own buckets) is left strictly alone.
+const PREFIX = 'bb-shuffle-';
 const SHELL_CACHE = VERSION + '-shell';
 const RUNTIME_CACHE = VERSION + '-runtime';
 
@@ -41,6 +44,7 @@ const SHELL = [
   'Engine-V2/js/header-menu.js',
   'Engine-V2/js/landscape-controls.js',
   'Engine-V2/js/cardback-theme.js',
+  'Engine-V2/js/webllm-provider.js',
   'manifest.webmanifest',
   'shared/img/favicon.ico',
   'shared/img/favicon.png',
@@ -70,8 +74,12 @@ self.addEventListener('install', function (event) {
 self.addEventListener('activate', function (event) {
   event.waitUntil((async function () {
     const keys = await caches.keys();
+    // Only ever reap OUR OWN stale version caches. The old filter deleted every
+    // cache that did not start with VERSION, which silently wiped the in-browser
+    // model's downloaded weights (the WebLLM runtime keeps them in `webllm/model`
+    // and friends) on every app update - forcing a multi-gigabyte re-download.
     await Promise.all(keys
-      .filter(function (key) { return key.indexOf(VERSION) !== 0; })
+      .filter(function (key) { return key.indexOf(PREFIX) === 0 && key.indexOf(VERSION) !== 0; })
       .map(function (key) { return caches.delete(key); }));
     await self.clients.claim();
   })());
