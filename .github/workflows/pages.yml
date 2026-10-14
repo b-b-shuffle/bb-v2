@@ -37,6 +37,19 @@ jobs:
       - name: Check out the site
         uses: actions/checkout@v4
 
+      # Build-gate. This branch has no build step, so a disabled feature is
+      # pruned from the CI checkout just before it is uploaded. Enable the
+      # Mermaid flowchart editor by setting the repository variable
+      # BB_ENABLE_MERMAID=true (Settings -> Secrets and variables -> Variables);
+      # unset means it is not published.
+      - name: Prune disabled features
+        run: |
+          if [ "${{ vars.BB_ENABLE_MERMAID || 'false' }}" != "true" ]; then
+            sh tools/prune-features.sh . mermaid
+          fi
+          # Never publish the pruner itself.
+          rm -rf tools
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
 

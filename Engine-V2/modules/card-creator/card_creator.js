@@ -1,13 +1,13 @@
 /**
  * B&B Shuffle — Custom Card Creator
  * ------------------------------------------------------------------
- * Live form -> SVG card preview -> export as PNG / SVG / JSON.
+ * Live form -> template-composed preview -> export as PNG / JSON.
  *
  * This build is a read-only demo, so cards are never saved back to the site (the
  * "Custom Cards" gallery is a fixed deck). Exporting is the way out: drop the PNG
  * into your own deck, or keep the JSON for a hosted install.
  *
- * Depends on: Utils, CardRenderer, AIClient (all loaded first).
+ * Depends on: Utils, CardRenderer, CardFace, AIClient (all loaded first).
  */
 
 const CardCreator = {
@@ -40,10 +40,12 @@ const CardCreator = {
             'cc-type', 'cc-id', 'cc-name', 'cc-description',
             'cc-detection-field', 'cc-detection-chips', 'cc-detection-input', 'cc-detection-suggest',
             'cc-tools-field', 'cc-tools-chips', 'cc-tools-input',
+            'cc-notes-field', 'cc-notes',
+            'cc-specialties-field', 'cc-specialties-chips', 'cc-specialties-input',
             'cc-resources', 'cc-add-resource',
             'cc-drop', 'cc-image-input', 'cc-thumb', 'cc-thumb-img', 'cc-image-clear',
-            'cc-artwork-seg', 'cc-style-seg',
-            'cc-preview-img', 'cc-export-svg', 'cc-export-png', 'cc-copy-json',
+            'cc-artwork-section', 'cc-artwork-seg',
+            'cc-preview', 'cc-export-png', 'cc-copy-json',
             'cc-new-btn', 'cc-preview-status', 'cc-form-status',
             'cc-ai', 'cc-ai-mode', 'cc-ai-theme', 'cc-ai-difficulty', 'cc-ai-context',
             'cc-ai-generate', 'cc-ai-status'
@@ -59,10 +61,12 @@ const CardCreator = {
             description: '',
             detection: [],
             tools: [],
+            notes: '',
+            specialties: [],
             resources: [],
             image: '',
             artwork: 'illustration',
-            style: 'app'
+            style: 'template'
         };
     },
 
@@ -73,7 +77,7 @@ const CardCreator = {
     bindEvents() {
         const onInput = () => { this.readForm(); this.scheduleRender(); };
 
-        ['cc-name', 'cc-description', 'cc-id'].forEach(id => {
+        ['cc-name', 'cc-description', 'cc-notes', 'cc-id'].forEach(id => {
             this.el[id]?.addEventListener('input', onInput);
         });
 
@@ -86,6 +90,7 @@ const CardCreator = {
         // Chips: Enter adds, Backspace on empty removes the last one.
         this.bindChipInput('cc-detection-input', 'detection');
         this.bindChipInput('cc-tools-input', 'tools');
+        this.bindChipInput('cc-specialties-input', 'specialties');
 
         // Resources
         this.el['cc-add-resource']?.addEventListener('click', () => {
@@ -93,9 +98,8 @@ const CardCreator = {
             this.renderResources();
         });
 
-        // Artwork placement + style segmented controls
+        // Artwork placement segmented control
         this.bindSeg('cc-artwork-seg', value => { this.card.artwork = value; this.scheduleRender(); });
-        this.bindSeg('cc-style-seg', value => { this.card.style = value; this.scheduleRender(); });
 
         // Image upload
         this.el['cc-drop']?.addEventListener('click', () => this.el['cc-image-input']?.click());
@@ -126,11 +130,6 @@ const CardCreator = {
         });
 
         // Preview actions
-        this.el['cc-export-svg']?.addEventListener('click', () => {
-            this.readForm();
-            CardRenderer.downloadSvg(this.card);
-            this.setStatus(this.el['cc-preview-status'], 'SVG exported', 'ok');
-        });
         this.el['cc-export-png']?.addEventListener('click', () => this.exportPng());
         this.el['cc-copy-json']?.addEventListener('click', () => this.copyJson());
         this.el['cc-new-btn']?.addEventListener('click', () => this.newCard());
@@ -178,6 +177,7 @@ const CardCreator = {
         this.card.id = this.el['cc-id']?.value.trim() || '';
         this.card.name = this.el['cc-name']?.value || '';
         this.card.description = this.el['cc-description']?.value || '';
+        this.card.notes = this.el['cc-notes']?.value || '';
         this.card.resources = this.readResources();
     },
 
@@ -190,18 +190,18 @@ const CardCreator = {
         }
         if (this.el['cc-name']) this.el['cc-name'].value = c.name || '';
         if (this.el['cc-description']) this.el['cc-description'].value = c.description || '';
+        if (this.el['cc-notes']) this.el['cc-notes'].value = c.notes || '';
 
         const check = (name, value) => {
             const input = document.querySelector(`input[name="${name}"][value="${value}"]`);
             if (input) input.checked = true;
         };
         check('cc-artwork', c.artwork || 'illustration');
-        check('cc-style', c.style || 'app');
         this.paintSeg('cc-artwork-seg');
-        this.paintSeg('cc-style-seg');
 
         this.renderChips('detection');
         this.renderChips('tools');
+        this.renderChips('specialties');
         this.renderResources();
         this.updateThumb();
     },
@@ -216,9 +216,16 @@ const CardCreator = {
     },
 
     updateTypeFields() {
-        const isScenario = this.SCENARIO_TYPES.includes(this.card.type);
+        const type = this.card.type;
+        const isScenario = this.SCENARIO_TYPES.includes(type);
+        const isProcedure = type === 'procedure';
+
         this.el['cc-detection-field']?.classList.toggle('cc-hidden', !isScenario);
-        this.el['cc-tools-field']?.classList.toggle('cc-hidden', this.card.type !== 'procedure');
+        this.el['cc-tools-field']?.classList.toggle('cc-hidden', !(isScenario || isProcedure));
+        this.el['cc-notes-field']?.classList.toggle('cc-hidden', type !== 'inject');
+        this.el['cc-specialties-field']?.classList.toggle('cc-hidden', type !== 'consultant');
+        // Only the scenario and procedure templates carry an artwork panel.
+        this.el['cc-artwork-section']?.classList.toggle('cc-hidden', !(isScenario || isProcedure));
     },
 
     /* ------------------------------------------------------------------ */
@@ -241,7 +248,8 @@ const CardCreator = {
     },
 
     renderChips(key) {
-        const container = this.el[key === 'detection' ? 'cc-detection-chips' : 'cc-tools-chips'];
+        // detection / tools / specialties all follow the same id pattern.
+        const container = this.el[key + '-chips'];
         if (!container) return;
         container.innerHTML = '';
 
@@ -447,14 +455,11 @@ const CardCreator = {
         canvas.height = height;
         const ctx = canvas.getContext('2d');
 
-        const keepAlpha = /png|gif|webp/i.test(file.type);
-        if (!keepAlpha) {
-            ctx.fillStyle = '#0d1117';
-            ctx.fillRect(0, 0, width, height);
-        }
+        // Always PNG: artwork is stored as a real file whose type is read back
+        // from the data URL, and alpha is worth keeping.
         ctx.drawImage(img, 0, 0, width, height);
 
-        return keepAlpha ? canvas.toDataURL('image/png') : canvas.toDataURL('image/jpeg', 0.85);
+        return canvas.toDataURL('image/png');
     },
 
     updateThumb() {
@@ -478,8 +483,14 @@ const CardCreator = {
     },
 
     render() {
-        if (!this.el['cc-preview-img']) return;
-        this.el['cc-preview-img'].src = CardRenderer.renderDataUrl(this.card);
+        const host = this.el['cc-preview'];
+        if (!host) return;
+        host.textContent = '';
+
+        // The face is always composed from the deck artwork; CardRenderer only
+        // supplies helpers (icons/labels/filename) now.
+        if (typeof CardFace !== 'undefined') host.appendChild(CardFace.build(this.card));
+
         this.updateTypeFields();
     },
 
@@ -555,8 +566,13 @@ const CardCreator = {
             resources: this.card.resources,
             detection: this.card.detection,
             tools: this.card.tools,
+            notes: this.card.notes || '',
+            specialties: this.card.specialties,
+            // Marks the card as template-composed: every display surface renders
+            // it live from this key instead of using `image` as the face.
+            template: this.card.type,
             artwork: this.card.artwork,
-            style: this.card.style,
+            style: 'template',
             enabled: this.card.enabled !== false
         };
     },
@@ -566,8 +582,10 @@ const CardCreator = {
         this.readForm();
         try {
             this.setStatus(status, 'Rendering PNG…', '');
-            await CardRenderer.downloadPng(this.card, { scale: 2 });
-            this.setStatus(status, 'PNG exported (1500 × 2100)', 'ok');
+            const dataUrl = await CardFace.toPngDataUrl(this.card, { scale: 2 });
+            const blob = await (await fetch(dataUrl)).blob();
+            Utils.downloadFile(blob, CardRenderer.fileStem(this.card) + '.png');
+            this.setStatus(status, 'PNG downloaded', 'ok');
         } catch (e) {
             this.setStatus(status, e.message, 'err');
         }

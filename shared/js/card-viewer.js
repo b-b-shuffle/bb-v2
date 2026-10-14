@@ -39,6 +39,9 @@
   let drag = null;            // active pan gesture while zoomed
   let suppressClick = false;  // swallow the click that ends a pan
 
+  // DELIBERATE DUPLICATE of Utils.CARD_TYPE_LABELS (Engine-V2/js/utils.js).
+  // This file must stay dependency-free: on Engine-V2/custom-cards.html it is
+  // loaded BEFORE utils.js, so `Utils` does not exist yet. Keep in sync by hand.
   const TYPE_LABELS = {
     initial: 'Initial Compromise',
     pivot: 'Pivot & Escalate',
@@ -148,6 +151,8 @@
     return TYPE_LABELS[type] ? TYPE_LABELS[type] : type;
   }
 
+  // DELIBERATE DUPLICATE of Utils.escapeHtml (Engine-V2/js/utils.js) - `Utils`
+  // is not available here (see the TYPE_LABELS note above). Same 5 entities.
   function escapeHtml(value) {
     return String(value == null ? '' : value).replace(/[&<>"']/g, (c) => ({
       '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
@@ -194,12 +199,24 @@
   }
 
   function open(src, opts) {
-    if (!src) return;
-    if (!rootEl) build();
     opts = opts || {};
+    if (!src && !opts.face) return;
+    if (!rootEl) build();
 
     isOpen = true;
-    imgEl.src = src;
+
+    // A composed card face (Engine-V2/js/card-face.js) can take the stage
+    // instead of the <img>. The <img> stays in the DOM - the pan/zoom handlers
+    // drive it - but is hidden whenever a face is supplied.
+    const stale = stageEl.querySelector('.card-face');
+    if (stale) stale.remove();
+    if (opts.face) {
+      stageEl.appendChild(opts.face);
+      imgEl.removeAttribute('src');
+    } else {
+      imgEl.src = src;
+    }
+    imgEl.classList.toggle('is-face', !!opts.face);
     imgEl.alt = opts.name || 'Card preview';
     nameEl.textContent = opts.name || '';
     const label = typeLabel(opts.type);
@@ -256,6 +273,8 @@
     drag = null;
     suppressClick = false;
     imgEl.removeAttribute('src');
+    // Drop any composed face so a closed viewer holds no stale markup.
+    stageEl.querySelectorAll('.card-face').forEach(el => el.remove());
     actionBtn.hidden = true;
     actionBtn._cb = null;
     document.body.style.overflow = prevOverflow;

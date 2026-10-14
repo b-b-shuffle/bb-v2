@@ -472,14 +472,35 @@ const AdminController = {
     },
 
     /**
-     * Open the shared big viewer for a card element's image.
-     * @param {HTMLElement} el - Element that contains the card <img>
+     * Compose live card faces for every template card in a grid (see
+     * Engine-V2/js/card-face.js). Cards that carry no template are untouched and
+     * keep their own art.
+     * @param {HTMLElement} root - Container holding the card elements
+     * @param {string} selector - Selector matching one card element inside root
+     * @param {Function} cardOf - (element) => card record
+     */
+    decorateFaces(root, selector, cardOf) {
+        if (!root || typeof CardFace === 'undefined') return;
+        root.querySelectorAll(selector).forEach(el => CardFace.decorate(el, cardOf(el)));
+    },
+
+    /**
+     * Open the shared big viewer for a card element.
+     * @param {HTMLElement} el - Element that contains (or is) the card
      * @param {string} type - Card type key (initial/pivot/c2/persist/procedure/inject)
      */
     viewCardFromElement(el, type) {
-        const img = el && el.querySelector('img');
+        if (!el || typeof CardViewer === 'undefined') return;
+
+        // A composed face is handed to the viewer directly - its <img> is hidden.
+        const card = typeof CardFace !== 'undefined' ? CardFace.cardFor(el) : null;
+        if (card) {
+            CardViewer.open('', { name: card.name || '', type, face: CardFace.build(card) });
+            return;
+        }
+
+        const img = el.querySelector('img');
         if (!img || !img.src || img.src.startsWith('data:image/svg')) return;
-        if (typeof CardViewer === 'undefined') return;
         const name = img.alt && img.alt !== 'Card' ? img.alt : '';
         CardViewer.open(img.src, { name, type });
     },
@@ -493,7 +514,12 @@ const AdminController = {
         let card = null;
         try { card = slot?.dataset.card ? JSON.parse(slot.dataset.card) : null; } catch (err) { card = null; }
         if (!card || typeof CardViewer === 'undefined') return;
-        CardViewer.open(Utils.assetPath(card.image), { name: card.name || '', type });
+        const template = typeof CardFace !== 'undefined' && CardFace.isTemplateCard(card);
+        CardViewer.open(template ? '' : Utils.assetPath(card.image), {
+            name: card.name || '',
+            type,
+            face: template ? CardFace.build(card) : null
+        });
     },
 
     /**
@@ -523,6 +549,8 @@ const AdminController = {
             </div>
         `).join('');
 
+        this.decorateFaces(container, '.picker-card', el => filtered.find(c => c.id === el.dataset.cardId));
+
         // Consultants collect into a pool instead of filling a single slot.
         const commit = (card) => {
             if (this.selectedSlot === 'consultant') this.addConsultant(card);
@@ -545,9 +573,11 @@ const AdminController = {
                 e.stopPropagation();
                 const card = filtered.find(c => c.id === btn.dataset.cardId);
                 if (!card || typeof CardViewer === 'undefined') return;
-                CardViewer.open(Utils.assetPath(card.image), {
+                const template = typeof CardFace !== 'undefined' && CardFace.isTemplateCard(card);
+                CardViewer.open(template ? '' : Utils.assetPath(card.image), {
                     name: card.name || '',
                     type: this.selectedSlot,
+                    face: template ? CardFace.build(card) : null,
                     action: {
                         label: this.selectedSlot === 'consultant' ? 'Add to the pool' : 'Select this card',
                         onClick: () => commit(card)
@@ -574,6 +604,7 @@ const AdminController = {
         if (!slot) return;
 
         slot.innerHTML = `<img src="${Utils.assetPath(card.image)}" alt="${Utils.escapeHtml(card.name || type)}" onerror="Utils.onImgError(event)">`;
+        if (typeof CardFace !== 'undefined') CardFace.decorate(slot, card);
         slot.dataset.cardId = card.id;
         slot.dataset.card = JSON.stringify(card);
 
@@ -919,6 +950,8 @@ const AdminController = {
             </div>
         `).join('');
 
+        this.decorateFaces(container, '.procedure-card', el => this.procedures[parseInt(el.dataset.procedureIndex, 10)]);
+
         // Clear-all is only useful once there is something to clear
         const clearBtn = Utils.getElement('clear-procedures-btn');
         if (clearBtn) clearBtn.disabled = this.procedures.length === 0;
@@ -979,6 +1012,8 @@ const AdminController = {
                     <span class="inject-order">${index === 0 ? 'START' : '#' + (index + 1)}</span>
                 </div>
             `).join('');
+
+        this.decorateFaces(container, '.inject-card', el => this.injects[parseInt(el.dataset.injectIndex, 10)]);
     },
 
     /**
@@ -1002,6 +1037,8 @@ const AdminController = {
                     ${isStart ? '<span class="cons-start-badge">START</span>' : ''}
                 </div>`;
             }).join('');
+
+        this.decorateFaces(container, '.consultant-card', el => this.consultants[parseInt(el.dataset.consultantIndex, 10)]);
 
         const clearBtn = Utils.getElement('clear-consultants-btn');
         if (clearBtn) clearBtn.disabled = this.consultants.length === 0;

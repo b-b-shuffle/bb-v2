@@ -228,8 +228,10 @@ const PlayerController = {
                 image: c && c.image, description: (c && c.description) || '',
                 details: (c && c.details) || ''
             };
-            // Card-face text read off the art (tools / notes / specialties / quote / cost)
-            ['tools', 'notes', 'specialties', 'quote', 'cost'].forEach(field => {
+            // Card-face text read off the art (tools / notes / specialties /
+            // quote / cost) plus `template`, which marks a Custom Card the board
+            // composes live from a PNG template (Engine-V2/js/card-face.js).
+            ['tools', 'notes', 'specialties', 'quote', 'cost', 'template'].forEach(field => {
                 if (c && c[field]) o[field] = c[field];
             });
             return extra ? { ...o, ...extra } : o;
@@ -313,7 +315,8 @@ const PlayerController = {
                     description: (c && c.description) || '',
                     details: (c && c.details) || '',
                     tools: (c && c.tools) || undefined,
-                    cost: (c && c.cost) || undefined
+                    cost: (c && c.cost) || undefined,
+                    template: (c && c.template) || undefined
                 }));
             if (!pool.length) return 0;
 
@@ -374,7 +377,8 @@ const PlayerController = {
                     description: (c && c.description) || '',
                     details: (c && c.details) || '',
                     specialties: (c && c.specialties) || undefined,
-                    quote: (c && c.quote) || undefined
+                    quote: (c && c.quote) || undefined,
+                    template: (c && c.template) || undefined
                 }));
             this.consultant = (this.scenario && this.scenario.consultant) || null;
             return this.consultants;
@@ -397,8 +401,10 @@ const PlayerController = {
         const active = this.consultant;
 
         if (img) {
-            img.src = (active && active.image) ? Utils.assetPath(active.image) : Utils.cardPlaceholder('Consultant');
             img.alt = (active && active.name) || 'Consultant';
+            if (!this.paintCardFace(img.parentElement, active)) {
+                img.src = (active && active.image) ? Utils.assetPath(active.image) : Utils.cardPlaceholder('Consultant');
+            }
         }
         if (card) card.classList.toggle('flipped', !!active);
         if (btn) {
@@ -465,6 +471,12 @@ const PlayerController = {
                 </div>
             `;
         }).join('');
+
+        // Compose the live face for any template consultant tile.
+        Utils.$$('#consultant-grid .consultant-option').forEach(btn => {
+            const card = list[parseInt(btn.dataset.index, 10)];
+            if (card) this.paintCardFace(btn, card);
+        });
     },
 
     /**
@@ -500,9 +512,11 @@ const PlayerController = {
         if (details) sections.push({ label: 'Details', html: details });
         sections.push({ label: 'Info', html: this.buildCardInfoHtml(card, 'consultant') });
 
-        this.openLightbox(Utils.assetPath(card.image), {
+        const template = typeof CardFace !== 'undefined' && CardFace.isTemplateCard(card);
+        this.openLightbox(template ? '' : Utils.assetPath(card.image), {
             name: card.name || 'Consultant',
             type: 'consultant',
+            face: template ? CardFace.build(card) : null,
             sections,
             action: isActive
                 ? { label: 'Selected ✓', onClick: () => this.closeConsultantPicker() }
@@ -775,6 +789,38 @@ const PlayerController = {
     },
 
     /**
+     * Paint a card face into a host element.
+     *
+     * A "template card" - a Custom Card carrying `template` - is composed live
+     * from the deck artwork plus its own text (Engine-V2/js/card-face.js). The
+     * host's <img> is kept in the DOM but hidden, so every id and `img` selector
+     * elsewhere keeps working; the face takes its place in the flow. Any other
+     * card keeps its own art.
+     * @param {HTMLElement|null} host - Element that holds the face
+     * @param {Object} card - Card record
+     * @returns {boolean} true when a composed face was applied
+     */
+    paintCardFace(host, card) {
+        if (!host) return false;
+
+        const stale = host.querySelector('.card-face');
+        if (stale) stale.remove();
+
+        const useFace = typeof CardFace !== 'undefined' && CardFace.isTemplateCard(card);
+        const img = host.querySelector('img');
+        if (img) {
+            img.classList.toggle('is-face', useFace);
+            if (useFace) img.removeAttribute('src');
+        }
+        host.classList.toggle('has-card-face', useFace);
+
+        if (!useFace) return false;
+        const face = CardFace.build(card);
+        if (img) img.after(face); else host.appendChild(face);
+        return true;
+    },
+
+    /**
      * Update scenario card images
      */
     updateScenarioCards() {
@@ -782,6 +828,10 @@ const PlayerController = {
             const card = this.scenario?.scenario?.[type];
             const img = Utils.getElement(`${type}-card-img`);
             if (!img) return;
+            if (this.paintCardFace(img.parentElement, card)) {
+                img.alt = card?.name || type;
+                return;
+            }
             if (card?.image) {
                 img.src = Utils.assetPath(card.image);
                 img.alt = card.name || type;
@@ -840,6 +890,13 @@ const PlayerController = {
                 </div>
             `;
         }).join('');
+
+        // Compose the live face for any procedure that carries a template. Done
+        // after the hand is in the DOM because CardFace.build() returns an element.
+        Utils.$$('.procedure-cards .flip-card').forEach(el => {
+            const card = procedures[parseInt(el.dataset.procedureIndex, 10)];
+            if (card) this.paintCardFace(el.querySelector('.flip-card-back'), card);
+        });
 
         // Bind flips (ignore clicks on the arm chip)
         Utils.$$('.procedure-cards .flip-card').forEach(card => {
@@ -993,10 +1050,14 @@ const PlayerController = {
         const label = Utils.getElement('inject-label');
         const drawBtn = Utils.getElement('draw-inject-btn');
 
-        if (img && inject?.image) {
+        if (img && this.paintCardFace(img.parentElement, inject)) {
+            img.alt = inject?.name || 'Inject';
+        } else if (img && inject?.image) {
             img.src = Utils.assetPath(inject.image);
             img.alt = inject.name || 'Inject';
         } else if (img) {
+            // Clear a face left over from the previous inject card.
+            this.paintCardFace(img.parentElement, null);
             img.src = Utils.cardPlaceholder('No inject');
             img.alt = 'No inject';
         }
@@ -1171,12 +1232,25 @@ const PlayerController = {
      */
     previewCardFace(card) {
         if (!card) return;
+        const back = card.querySelector('.flip-card-back');
         const backImg = card.querySelector('.flip-card-back img');
-        if (!backImg?.src || backImg.src.startsWith('data:image/svg')) return;
-
         const type = this.cardTypeOf(card);
-        const name = backImg.alt && backImg.alt !== 'Card' ? backImg.alt : '';
         const sections = this.cardSectionsFor(card, type);
+
+        // A composed face is handed to the viewer directly; its <img> is hidden.
+        const data = this.resolveCardData(card, type);
+        if (typeof CardFace !== 'undefined' && CardFace.isTemplateCard(data)) {
+            this.openLightbox('', {
+                name: data.name || '',
+                type,
+                sections,
+                face: CardFace.build(data)
+            });
+            return;
+        }
+
+        if (!backImg?.src || backImg.src.startsWith('data:image/svg')) return;
+        const name = backImg.alt && backImg.alt !== 'Card' ? backImg.alt : '';
         this.openLightbox(backImg.src, { name, type, sections });
     },
 

@@ -6,7 +6,7 @@
  * write controls (enable/disable, duplicate, delete, import) are gone — the demo
  * API refuses writes in any case (see `shared/js/local-api.js`).
  *
- * Depends on: Utils, CardRenderer, CardViewer (all loaded first).
+ * Depends on: Utils, CardRenderer, CardViewer, CardFace (all loaded first).
  */
 
 const CustomCardsLibrary = {
@@ -83,11 +83,15 @@ const CustomCardsLibrary = {
         const frame = document.createElement('div');
         frame.className = 'cc-card-frame';
         frame.title = 'Preview';
-        const img = document.createElement('img');
-        img.alt = card.name || 'Custom card';
-        img.src = Utils.assetPath(card.image || '');
-        img.onerror = () => { img.src = Utils.cardPlaceholder('No image'); };
-        frame.appendChild(img);
+        if (typeof CardFace !== 'undefined' && CardFace.isTemplateCard(card)) {
+            frame.appendChild(CardFace.build(card));
+        } else {
+            const img = document.createElement('img');
+            img.alt = card.name || 'Custom card';
+            img.src = Utils.assetPath(card.image || '');
+            img.onerror = () => { img.src = Utils.cardPlaceholder('No image'); };
+            frame.appendChild(img);
+        }
         frame.addEventListener('click', () => this.preview(card));
         tile.appendChild(frame);
 
@@ -117,9 +121,11 @@ const CustomCardsLibrary = {
 
     preview(card) {
         if (typeof CardViewer === 'undefined') return;
-        CardViewer.open(Utils.assetPath(card.image || ''), {
+        const template = typeof CardFace !== 'undefined' && CardFace.isTemplateCard(card);
+        CardViewer.open(template ? '' : Utils.assetPath(card.image || ''), {
             name: card.name || 'Untitled Card',
-            type: card.type || ''
+            type: card.type || '',
+            face: template ? CardFace.build(card) : null
         });
     },
 

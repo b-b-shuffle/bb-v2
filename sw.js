@@ -19,7 +19,7 @@
  */
 'use strict';
 
-const VERSION = 'bb-shuffle-v5';
+const VERSION = 'bb-shuffle-v6';
 // Every cache this worker owns starts with PREFIX; anything else in Cache Storage
 // (notably the in-browser model runtime's own buckets) is left strictly alone.
 const PREFIX = 'bb-shuffle-';
@@ -39,6 +39,7 @@ const SHELL = [
   'shared/js/pwa.js',
   'Engine-V2/js/utils.js',
   'Engine-V2/js/config.js',
+  'Engine-V2/js/card-face.js',
   'Engine-V2/js/game-state.js',
   'Engine-V2/js/player.js',
   'Engine-V2/js/header-menu.js',

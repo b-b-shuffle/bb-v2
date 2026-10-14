@@ -7,6 +7,19 @@
  * No light theme — the theme toggle was removed.
  */
 
+/* ===== Self-hosted card font (Teko, SIL OFL 1.1) =====
+   The card templates are typeset in Teko, so the live overlay text uses the
+   same face. The URL is relative to this stylesheet, so it resolves at any
+   page depth. Engine-V2/js/card-face.js awaits document.fonts.ready before it
+   rasterises a face, so a swap-in font can never land after the pixels. */
+@font-face {
+  font-family: 'Teko';
+  src: url('../fonts/Teko-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* ===== CSS Custom Properties (Design Tokens) ===== */
 :root {
   color-scheme: dark;
@@ -933,6 +946,23 @@ body.has-fab .app-legal-content { padding-right: 76px; }
   cursor: grab;
 }
 
+/* A composed card face (Engine-V2/js/card-face.js) standing in for the <img>.
+   The width cap carries a vh term so a 1.4 card still fits 80vh. */
+.cv-img.is-face { display: none; }
+.cv-stage .card-face {
+  flex: 0 0 auto;
+  width: min(96vw, 460px, 56vh);
+  cursor: zoom-in;
+  user-select: none;
+  filter: drop-shadow(0 12px 34px rgba(0, 0, 0, 0.55));
+}
+.cv-stage.cv-zoomed .card-face {
+  width: min(96vw, 900px);
+  margin: auto;
+  cursor: grab;
+  filter: none;
+}
+
 .cv-meta {
   display: flex;
   align-items: center;
@@ -1387,4 +1417,138 @@ body.has-fab .app-legal-content { padding-right: 76px; }
   white-space: pre-wrap;
   word-break: break-word;
 }
+
+/* ===== Live card face (markup built by Engine-V2/js/card-face.js) =====
+   A template card is composed at display time: the PNG template underneath,
+   the card's own text on top. card-face.js sets every position inline, so this
+   block only provides the box model and the type.
+
+   The face is a fixed 2.5:3.5 box sized from its HOST's width. A host that
+   crops - the Player flips `.flip-card-back` into a wide band - therefore crops
+   the composed face exactly the way `object-fit: cover` used to crop the <img>.
+   `container-type: inline-size` makes `cqw` mean 1% of the face's own width,
+   which is the unit card-face.js expresses its font sizes in. */
+.card-face {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 5 / 7;
+  container-type: inline-size;
+  overflow: hidden;
+  font-family: 'Teko', 'Segoe UI', Arial, sans-serif;
+  font-weight: 400;
+  line-height: 1.05;
+  color: #14181f;
+}
+
+/* The template keeps its own transparent margin and drop shadow - it is drawn
+   to fill the face box and is never cropped by the box itself. */
+.card-face .cf-template {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: fill;
+}
+
+.card-face .cf-block {
+  position: absolute;
+  overflow: hidden;
+}
+
+.card-face .cf-line {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* The title sits in the printed band, centred on both axes. */
+.card-face .cf-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+.card-face .cf-title .cf-line {
+  width: 100%;
+  /* One line, so an over-long title can be measured and scaled to fit the band
+     (Engine-V2/js/card-face.js fitTitle). */
+  white-space: nowrap;
+}
+
+.card-face .cf-artwork {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.card-face .cf-artwork img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* Repeated diagonal watermark. One oversized rotated block rather than a tiled
+   background image, so it can use the self-hosted Teko face. The opacity here
+   matches WATERMARK_OPACITY in Engine-V2/js/card-face.js - keep them in step. */
+.card-face .cf-watermark {
+  position: absolute;
+  left: -40%;
+  top: -40%;
+  width: 180%;
+  height: 180%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  transform: rotate(-30deg);
+  opacity: 0.04;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.card-face .cf-wm-row {
+  display: flex;
+  justify-content: space-around;
+  white-space: nowrap;
+  font-size: 3cqw;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #4b5563;
+}
+
+/* Stagger every other row so the repetition reads as a texture, not a grid. */
+.card-face .cf-wm-row:nth-child(odd) { padding-left: 7%; }
+
+/* GitHub signature, printed in the transparent margin below the card. */
+.card-face .cf-footer {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8cqw;
+  color: #6b7280;
+  text-decoration: none;
+  opacity: 0.78;
+  letter-spacing: 0.03em;
+}
+
+.card-face .cf-footer svg {
+  width: 1.7em;
+  height: 1.7em;
+  fill: currentColor;
+  flex: 0 0 auto;
+}
+
+/* A host holding a composed face crops it the way the old <img> was cropped. */
+.has-card-face {
+  position: relative;
+  overflow: hidden;
+}
+
+/* The host's <img> is kept in the DOM (ids and `img` selectors elsewhere rely
+   on it) but hidden whenever a composed face stands in for it. */
+img.is-face { display: none; }
 
