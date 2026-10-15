@@ -1,7 +1,7 @@
 /**
  * B&B Shuffle - site navigation floating action button
  *
- * Replaces the per-page footer nav (Home / Library / Flowchart / AI Generator)
+ * Replaces the per-page footer nav (Home / Library / Engine V1 / AI Generator)
  * with one shared radial menu, so navigation is identical on every page and
  * lives in a single place.
  *
@@ -49,9 +49,9 @@
             icon: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>'
         },
         {
-            label: 'Flowchart',
-            href: 'Engine-V2/modules/mermaid/flowchart.html',
-            icon: '<line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/>'
+            label: 'Engine V1',
+            href: 'Engine-V1/index.html',
+            icon: '<path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>'
         },
         {
             label: 'AI Generator',

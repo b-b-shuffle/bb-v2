@@ -10,8 +10,8 @@
  *     the next load; the cache is only a fallback when the network fails.
  *   - Static art/icons/fonts: CACHE-FIRST, refreshed in the background.
  *   - /api/*          : never touched (the backend must always be live).
- *   - /Engine-V2/modules/* : never touched (Mermaid / AI Generator are out of
- *     scope for the shell; let the browser handle them normally).
+ *   - /Engine-V2/modules/* : never touched (the AI Generator and the Card
+ *     Creator are out of scope for the shell; let the browser handle them).
  *   - Requests made with cache:'no-store' (the static fork's local-api.js) are
  *     passed straight through, so the demo's fresh-fetch behaviour survives.
  *

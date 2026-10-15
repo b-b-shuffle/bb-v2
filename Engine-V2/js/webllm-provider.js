@@ -9,8 +9,8 @@
  *
  * WHY A CDN import: this repo has no bundler and no ES modules - but a classic
  * script may still call the dynamic `import()`, which is how WebLLM's own docs
- * load it (`https://esm.run/@mlc-ai/web-llm`). Mermaid is the only other CDN
- * dependency, so this is the house pattern rather than a new one. The ~6 MB
+ * load it (`https://esm.run/@mlc-ai/web-llm`). Google Fonts is the only other
+ * CDN dependency, so this is the house pattern rather than a new one. The ~6 MB
  * engine bundle is only fetched when a model is actually loaded - never on page
  * load, and never just to populate a dropdown.
  *

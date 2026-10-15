@@ -15,7 +15,6 @@ requirements; it does **not** relicense any component.
 
 | Component | Used in | Version | License | Copyright |
 |---|---|---|---|---|
-| [Mermaid](https://mermaid.js.org/) | `Engine-V2/modules/mermaid/flowchart.html` (CDN) | 11.x | MIT | © Knut Sveidqvist and contributors |
 | [Inter](https://fonts.google.com/specimen/Inter) | `Engine-V2`, `shared/css` (Google Fonts CDN) | — | SIL Open Font License 1.1 | © The Inter Project Authors |
 
 Libraries loaded from a CDN are **not redistributed** by this project; the

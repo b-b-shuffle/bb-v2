@@ -1,12 +1,18 @@
 # Publish this branch to GitHub Pages.
 #
-# The site is plain HTML/CSS/JS with no build step, so the repository root is
-# uploaded as-is. Enable it once under Settings -> Pages -> Build and
-# deployment -> Source: "GitHub Actions"; after that every push deploys.
+# The site is plain HTML/CSS/JS with no bundler, so the repository root is the
+# *source*: it stays readable and is never edited in place. `tools/minify.py`
+# copies it to `_site/` with every comment stripped and whitespace compacted,
+# and that build - not the root - is what gets uploaded. Read the script's
+# docstring for what "minify" can and cannot mean for a site that shares globals
+# by name and is loaded as 40 classic <script> tags.
+#
+# Enable it once under Settings -> Pages -> Build and deployment -> Source:
+# "GitHub Actions"; after that every push deploys.
 #
 # Publishing from a different branch? Change `branches` below (or push to
 # `main`). The alternative is Settings -> Pages -> "Deploy from a branch",
-# which needs no workflow at all.
+# which needs no workflow at all (but then it would serve the unminified root).
 
 name: Deploy to GitHub Pages
 
@@ -37,26 +43,20 @@ jobs:
       - name: Check out the site
         uses: actions/checkout@v4
 
-      # Build-gate. This branch has no build step, so a disabled feature is
-      # pruned from the CI checkout just before it is uploaded. Enable the
-      # Mermaid flowchart editor by setting the repository variable
-      # BB_ENABLE_MERMAID=true (Settings -> Secrets and variables -> Variables);
-      # unset means it is not published.
-      - name: Prune disabled features
-        run: |
-          if [ "${{ vars.BB_ENABLE_MERMAID || 'false' }}" != "true" ]; then
-            sh tools/prune-features.sh . mermaid
-          fi
-          # Never publish the pruner itself.
-          rm -rf tools
+      # Build the published copy. The script re-checks itself as it goes: the
+      # strings and template literals of every JS file must survive the strip
+      # unchanged, no comment may remain in any output file, and `node --check`
+      # must accept every script. Any of those failing fails the deploy.
+      - name: Minify into _site
+        run: python3 tools/minify.py . _site
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
-      - name: Upload the repository root
+      - name: Upload the minified site
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: _site
 
       - name: Deploy
         id: deployment
