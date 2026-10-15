@@ -19,7 +19,7 @@
  */
 'use strict';
 
-const VERSION = 'bb-shuffle-v6';
+const VERSION = 'bb-shuffle-v7';
 // Every cache this worker owns starts with PREFIX; anything else in Cache Storage
 // (notably the in-browser model runtime's own buckets) is left strictly alone.
 const PREFIX = 'bb-shuffle-';

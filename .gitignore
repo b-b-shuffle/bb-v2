@@ -7,7 +7,13 @@
 # docs/card-details.json, LICENSE and NOTICE. Pages publishes the whole root,
 # so keep that list deliberate - anything committed here is also downloadable
 # from the public site.
+#
+# The published copy itself is built, not committed: .github/workflows/pages.yml
+# runs tools/minify.py into _site/ and uploads that. Build it by hand for a local
+# preview of the minified site:
+#     python tools/minify.py . _site  &&  python -m http.server 8101
 # ---------------------------------------------------------------------------
+_site/
 docs/detection/*
 # --- OS / editor ---
 .DS_Store
@@ -15,7 +21,7 @@ Thumbs.db
 *.swp
 *.swo
 .vscode/
-
+3d-print/
 # --- Local runtime data ---
 # The Python API server (gone from this branch) used this tree for scenarios,
 # uploads and the Custom Cards deck envelope. The static build keeps user
@@ -24,6 +30,7 @@ data/
 
 # --- Contributor notes (deliberately not published) ---
 AGENTS.md
+temp/
 
 # --- Developer docs: ship the data and the rule book, not the prose ---
 docs/*
@@ -33,7 +40,7 @@ docs/*
 # negation on its own misses the nested detection files.
 !docs/detection/
 
-# --- Dependencies (this branch has no build step) ---
+# --- Dependencies ---
 node_modules/
 
 # --- Logs ---

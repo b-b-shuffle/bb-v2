@@ -59,6 +59,7 @@ SKIP_DIRS = {
     "__pycache__",
     "data",        # runtime content; the static build keeps user data in the browser
     "3d-print",
+    "temp",        # local archives and scratch files
     "logs",
 }
 

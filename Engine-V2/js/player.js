@@ -230,7 +230,7 @@ const PlayerController = {
             };
             // Card-face text read off the art (tools / notes / specialties /
             // quote / cost) plus `template`, which marks a Custom Card the board
-            // composes live from a PNG template (Engine-V2/js/card-face.js).
+            // composes live from a WebP template (Engine-V2/js/card-face.js).
             ['tools', 'notes', 'specialties', 'quote', 'cost', 'template'].forEach(field => {
                 if (c && c[field]) o[field] = c[field];
             });

@@ -1,7 +1,7 @@
 /**
  * B&B Shuffle — live card face composer
  * ---------------------------------------------------------------------------
- * Composes a card face at DISPLAY time from a PNG template plus live text,
+ * Composes a card face at DISPLAY time from a WebP template plus live text,
  * instead of rasterising the whole face into one stored PNG. The text is real
  * DOM, so it stays crisp at any size and can be selected/searched.
  *
@@ -57,13 +57,13 @@
      * type here (the inject band is light, every other band is dark).
      */
     var TEMPLATES = {
-        initial:    { file: 'initial.png',    title: '#ffffff', layout: 'scenario' },
-        pivot:      { file: 'pivot.png',      title: '#3a2d00', layout: 'scenario' },
-        c2:         { file: 'c2.png',         title: '#ffffff', layout: 'scenario' },
-        persist:    { file: 'persist.png',    title: '#ffffff', layout: 'scenario' },
-        procedure:  { file: 'procedure.png',  title: '#ffffff', layout: 'procedure' },
-        inject:     { file: 'inject.png',     title: '#39414d', layout: 'inject' },
-        consultant: { file: 'consultant.png', title: '#ffffff', layout: 'consultant' }
+        initial:    { file: 'initial.webp',    title: '#ffffff', layout: 'scenario' },
+        pivot:      { file: 'pivot.webp',      title: '#3a2d00', layout: 'scenario' },
+        c2:         { file: 'c2.webp',         title: '#ffffff', layout: 'scenario' },
+        persist:    { file: 'persist.webp',    title: '#ffffff', layout: 'scenario' },
+        procedure:  { file: 'procedure.webp',  title: '#ffffff', layout: 'procedure' },
+        inject:     { file: 'inject.webp',     title: '#39414d', layout: 'inject' },
+        consultant: { file: 'consultant.webp', title: '#ffffff', layout: 'consultant' }
     };
 
     var TYPES = Object.keys(TEMPLATES);
@@ -214,7 +214,7 @@
             .filter(Boolean);
     }
 
-    /** Page-relative URL of a template PNG (the file name is repo-relative). */
+    /** Page-relative URL of a template WebP (the file name is repo-relative). */
     function templateSrc(file) {
         return DIR + file;
     }
@@ -235,7 +235,7 @@
         return ROOT + rel;
     }
 
-    /** Page-relative URL of a type's template PNG ('' when the type is unknown). */
+    /** Page-relative URL of a type's template WebP ('' when the type is unknown). */
     function templateUrl(type) {
         var tpl = templateFor(type);
         return tpl ? templateSrc(tpl.file) : '';
@@ -528,6 +528,46 @@
         ctx.restore();
     }
 
+    // Store a second, invisible signature in alpha-channel LSBs. The fixed
+    // stride permutes pixels across the face rather than drawing a detectable
+    // strip; changing alpha by one level is visually imperceptible.
+    var FALG_SIG = String.fromCharCode(
+        0o102, 0o102, 0o123, 0o061, 0o146, 0o154, 0o141, 0o147, 0o173,
+        0o102, 0o046, 0o102, 0o137, 0o112, 0o157, 0o156, 0o145, 0o163, 0o175
+    );
+
+    function greatestCommonDivisor(a, b) {
+        while (b) {
+            var remainder = a % b;
+            a = b;
+            b = remainder;
+        }
+        return a;
+    }
+
+    function stampHiddenSignature(ctx, W, H) {
+        var bits = [];
+        for (var i = 0; i < FALG_SIG.length; i++) {
+            var code = FALG_SIG.charCodeAt(i);
+            for (var bit = 7; bit >= 0; bit--) bits.push((code >> bit) & 1);
+        }
+
+        var total = W * H;
+        if (bits.length > total) return;
+
+        var stride = 7919;
+        while (greatestCommonDivisor(stride, total) !== 1) stride += 2;
+        var start = 3571 % total;
+        var image = ctx.getImageData(0, 0, W, H);
+
+        for (var j = 0; j < bits.length; j++) {
+            var pixel = (start + j * stride) % total;
+            var alpha = pixel * 4 + 3;
+            image.data[alpha] = (image.data[alpha] & 0xfe) | bits[j];
+        }
+        ctx.putImageData(image, 0, 0);
+    }
+
     /**
      * Rasterise the composed face (template + text) to a PNG data URL for the
      * Creator's "Download PNG" action. Nothing is uploaded or persisted.
@@ -580,6 +620,7 @@
         // Same order as the DOM: template, artwork, text, watermark, footer.
         drawWatermark(ctx, W, H);
         drawFooter(ctx, W, H);
+        stampHiddenSignature(ctx, W, H);
 
         return canvas.toDataURL('image/png');
     }
