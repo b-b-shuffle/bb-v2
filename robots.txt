@@ -1,0 +1,10 @@
+# B&B Shuffle – https://bbshuffle.com
+#
+# Cloudflare can inject a managed robots.txt for this zone; if it does, disable
+# "Managed robots.txt" in the Cloudflare dashboard so this file is served.
+# Engine-V1 is deliberately not disallowed: its pages carry noindex, and a
+# Disallow would stop crawlers from ever seeing that directive.
+User-agent: *
+Allow: /
+
+Sitemap: https://bbshuffle.com/sitemap.xml

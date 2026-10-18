@@ -1,5 +1,5 @@
 /**
- * B&B Shuffle Engine-V2 — Card FX
+ * B&B Shuffle Engine-V2 – Card FX
  * ============================================================
  * Pointer-tracked holographic card effects: a 3D tilt that follows
  * the cursor plus a blended holo sheen and a click "burst". Inspired
@@ -155,7 +155,7 @@
     global.setTimeout(done, 900); // fallback if animations are suppressed
   }
 
-  // Zoom toggles land on `click`, after the class flips — clear any lingering
+  // Zoom toggles land on `click`, after the class flips – clear any lingering
   // hover FX so the zoomed image is completely clean.
   function onDocumentClick(e) {
     if (!enabled) return;
@@ -181,8 +181,8 @@
     btn.disabled = !capabilityOK;
     btn.title = !capabilityOK
       ? 'Card FX is unavailable on this device (needs a mouse and motion enabled)'
-      : (enabled ? 'Card FX on — holographic tilt on cards. Click to turn off.'
-                 : 'Card FX off — static cards. Click to turn on.');
+      : (enabled ? 'Card FX on – holographic tilt on cards. Click to turn off.'
+                 : 'Card FX off – static cards. Click to turn on.');
     var state = document.getElementById('card-fx-btn-state');
     if (state) state.textContent = enabled ? 'on' : 'off';
   }

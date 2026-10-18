@@ -1,5 +1,5 @@
 /**
- * B&B Shuffle — Custom Card Creator
+ * B&B Shuffle – Custom Card Creator
  * ------------------------------------------------------------------
  * Live form -> template-composed preview -> export as PNG / JSON.
  *
@@ -543,7 +543,7 @@ const CardCreator = {
 
             this.syncForm();
             this.render();
-            this.setStatus(status, 'Fields generated — review and edit before saving.', 'ok');
+            this.setStatus(status, 'Fields generated – review and edit before saving.', 'ok');
         } catch (e) {
             this.setStatus(status, e.message, 'err');
         } finally {

@@ -42,7 +42,7 @@
     // different here, so this mode supplies its own wording.
     const ROLL_PROMPT_HINT = 'Rolling without a procedure sweeps everything at once: a good roll still tells ' +
         'you which phase looks loudest, but it cannot use a card\'s DETECTION list to name the technique ' +
-        '— and it still spends a turn.';
+        '– and it still spends a turn.';
     const INTRO_MODAL_ID = 'solo-intro-modal';
     const CREDIT_ID = 'solo-credit';
     const SETTINGS_MODAL_ID = 'im-settings-modal';
@@ -190,7 +190,7 @@
                     });
                 });
             } catch (error) {
-                console.warn('[SoloMaster] detection catalog unavailable — clues lose relevance', error);
+                console.warn('[SoloMaster] detection catalog unavailable – clues lose relevance', error);
             }
             return { byImage, byName };
         })();
@@ -290,7 +290,7 @@
         {
             key: 'soc-lead',
             name: 'SOC Shift Lead',
-            blurb: 'Alert triage and the overnight queue — the SIEM\'s point of view.',
+            blurb: 'Alert triage and the overnight queue – the SIEM\'s point of view.',
             knows: 'You live in the alert queue: which rule fired, in what order, what the console showed, ' +
                 'how the shift escalated it. You speak in triage, severity, timing and noise.',
             limits: 'you are not the forensic examiner. When a question needs memory, disk or registry ' +
@@ -316,7 +316,7 @@
         {
             key: 'network',
             name: 'Network Security Analyst',
-            blurb: 'Flows, DNS, proxy and TLS metadata — what crossed the wire.',
+            blurb: 'Flows, DNS, proxy and TLS metadata – what crossed the wire.',
             knows: 'You read traffic: NetFlow, DNS resolution, proxy logs, TLS metadata, beacon timing ' +
                 'and jitter, and where the segmentation boundaries are.',
             limits: 'you cannot see inside a host. When a question is about files, memory or the registry, ' +
@@ -325,10 +325,10 @@
         {
             key: 'threat-intel',
             name: 'Threat Intelligence Analyst',
-            blurb: 'Actor tradecraft and campaign context — patterns, not confirmed facts.',
+            blurb: 'Actor tradecraft and campaign context – patterns, not confirmed facts.',
             knows: 'You think in pattern and likelihood: what this class of tradecraft usually implies, ' +
                 'who normally uses it, and how it fits a wider campaign.',
-            limits: 'you speak in inference, never in confirmed local findings — you say what is typical ' +
+            limits: 'you speak in inference, never in confirmed local findings – you say what is typical ' +
                 'and lean on the evidence others collect to rule it in or out.'
         },
         {
@@ -343,7 +343,7 @@
         {
             key: 'ciso',
             name: 'CISO / Executive Sponsor',
-            blurb: 'Risk, exposure and the regulatory clock — technical detail in plain language.',
+            blurb: 'Risk, exposure and the regulatory clock – technical detail in plain language.',
             knows: 'You speak in risk and consequence: exposure, customer impact, breach-notification ' +
                 'clocks, and what you would have to tell the board.',
             limits: 'you are not technical. You translate what the team says into plain language and never ' +
@@ -361,46 +361,46 @@
             key: 'plain',
             name: 'Matter-of-Fact',
             blurb: 'Clear and professional, with no particular colour.',
-            voice: 'even, clear and professional — no jokes, no drama, no filler'
+            voice: 'even, clear and professional – no jokes, no drama, no filler'
         },
         {
             key: 'veteran',
             name: 'Grizzled Veteran',
             blurb: 'Terse and dry; has seen this before.',
-            voice: 'terse and dry, with the weariness of someone who has done this many times — short ' +
+            voice: 'terse and dry, with the weariness of someone who has done this many times – short ' +
                 'sentences and understated humour'
         },
         {
             key: 'mentor',
             name: 'Encouraging Mentor',
             blurb: 'Patient and instructive; explains the why.',
-            voice: 'patient and encouraging — you explain why a clue matters and what it rules in or out, ' +
+            voice: 'patient and encouraging – you explain why a clue matters and what it rules in or out, ' +
                 'without ever being condescending'
         },
         {
             key: 'bybook',
             name: 'By the Book',
             blurb: 'Precise and procedural; cites the process.',
-            voice: 'precise and procedural — you name the step you are on and what the playbook says next'
+            voice: 'precise and procedural – you name the step you are on and what the playbook says next'
         },
         {
             key: 'deadpan',
             name: 'Deadpan',
             blurb: 'Flat delivery and heavy understatement.',
-            voice: 'flat and unexcitable — facts arrive with no emotional colour and the occasional ' +
+            voice: 'flat and unexcitable – facts arrive with no emotional colour and the occasional ' +
                 'deadpan aside'
         },
         {
             key: 'blunt',
             name: 'Blunt',
             blurb: 'Direct, no pleasantries, says the hard thing.',
-            voice: 'blunt and impatient — no pleasantries, and you say the uncomfortable thing plainly'
+            voice: 'blunt and impatient – no pleasantries, and you say the uncomfortable thing plainly'
         },
         {
             key: 'enthusiast',
             name: 'Enthusiast',
             blurb: 'Animated; genuinely enjoys the puzzle.',
-            voice: 'animated and genuinely interested in the puzzle — visibly invested when a lead lands'
+            voice: 'animated and genuinely interested in the puzzle – visibly invested when a lead lands'
         }
     ];
 
@@ -646,18 +646,18 @@
     const OFFLINE = {
         critical_fail: [
             'Your query floods the SIEM with false positives and you burn the window filtering noise.',
-            'The evidence you were examining gets overwritten — the chain of custody is now compromised.',
+            'The evidence you were examining gets overwritten – the chain of custody is now compromised.',
             'You follow a promising lead that turns out to be routine administrative activity.'
         ],
         failure: [
             'The data is either too noisy to read or the attacker covered their tracks well.',
-            'The logs for this window are suspiciously sparse — nothing stands out.',
+            'The logs for this window are suspiciously sparse – nothing stands out.',
             'Your search is too broad to be useful. You need a more targeted question.'
         ],
         partial: [
             'Something looks off, but you cannot yet say what. An anomaly in the timing, perhaps.',
             'You find indirect evidence of suspicious activity. Suggestive, not conclusive.',
-            'The pattern is there but faint — someone was here, but the picture stays unclear.'
+            'The pattern is there but faint – someone was here, but the picture stays unclear.'
         ],
         generic_success: [
             'Solid evidence uncovered. You are making real progress on the attack.',
@@ -667,7 +667,7 @@
         relevant_success: [
             'The logs show behaviour that clearly is not normal business traffic.',
             'You have found artefacts the attacker almost certainly left behind.',
-            'This is exactly the evidence you needed — it points squarely at one technique.'
+            'This is exactly the evidence you needed – it points squarely at one technique.'
         ]
     };
 
@@ -691,7 +691,7 @@
         if (tier === 'critical_success') {
             const card = context.bestCard;
             if (card && card.description) {
-                return `${pick(OFFLINE.relevant_success)} The printed scenario text reads: "${card.description}" — that is the clearest possible read on this phase.`;
+                return `${pick(OFFLINE.relevant_success)} The printed scenario text reads: "${card.description}" – that is the clearest possible read on this phase.`;
             }
             return pick(OFFLINE.relevant_success);
         }
@@ -884,7 +884,7 @@
             if (!state.warnedProvider) {
                 state.warnedProvider = true;
                 log('The Incident Master could not be reached (' + scrub(error && error.message ? error.message : 'request failed') +
-                    ') — falling back to offline clues.', 'meta');
+                    ') – falling back to offline clues.', 'meta');
             }
             if (state.consecutiveFailures >= 2) {
                 state.providerDown = true;
@@ -927,7 +927,7 @@
      * Roll hook, called by PlayerController.resolveRoll() with its outcome meta.
      *
      * Rolls are never dropped. A roll that lands while a clue is still being
-     * written joins the queue and is narrated in order — a slow or overloaded
+     * written joins the queue and is narrated in order – a slow or overloaded
      * provider used to swallow the player's second investigation outright.
      */
     function onRoll(meta) {
@@ -956,14 +956,14 @@
             cards: hiddenCards()
         };
         if (entry.general) {
-            log('Untargeted sweep — no procedure selected, so this is a general hint.', 'meta');
+            log('Untargeted sweep – no procedure selected, so this is a general hint.', 'meta');
         }
 
         // Spend the turn now so the board agrees with the roll immediately, even
         // while the Incident Master is still composing its answer.
         spendTurn();
 
-        log(`Roll ${meta.base}${meta.bonus ? ' +' + meta.bonus : ''} = ${meta.total} — ${tierLabel(tier)}` +
+        log(`Roll ${meta.base}${meta.bonus ? ' +' + meta.bonus : ''} = ${meta.total} – ${tierLabel(tier)}` +
             (procedure ? ` · ${procedure.name}` : ''), 'meta');
 
         state.queue.push(entry);
@@ -992,9 +992,9 @@
                     if (entry.confirm) {
                         const card = entry.cards[entry.confirm];
                         log(`DETECTION CONFIRMED · ${TYPE_LABELS[entry.confirm] || entry.confirm}` +
-                            (card ? ' — ' + card.name : ''), 'success');
+                            (card ? ' – ' + card.name : ''), 'success');
                     } else if (entry.alreadyKnown) {
-                        log('Nothing new — the phases this procedure covers are already identified.', 'meta');
+                        log('Nothing new – the phases this procedure covers are already identified.', 'meta');
                     }
                     state.history.push({
                         turn: entry.turn,
@@ -1157,7 +1157,7 @@
         setBusy(true, 'The Incident Master is writing the debrief…');
         const text = await ask('debrief', { won, cards, history: state.history });
         if (text) log(text, 'narrator');
-        else if (!won) log('Review the clues against the chain above — the evidence for each phase was there.', 'narrator');
+        else if (!won) log('Review the clues against the chain above – the evidence for each phase was there.', 'narrator');
         setBusy(false);
     }
 
@@ -1180,7 +1180,7 @@
                 seen.add(key);
                 return true;
             }).sort((a, b) => String(a.name).localeCompare(String(b.name)));
-            select.innerHTML = '<option value="">— Select —</option>' + options
+            select.innerHTML = '<option value="">– Select –</option>' + options
                 .map(card => `<option value="${esc(card.id != null ? card.id : card.name)}">${esc(card.name)}</option>`)
                 .join('');
         });
@@ -1221,7 +1221,7 @@
         // solvable by enumeration, which is what the strikes are there to stop.
         if (correct === SCENARIO_TYPES.length) {
             closeAccusation();
-            log(`ACCUSATION: ${correct}/${SCENARIO_TYPES.length} correct — case closed.`, 'success');
+            log(`ACCUSATION: ${correct}/${SCENARIO_TYPES.length} correct – case closed.`, 'success');
             const pc = controller();
             if (pc) pc.showGameOver('win');
             void endGame(true);
@@ -1313,7 +1313,7 @@
         if (!select) return;
         const list = Array.isArray(models) ? models.slice() : [];
         const wanted = preferred || settings.model || '';
-        select.innerHTML = '<option value="">— provider default —</option>' +
+        select.innerHTML = '<option value="">– provider default –</option>' +
             list.map(m => `<option value="${esc(m)}">${esc(m)}</option>`).join('');
         if (wanted && list.includes(wanted)) {
             select.value = wanted;
@@ -1471,7 +1471,7 @@
      * Deal an empty board, or leave a running game alone.
      *
      * Only ever called from a user gesture (the intro or the AI target closing),
-     * so `loadScenario()` has long since settled — unlike init(), where the board
+     * so `loadScenario()` has long since settled – unlike init(), where the board
      * is still loading and "no scenario" cannot yet be told from "not loaded".
      */
     function promptForDeal() {
@@ -1503,7 +1503,7 @@
         await openSettings();
         const status = byId(SETTINGS_STATUS_ID);
         if (status) {
-            status.textContent = 'No AI target set yet — add a key for full narration, '
+            status.textContent = 'No AI target set yet – add a key for full narration, '
                 + 'or close this to play with the offline clue tables.';
         }
     }
@@ -1612,7 +1612,7 @@
         state.warnedProvider = false;
 
         const target = await describeTarget();
-        if (!options.quiet && status) status.textContent = 'Saved — clues will come from ' + target + '.';
+        if (!options.quiet && status) status.textContent = 'Saved – clues will come from ' + target + '.';
         await refreshStatus();
         // Re-evaluate the model list so a stale "not offered by this key" warning
         // clears as soon as the choice is fixed.
@@ -1639,7 +1639,7 @@
             const reply = await AIClient.chat('Reply with exactly one word: ready');
             const spoken = scrub(String(reply || '').trim().replace(/\s+/g, ' ').slice(0, 60));
             if (status) status.textContent = spoken
-                ? `Connection OK — the model replied “${spoken}”.`
+                ? `Connection OK – the model replied “${spoken}”.`
                 : 'Connection OK, but the model returned no text.';
             Utils.showToast('Incident Master connection OK', 'success');
         } catch (error) {
@@ -1696,7 +1696,7 @@
         // (filtered once the engine has loaded) and explain the download.
         if (provider === 'webllm') {
             populateModels(localModels(), settings.model || select.value);
-            setModelHint('Runs in your browser — download the selected model below, then play offline.');
+            setModelHint('Runs in your browser – download the selected model below, then play offline.');
             return;
         }
 
@@ -1723,7 +1723,7 @@
                     setModelHint(`${result.models.length} model${result.models.length === 1 ? '' : 's'} available from ${origin}.`, 'ok');
                 }
             } else if (result.error) {
-                setModelHint('Showing common models — ' + result.error + '.', 'error');
+                setModelHint('Showing common models – ' + result.error + '.', 'error');
             } else {
                 setModelHint('Showing common models for this provider.');
             }
@@ -1894,7 +1894,7 @@
         if (token !== readyToken) return;
         if (!opening) {
             opening = [
-                'ALERT — your SOC escalates an incident and the overnight analyst\'s notes mention',
+                'ALERT – your SOC escalates an incident and the overnight analyst\'s notes mention',
                 '"anomalous network traffic" and "possible lateral movement". The attack chain is hidden',
                 'from you: investigate with procedure cards to earn clues, then accuse four cards to close the case.'
             ].join(' ');
@@ -1974,7 +1974,7 @@
             if (e.target.id === ACCUSATION_MODAL_ID) closeAccusation();
         });
 
-        // Rules card — every exit runs the same follow-up (see afterIntro)
+        // Rules card – every exit runs the same follow-up (see afterIntro)
         byId('solo-intro-done-btn')?.addEventListener('click', dismissIntro);
         byId('solo-intro-close-btn')?.addEventListener('click', dismissIntro);
         byId('solo-intro-settings-btn')?.addEventListener('click', introToSettings);
@@ -2108,7 +2108,7 @@
         // `setupGame()` is the single funnel for starting a game (init, Quick
         // Start and Load all reach it) and the wrapper above narrates from it, so
         // nothing is kicked off here. Everything that used to happen on an empty
-        // board — the deck prompt, the AI-target nudge — is chained off the back
+        // board – the deck prompt, the AI-target nudge – is chained off the back
         // of the rules card instead, so a first-time player meets them in order
         // rather than as a pile of dialogs.
         setTimeout(openIntro, 0);

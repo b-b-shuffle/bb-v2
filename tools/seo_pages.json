@@ -1,0 +1,13 @@
+{
+  "baseUrl": "https://bbshuffle.com",
+  "pages": [
+    { "file": "index.html", "url": "/" },
+    { "file": "how-to-play.html", "url": "/how-to-play.html" },
+    { "file": "Engine-V2/player.html", "url": "/Engine-V2/player.html" },
+    { "file": "Engine-V2/scenario-library.html", "url": "/Engine-V2/scenario-library.html" },
+    { "file": "shared/catalogue.html", "url": "/shared/catalogue.html" },
+    { "file": "shared/card-index.html", "url": "/shared/card-index.html" },
+    { "file": "Engine-V2/modules/card-creator/card_creator.html", "url": "/Engine-V2/modules/card-creator/card_creator.html" },
+    { "file": "Engine-V2/modules/scenario-ai/scenario_ai.html", "url": "/Engine-V2/modules/scenario-ai/scenario_ai.html" }
+  ]
+}

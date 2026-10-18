@@ -1,6 +1,10 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>B&B Shuffle | Engine-V1</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, follow">
+  <title>B&amp;B Shuffle | Engine-V1</title>
   <link rel="stylesheet" href="styles.css?v=5">
   <link rel="stylesheet" href="builder-styles.css?v=1">
   <link rel="stylesheet" href="deck-styles.css?v=1">
@@ -11,6 +15,7 @@
 
 </head>
 
+<body>
 <!-- Collapsible Header -->
 <div id="collapsibleHeader" class="collapsible-header">
   <div class="header-bar">
@@ -103,7 +108,7 @@
 
   <!-- SCENARIO CARDS -->
   <header>
-    <h1 tabindex="0" class="title">SCENARIO</h1>
+      <h1 tabindex="0" class="title">SCENARIO</h1>
   </header>
   <section class="cards">
 
@@ -162,7 +167,7 @@
   <!-- PROCEDURE CARDS -->
   <header>
     <center>
-      <h1 tabindex="0" class="title">PROCEDURES</h1>
+      <h2 tabindex="0" class="title">PROCEDURES</h2>
   </header>
 
   <strong>Established Procedures:</strong>
@@ -177,7 +182,7 @@
   <div id="injectdiv">
     <div id="injectdivheader">
       <header>
-        <h1 tabindex="0" class="title">INJECTS</h1>
+        <h2 tabindex="0" class="title">INJECTS</h2>
       </header>
     </div>
     <button onClick="customtoggle();boxtoggle('start');buildinjmenu()">Custom Inject</button>
@@ -199,7 +204,7 @@
   <div id="mydiv">
     <div id="mydivheader">
       <header>
-        <h1 tabindex="0">GAME PROGRESS</h1>
+        <h2 tabindex="0">GAME PROGRESS</h2>
       </header>
     </div>
     <span id="button"><input type="button" onclick="roll_dice(0)" value="Roll Dice" /></span>
@@ -224,7 +229,7 @@
   <div id="dicebox">
     <div id="diceboxheader">
       <header>
-        <h1 tabindex="0">DiceBox</h1>
+        <h2 tabindex="0">DiceBox</h2>
       </header>
     </div>
     <span><input type="button" onclick="roll_d20(0)" value="Roll D20" /></span>
@@ -238,7 +243,7 @@
   <div id="gmnotes">
     <div id="gmnotesheader">
       <header>
-        <h1 tabindex="0">NOTES</h1>
+        <h2 tabindex="0">NOTES</h2>
       </header>
     </div>
     <hr>
@@ -289,3 +294,5 @@
 <script type="text/javascript" src="ui-builder.js?v=1"></script>
 <script type="text/javascript" src="dice-script.js?v=1"></script>
 <script type="text/javascript" src="flip-script.js?v=1"></script>
+</body>
+</html>

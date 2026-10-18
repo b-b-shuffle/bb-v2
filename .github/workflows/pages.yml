@@ -43,12 +43,33 @@ jobs:
       - name: Check out the site
         uses: actions/checkout@v4
 
+      # Regenerate the crawlable card index from docs/card-details.json and the
+      # DECKS array in shared/catalogue.html. Deterministic output, so a stale
+      # committed copy is corrected here before it ships.
+      - name: Build card index
+        run: python3 tools/build_card_index.py
+
+      # The service worker precaches this list on install, so an installed
+      # device can run entirely offline, including every card image.
+      - name: Build offline manifest
+        run: python3 tools/build_sw_manifest.py
+
+      # Fail before deploying if a page loses its title, description or
+      # canonical, or if two pages share a title. The scanner is vendored in
+      # tools/ because .github/skills is local-only and never committed.
+      - name: Check SEO gaps
+        run: python3 tools/seo_scan.py . --strict
+
       # Build the published copy. The script re-checks itself as it goes: the
       # strings and template literals of every JS file must survive the strip
       # unchanged, no comment may remain in any output file, and `node --check`
       # must accept every script. Any of those failing fails the deploy.
       - name: Minify into _site
         run: python3 tools/minify.py . _site
+
+      # Written after minify: the minifier recreates _site from scratch.
+      - name: Build sitemap
+        run: python3 tools/build_seo.py --src . --out _site
 
       - name: Configure Pages
         uses: actions/configure-pages@v5

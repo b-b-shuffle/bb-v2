@@ -13,7 +13,23 @@
     <link rel="icon" type="image/png" href="shared/img/favicon.png">
     <link rel="apple-touch-icon" href="shared/img/apple-touch-icon.png">
     <link rel="manifest" href="manifest.webmanifest">
-    <title>B&amp;B Shuffle — Project Home</title>
+    <title>B&amp;B Shuffle – Backdoors &amp; Breaches Tabletop Online</title>
+    <meta name="description" content="Run Backdoors &amp; Breaches remotely with free, open-source incident-response tabletop dashboards: scenario editor, card catalogue and optional solo AI incident master.">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://bbshuffle.com/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="B&amp;B Shuffle">
+    <meta property="og:title" content="B&amp;B Shuffle – Backdoors &amp; Breaches Tabletop Online">
+    <meta property="og:description" content="Run Backdoors &amp; Breaches remotely with free, open-source incident-response tabletop dashboards: scenario editor, card catalogue and optional solo AI incident master.">
+    <meta property="og:url" content="https://bbshuffle.com/">
+    <meta property="og:image" content="https://bbshuffle.com/shared/img/og-bbshuffle.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="en_US">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="B&amp;B Shuffle – Backdoors &amp; Breaches Tabletop Online">
+    <meta name="twitter:description" content="Run Backdoors &amp; Breaches remotely with free, open-source incident-response tabletop dashboards: scenario editor, card catalogue and optional solo AI incident master.">
+    <meta name="twitter:image" content="https://bbshuffle.com/shared/img/og-bbshuffle.png">
     <link rel="stylesheet" href="shared/css/base.css">
     <style>
         body {
@@ -52,6 +68,14 @@
         .portal-logo { height: 84px; width: auto; margin-bottom: 6px; filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.55)); }
         .portal-header h1 { margin: 8px 0 4px; font-size: 32px; letter-spacing: -0.01em; }
         .portal-sub { margin: 0; color: var(--color-text-secondary); font-size: 14px; }
+
+        /* How-to-play entry point. The short rules summary lives in a modal;
+           the full guide is a real page so it can be read and indexed. */
+        .portal-howto-row { display: flex; align-items: center; justify-content: center; gap: 10px 16px; flex-wrap: wrap; margin: 14px 0 0; }
+        .portal-howto-btn { padding: 8px 16px; border: 1px solid var(--color-border); border-radius: var(--radius-full); background: var(--color-surface); color: var(--color-text); font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
+        .portal-howto-btn:hover { border-color: var(--color-primary); color: var(--color-primary); }
+        #howto-modal .modal-body ol { margin: 0 0 12px; padding-left: 24px; }
+        #howto-modal .modal-body li { margin-bottom: 6px; }
 
         /* Fan of card-backs laid on the mat */
         .portal-fan {
@@ -214,18 +238,36 @@
         .portal-card--feature p { font-size: 13px; }
         .portal-card--feature::before { height: 4px; }
     </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "B&B Shuffle",
+      "url": "https://bbshuffle.com/",
+      "description": "Free, open-source incident-response tabletop dashboards for running Backdoors & Breaches sessions remotely: scenario editor, player board, card catalogue and solo AI.",
+      "applicationCategory": "GameApplication",
+      "operatingSystem": "Any (browser)",
+      "browserRequirements": "Requires JavaScript",
+      "isAccessibleForFree": true,
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "license": "https://www.gnu.org/licenses/gpl-3.0.html",
+      "image": "https://bbshuffle.com/shared/img/og-bbshuffle.png",
+      "author": { "@type": "Person", "name": "Jonesckevin", "url": "https://github.com/Jonesckevin" },
+      "isPartOf": { "@type": "WebSite", "name": "B&B Shuffle", "url": "https://bbshuffle.com/" }
+    }
+    </script>
 </head>
 <body class="surface-felt">
     <div class="portal">
         <!-- Header -->
         <header class="portal-header">
             <div class="portal-halo" aria-hidden="true"></div>
-            <img class="portal-logo" src="shared/img/bb-logo-transparent-w.png" alt="Backdoors &amp; Breaches logo">
+            <img class="portal-logo" src="shared/img/bb-logo-transparent-w.png" alt="Backdoors &amp; Breaches logo" width="2518" height="999" decoding="async">
             <h1>B&amp;B Shuffle</h1>
-            <p class="portal-sub">Backdoors &amp; Breaches — remote incident-response training dashboards</p>
+            <p class="portal-sub">Backdoors &amp; Breaches – remote incident-response training dashboards</p>
             <p class="portal-demo-note"><strong>Read-only Live Site</strong> Browse the scenario library, rebuild a scenario in the
                 editor and send it to the Player board - but nothing is saved to the site: your changes only exist in this browser
-                until you reload.
+                until you reload.</p>
             <div class="portal-fan" aria-hidden="true">
                 <img src="shared/decks/cardbacks/v2/initial.webp" alt="">
                 <img src="shared/decks/cardbacks/v2/pivot.webp" alt="">
@@ -233,6 +275,9 @@
                 <img src="shared/decks/cardbacks/v2/persist.webp" alt="">
                 <img src="shared/decks/cardbacks/v2/procedure.webp" alt="">
             </div>
+            <p class="portal-howto-row">
+                <button type="button" class="portal-howto-btn" id="howto-open" aria-haspopup="dialog">How to play</button>
+            </p>
         </header>
 
         <main>
@@ -258,7 +303,7 @@
                             </svg>
                         </span>
                         <h3>Player Interface</h3>
-                        <p>The live game board — scenario cards, procedures, dice and turn tracking.</p>
+                        <p>The live game board – scenario cards, procedures, dice and turn tracking.</p>
                         <span class="go">Open →</span>
                     </a>
                     <a class="portal-card" style="--accent:#6366f1" href="Engine-V2/admin.html">
@@ -276,7 +321,7 @@
                             </svg>
                         </span>
                         <h3>Scenario Editor</h3>
-                        <p>Build and configure scenarios — deck, cards, procedures and settings.</p>
+                        <p>Build and configure scenarios – deck, cards, procedures and settings.</p>
                         <span class="go">Open →</span>
                     </a>
                     <a class="portal-card" style="--accent:#8b5cf6" href="Engine-V2/scenario-library.html">
@@ -299,7 +344,7 @@
                             </svg>
                         </span>
                         <h3>Solo AI (PvE)</h3>
-                        <p>Play solo against an AI Incident Master — the attack chain is hidden and your investigations earn the clues.</p>
+                        <p>Play solo against an AI Incident Master – the attack chain is hidden and your investigations earn the clues.</p>
                         <span class="go">Open →</span>
                     </a>
                 </div>
@@ -370,10 +415,10 @@
 
             <!-- Official game -->
             <div class="portal-banner">
-                <img class="portal-banner-logo" src="shared/img/blackhills-logo-w.png" alt="Black Hills Information Security logo">
+                <img class="portal-banner-logo" src="shared/img/blackhills-logo-w.png" alt="Black Hills Information Security logo" width="1201" height="451" loading="lazy" decoding="async">
                 <div class="portal-banner-text">
                     <strong>Looking for the original game?</strong>
-                    <p><a href="https://www.blackhillsinfosec.com/tools/backdoorsandbreaches/classic" target="_blank" rel="noopener noreferrer">Backdoors &amp; Breaches — Classic</a> is published by Black Hills Information Security.</p>
+                    <p><a href="https://www.blackhillsinfosec.com/tools/backdoorsandbreaches/classic" target="_blank" rel="noopener noreferrer">Backdoors &amp; Breaches – Classic</a> is published by Black Hills Information Security.</p>
                 </div>
             </div>
         </main>
@@ -382,19 +427,65 @@
     <!-- Legal footer -->
     <footer class="app-legal">
         <div class="app-legal-content">
-            <a class="app-legal-classic" href="https://www.blackhillsinfosec.com/tools/backdoorsandbreaches/classic" target="_blank" rel="noopener noreferrer" title="Backdoors &amp; Breaches — Classic (official site)">
-                <img class="app-legal-logo" src="shared/img/bb-logo-transparent-w.png" alt="Backdoors &amp; Breaches logo">
-                <span>B&amp;B Classic — play on the official site</span>
+            <a class="app-legal-classic" href="https://www.blackhillsinfosec.com/tools/backdoorsandbreaches/classic" target="_blank" rel="noopener noreferrer" title="Backdoors &amp; Breaches – Classic (official site)">
+                <img class="app-legal-logo" src="shared/img/bb-logo-transparent-w.png" alt="Backdoors &amp; Breaches logo" width="2518" height="999" loading="lazy" decoding="async">
+                <span>B&amp;B Classic – play on the official site</span>
             </a>
-            <p class="app-legal-disclaimer">Unofficial community project. Backdoors &amp; Breaches is a game by Black Hills Information Security &amp; Antisyphon Training. This project is not affiliated with, endorsed by, or sponsored by Black Hills Information Security or Antisyphon Training.</p>
+            <nav class="app-legal-nav" aria-label="Footer">
+                <a href="/">Home</a>
+                <a href="how-to-play.html">How to play</a>
+                <a href="Engine-V2/player.html">Player</a>
+                <a href="shared/catalogue.html">Card catalogue</a>
+            </nav>
+            <p class="app-legal-disclaimer">Unofficial community project. Backdoors &amp; Breaches is a game by Black Hills Information Security &amp; Antisyphon Training.</p>
             <a class="app-legal-gh" href="https://github.com/Jonesckevin" target="_blank" rel="noopener noreferrer" title="Jonesckevin on GitHub" aria-label="Jonesckevin on GitHub">
                 <svg class="app-legal-gh-logo" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
                 <span>Jonesckevin</span>
             </a>
         </div>
     </footer>
+
+    <!-- Short rules summary. The content is in the initial HTML so it is
+         readable without scripts, and #how-to-play opens it directly. -->
+    <div id="howto-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="howto-title">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title" id="howto-title">How to play Backdoors &amp; Breaches</h2>
+                <button type="button" class="modal-close" id="howto-close" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Four cards, one attack chain.</strong> Initial Compromise, Pivot &amp; Escalate, C2 &amp; Exfiltration and Persistence sit face-down. Each hides a technique the crew has to uncover.</p>
+                <ol>
+                    <li>Pick a <strong>Procedure</strong> and roll the d20 against the scenario target – 11 by default.</li>
+                    <li><strong>11+ succeeds:</strong> read the procedure's detection and flip any attack card it covers.</li>
+                    <li><strong>Below 11 fails</strong> and still spends the turn. Three strikes ends the session.</li>
+                    <li>Use <strong>Turn</strong> when the round moves on; the board tracks turns and strikes.</li>
+                </ol>
+                <p>Playing solo? The AI Incident Master uses partial success: 11–14 gives an indirect clue and 15+ gives clear evidence, with 10 turns and 3 strikes.</p>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-primary" href="how-to-play.html">Read the full guide</a>
+                <button type="button" class="btn btn-secondary" id="howto-dismiss">Close</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Site navigation FAB (shared radial menu) -->
     <script src="shared/js/fab.js"></script>
     <script src="shared/js/pwa.js"></script>
+    <script>
+        (function () {
+            var modal = document.getElementById('howto-modal');
+            if (!modal) return;
+            function open() { modal.classList.remove('hidden'); }
+            function close() { modal.classList.add('hidden'); }
+            document.getElementById('howto-open').addEventListener('click', open);
+            document.getElementById('howto-close').addEventListener('click', close);
+            document.getElementById('howto-dismiss').addEventListener('click', close);
+            modal.addEventListener('click', function (e) { if (e.target === modal) close(); });
+            document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+            if (window.location.hash === '#how-to-play') open();
+        })();
+    </script>
 </body>
 </html>

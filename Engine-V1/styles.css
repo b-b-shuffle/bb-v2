@@ -1,8 +1,8 @@
 /* ==================== DESIGN TOKENS ==================== */
 /* The header chrome below is themed to match Engine-V2 (shared/css/base.css).
    Engine-V1 is a self-contained legacy page set and deliberately does NOT load
-   base.css — its global reset would fight this page's float/absolute board
-   layout — so the Engine-V2 palette is mirrored here as local variables.
+   base.css – its global reset would fight this page's float/absolute board
+   layout – so the Engine-V2 palette is mirrored here as local variables.
    Keep these values in step with shared/css/base.css :root. */
 :root {
   --v1-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -54,6 +54,12 @@ body {
 }
 
 h1 {
+  margin: 20px 0 10px 0;
+  font-weight: 900;
+}
+
+/* Secondary pane titles use h2 so the page keeps one h1. */
+h2 {
   margin: 20px 0 10px 0;
   font-weight: 900;
 }
@@ -384,7 +390,7 @@ h1 {
 
 /* DM answer key. The row is a full-width child of .header-content and is shown
    with an inline display:block by solutiontoggle(), so the four cards are laid
-   out as inline-blocks — a grid on #dm_solution itself could never apply. */
+   out as inline-blocks – a grid on #dm_solution itself could never apply. */
 #dm_solution {
   box-sizing: border-box;
   flex: 0 0 auto;
@@ -574,19 +580,23 @@ li {
   width: 150px;
 }
 
-#injectdiv h1 {
+#injectdiv h1,
+#injectdiv h2 {
   margin: 0px;
 }
 
-#mydiv h1 {
+#mydiv h1,
+#mydiv h2 {
   margin: 0px;
 }
 
-#gmnotes h1 {
+#gmnotes h1,
+#gmnotes h2 {
   margin: 0px;
 }
 
-#dicebox h1 {
+#dicebox h1,
+#dicebox h2 {
   margin: 0px;
 }
 
@@ -807,7 +817,7 @@ li {
 
 /* On a phone the four-across answer key would be unreadably small, so pair the
    cards up instead. Scoped to #dm_solution so it beats the base `.solution`
-   rule above it — an equal-specificity override placed up with the other media
+   rule above it – an equal-specificity override placed up with the other media
    queries loses to a rule defined later in the file. */
 @media (max-width: 560px) {
   #dm_solution .solution {

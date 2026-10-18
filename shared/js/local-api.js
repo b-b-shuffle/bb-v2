@@ -1,5 +1,5 @@
 /**
- * B&B Shuffle — Demo API (static / GitHub Pages build)
+ * B&B Shuffle – Demo API (static / GitHub Pages build)
  * ------------------------------------------------------------------
  * This branch is published as a live, READ-ONLY demo of Engine V2. Nothing a
  * visitor does is written anywhere, so the content on the site cannot drift:
@@ -14,7 +14,7 @@
  *   POST   /api/scenarios              -> 403 (read-only)
  *   PUT    /api/scenarios/{id}         -> 403 (read-only)
  *   DELETE /api/scenarios/{id}         -> 403 (read-only)
- *   GET    /api/custom-cards           -> [] — the demo ships no custom cards
+ *   GET    /api/custom-cards           -> [] – the demo ships no custom cards
  *   GET    /api/custom-cards/{id}      -> 404 (read-only)
  *   POST   /api/custom-cards           -> 403 (read-only)
  *   PUT    /api/custom-cards/{id}      -> 403 (read-only)
@@ -29,7 +29,7 @@
  *
  * Anything else under `/api/` is left to the network. The AI proxy in
  * particular 404s on a static host, which is what makes the AI Generator fall
- * back to the visitor's own provider key — the demo has no server-side key, and
+ * back to the visitor's own provider key – the demo has no server-side key, and
  * no way to hold one.
  *
  * Live *session* state is the one exception to "nothing is written": the
@@ -293,7 +293,7 @@
             try {
                 if (window.localStorage.getItem(key) !== null) cleared.push(key);
                 window.localStorage.removeItem(key);
-            } catch (e) { /* storage blocked — nothing to clear */ }
+            } catch (e) { /* storage blocked – nothing to clear */ }
         });
         return cleared;
     }

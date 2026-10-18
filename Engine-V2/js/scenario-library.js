@@ -3,7 +3,7 @@
  * ------------------------------------------------------------------
  * Browses the scenarios the site ships with (`shared/demo/`) and hands one to
  * the Player or the Scenario Editor. This build is a read-only demo, so there is
- * deliberately no import, edit or delete here — the demo API refuses writes
+ * deliberately no import, edit or delete here – the demo API refuses writes
  * anyway (see `shared/js/local-api.js`).
  */
 
@@ -37,7 +37,7 @@ const ScenarioLibrary = {
     },
 
     /**
-     * `?scenario=<id>` — the link the Copy-link button produces — arrives with
+     * `?scenario=<id>` – the link the Copy-link button produces – arrives with
      * that scenario already selected, so the recipient needs one click to Play.
      */
     selectFromUrl() {
@@ -75,7 +75,7 @@ const ScenarioLibrary = {
         if (difficultyFilter) difficultyFilter.addEventListener('change', () => this.filterScenarios());
 
         // Box art beside the deck filter, for the deck that is selected (comes
-        // from CONFIG.decks[].cover — shared/img/decks/<key>.webp). "All Decks"
+        // from CONFIG.decks[].cover – shared/img/decks/<key>.webp). "All Decks"
         // and the few decks with no art upstream show no image.
         const deckCover = Utils.getElement('deck-filter-cover');
         const updateDeckCover = () => {
@@ -448,7 +448,7 @@ const ScenarioLibrary = {
 
         try {
             await navigator.clipboard.writeText(url);
-            Utils.showToast('Link copied — it opens this scenario on the Player board.', 'success');
+            Utils.showToast('Link copied – it opens this scenario on the Player board.', 'success');
         } catch (error) {
             // The clipboard API needs a secure context; showing the link is the
             // honest fallback (file:// previews and older browsers land here).

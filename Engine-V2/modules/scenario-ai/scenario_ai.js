@@ -4,7 +4,7 @@
  *
  * This build is a static, read-only demo, so generation always runs against the
  * visitor's own provider key (stored in localStorage). The server-proxied
- * "shared key" feature is disabled — there is no server to hold one, and
+ * "shared key" feature is disabled – there is no server to hold one, and
  * `/api/ai/*` is not served. See `keyMode()` / `fetchSharedConfig()`.
  */
 
@@ -306,7 +306,7 @@ const ScenarioAI = {
             Utils.toggleElement(modelGroup, true);
             this.populateStaticModels('webllm');
             this.renderLocalPanel(true);
-            this.setModelHint('Runs in your browser — download the selected model once, then it works offline.');
+            this.setModelHint('Runs in your browser – download the selected model once, then it works offline.');
             return;
         }
 
@@ -456,7 +456,7 @@ const ScenarioAI = {
         // curated set (filtered once the engine has loaded).
         if (provider === 'webllm') {
             this.populateStaticModels('webllm');
-            this.setModelHint('Runs in your browser — download the selected model once, then it works offline.');
+            this.setModelHint('Runs in your browser – download the selected model once, then it works offline.');
             return;
         }
 
@@ -652,7 +652,7 @@ const ScenarioAI = {
         const provider = Utils.getElement('api-provider')?.value;
 
         if (!apiKey && provider !== 'custom' && provider !== 'webllm') {
-            Utils.showToast('Enter your own API key to generate — the demo has no server-side key', 'warning');
+            Utils.showToast('Enter your own API key to generate – the demo has no server-side key', 'warning');
             return;
         }
         if (provider === 'custom' && !Utils.getElement('custom-endpoint')?.value?.trim()) {
@@ -666,7 +666,7 @@ const ScenarioAI = {
             if (local) {
                 const avail = await local.available();
                 if (!avail.ok) {
-                    Utils.showToast('In-browser models need WebGPU — ' + (avail.reason || ''), 'warning');
+                    Utils.showToast('In-browser models need WebGPU – ' + (avail.reason || ''), 'warning');
                     return;
                 }
             }
@@ -684,7 +684,7 @@ const ScenarioAI = {
             // Build prompt
             const prompt = this.buildPrompt();
 
-            // Call API — streaming an in-browser model's tokens into a live block
+            // Call API – streaming an in-browser model's tokens into a live block
             // (which also swaps out the spinner). Every other provider ignores the
             // hook and returns the whole reply at once.
             const onToken = (provider === 'webllm') ? (delta, full) => this.streamLive(full) : null;
@@ -823,7 +823,7 @@ ${cardsByType.consultant?.length ? '- The consultant is optional: name one only 
      * @returns {Promise<string>} Never resolves; always throws
      */
     async callShared(prompt) {
-        throw new Error('Server-side AI keys are disabled in this demo — add your own API key in Settings.');
+        throw new Error('Server-side AI keys are disabled in this demo – add your own API key in Settings.');
     },
 
     /**
@@ -957,7 +957,7 @@ ${cardsByType.consultant?.length ? '- The consultant is optional: name one only 
         });
 
         if (!response.ok) {
-            throw new Error(`The endpoint rejected the request (${response.status}) — is the server running and the model loaded?`);
+            throw new Error(`The endpoint rejected the request (${response.status}) – is the server running and the model loaded?`);
         }
 
         const data = await response.json();
@@ -1108,7 +1108,7 @@ ${cardsByType.consultant?.length ? '- The consultant is optional: name one only 
                 source: 'ai-generator',
                 at: new Date().toISOString()
             });
-            Utils.showToast('Scenario sent to the editor — review it, then Send to Player', 'success');
+            Utils.showToast('Scenario sent to the editor – review it, then Send to Player', 'success');
             // The Scenario Editor (Library input form) lives at Engine-V2/admin.html.
             window.location.href = '../../admin.html?loadScenario=true';
         } catch (error) {

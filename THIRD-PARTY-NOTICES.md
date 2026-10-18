@@ -15,7 +15,7 @@ requirements; it does **not** relicense any component.
 
 | Component | Used in | Version | License | Copyright |
 |---|---|---|---|---|
-| [Inter](https://fonts.google.com/specimen/Inter) | `Engine-V2`, `shared/css` (Google Fonts CDN) | — | SIL Open Font License 1.1 | © The Inter Project Authors |
+| [Inter](https://fonts.google.com/specimen/Inter) | `Engine-V2`, `shared/css` (Google Fonts CDN) | – | SIL Open Font License 1.1 | © The Inter Project Authors |
 
 Libraries loaded from a CDN are **not redistributed** by this project; the
 attribution above is provided as a courtesy.

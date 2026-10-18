@@ -1,5 +1,5 @@
 /**
- * B&B Shuffle — AI Client
+ * B&B Shuffle – AI Client
  * ------------------------------------------------------------------
  * Small, self-contained wrapper around the app's AI plumbing, used by the
  * Custom Card Creator. Deliberately does NOT touch scenario_ai.js.
@@ -248,7 +248,7 @@ const AIClient = {
         if (own.provider === 'webllm') {
             const local = (typeof WebLLMProvider !== 'undefined') ? WebLLMProvider : null;
             const info = (local && own.model) ? local.modelInfo(own.model) : null;
-            const name = info ? info.label.split(' — ')[0] : (own.model || 'in-browser model');
+            const name = info ? info.label.split(' – ')[0] : (own.model || 'in-browser model');
             return 'In-browser · ' + name;
         }
         return `${provider ? provider.name : own.provider}${own.model ? ' · ' + own.model : ''}`;
@@ -409,7 +409,7 @@ const AIClient = {
         // LM Studio, llama.cpp and hosted gateways alike.
         if (settings.provider === 'custom') {
             const endpoint = settings.endpoint || this.customEndpoint(settings);
-            if (!endpoint) throw new Error('No custom endpoint configured — set it in the AI Generator settings.');
+            if (!endpoint) throw new Error('No custom endpoint configured – set it in the AI Generator settings.');
             if (!model) throw new Error('No model name configured for the custom endpoint.');
 
             const headers = { 'Content-Type': 'application/json' };
@@ -427,7 +427,7 @@ const AIClient = {
             }, this.REQUEST_TIMEOUT_MS);
 
             if (!res.ok) {
-                throw new Error(`The endpoint rejected the request (${res.status}) — is the server running and the model loaded?`);
+                throw new Error(`The endpoint rejected the request (${res.status}) – is the server running and the model loaded?`);
             }
             const data = await res.json();
             return data.choices?.[0]?.message?.content || data.response || '';
@@ -528,13 +528,13 @@ const AIClient = {
     apiError(status, detail) {
         const base = String(detail || '').trim() || `AI request failed (${status})`;
         if (status === 429 || /RESOURCE_EXHAUSTED|quota|rate limit/i.test(base)) {
-            return base + ' — this model\'s free daily allowance is used up, which is a quota '
+            return base + ' – this model\'s free daily allowance is used up, which is a quota '
                 + 'limit and not a bad key. Free Gemini keys get ~20 requests per day PER MODEL, '
                 + 'so picking a different model from the list gives you a fresh allowance straight '
                 + 'away (or wait for the daily reset, or enable billing).';
         }
         if (status === 404 || /not found|no longer available|does not exist|unsupported/i.test(base)) {
-            return base + ' — that usually means the model is not available to this key. Pick one from the Model list.';
+            return base + ' – that usually means the model is not available to this key. Pick one from the Model list.';
         }
         return base;
     },
@@ -631,7 +631,7 @@ const AIClient = {
             '- Keep the name under 28 characters.',
             '- Write in plain language a mixed-ability table can follow.',
             '- Detection/Tools entries must be short (2-5 words each).',
-            '- "details" is an optional array of { "text": "...", "url": "https://..." } — use [] when unsure.',
+            '- "details" is an optional array of { "text": "...", "url": "https://..." } – use [] when unsure.',
             '- Respond ONLY with the JSON object, no commentary.'
         );
 

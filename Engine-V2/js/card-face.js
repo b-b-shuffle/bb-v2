@@ -1,5 +1,5 @@
 /**
- * B&B Shuffle — live card face composer
+ * B&B Shuffle – live card face composer
  * ---------------------------------------------------------------------------
  * Composes a card face at DISPLAY time from a WebP template plus live text,
  * instead of rasterising the whole face into one stored PNG. The text is real
@@ -11,7 +11,7 @@
  *
  * Layout is expressed in PERCENT of the template image, so it does not depend
  * on the template's pixel size, and type is sized in `cqw` (container width
- * units) so the whole face scales from its own width — one definition serves
+ * units) so the whole face scales from its own width – one definition serves
  * the Creator preview, a 40px print thumbnail and the projected board.
  *
  * Self-contained in the same spirit as shared/js/fab.js: the repo path comes
@@ -39,7 +39,7 @@
         return override ? (override.getAttribute('data-cardface-root') || '') : '';
     }
 
-    // '' from Engine-V2/*.html, '../../' from Engine-V2/modules/<module>/*.html —
+    // '' from Engine-V2/*.html, '../../' from Engine-V2/modules/<module>/*.html –
     // both resolve the two constants below against the repo root.
     var PREFIX = scriptPrefix();
     var ROOT = PREFIX + '../';
@@ -69,7 +69,7 @@
     var TYPES = Object.keys(TEMPLATES);
 
     /* ------------------------------------------------------------------ */
-    /* Geometry — percent of the template image                            */
+    /* Geometry – percent of the template image                            */
     /* ------------------------------------------------------------------ */
     // The printed headings ("DETECTION", "TOOLS", "NOTES", "SPECIALTIES") and
     // their rules are part of the artwork, so only the CONTENT is positioned:
@@ -92,7 +92,7 @@
     var TITLE_BOX = { x: 11, y: 7.5, w: 78, h: 6.4, size: 6.4, align: 'center', lines: 1 };
 
     var BOXES = {
-        // initial / pivot / c2 / persist — DETECTION list, then TOOLS beside the
+        // initial / pivot / c2 / persist – DETECTION list, then TOOLS beside the
         // uploaded artwork panel.
         scenario: {
             description: { x: 14, y: 15.2, w: 72.5, h: 15, size: 3.3, align: 'left', lines: 5 },
@@ -104,7 +104,7 @@
             artwork:     { x: 37, y: 62.2, w: 50, h: 28.5 },
             resources:   { x: 14, y: 84.0, w: 72.5, h: 7.5, size: 2.6, align: 'left', lines: 3 }
         },
-        // procedure — TOOLS only, heading higher up the card.
+        // procedure – TOOLS only, heading higher up the card.
         procedure: {
             description: { x: 14, y: 15.2, w: 72.5, h: 16, size: 3.3, align: 'left', lines: 5 },
             tools:       { x: 14, y: 36.8, w: 22, h: 52, size: 3.3, align: 'left', lines: 18 },
@@ -112,14 +112,14 @@
             artwork:     { x: 37, y: 36.6, w: 50, h: 53 },
             resources:   { x: 14, y: 84.0, w: 72.5, h: 7.5, size: 2.6, align: 'left', lines: 3 }
         },
-        // inject — a full-height NOTES panel (the card's GM notes). No artwork
+        // inject – a full-height NOTES panel (the card's GM notes). No artwork
         // panel on this template.
         inject: {
             description: { x: 14, y: 15.2, w: 72.5, h: 11, size: 3.3, align: 'left', lines: 4 },
             notes:       { x: 14, y: 32.3, w: 72.5, h: 55, size: 3.3, align: 'left', lines: 18 },
             resources:   { x: 14, y: 86.5, w: 72.5, h: 6, size: 2.6, align: 'left', lines: 2 }
         },
-        // consultant — SPECIALTIES list. No artwork panel on this template.
+        // consultant – SPECIALTIES list. No artwork panel on this template.
         consultant: {
             description: { x: 14, y: 15.2, w: 72.5, h: 11, size: 3.3, align: 'left', lines: 4 },
             specialties: { x: 14, y: 32.3, w: 72.5, h: 52, size: 3.3, align: 'left', lines: 17 },
@@ -425,7 +425,7 @@
     }
 
     /* ------------------------------------------------------------------ */
-    /* Canvas renderer — Download PNG only; nothing is stored              */
+    /* Canvas renderer – Download PNG only; nothing is stored              */
     /* ------------------------------------------------------------------ */
 
     function loadImage(src) {

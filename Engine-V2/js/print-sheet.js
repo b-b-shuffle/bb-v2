@@ -447,7 +447,7 @@
     /**
      * The four live-state figures. The CONTAINER is `#ps-stats` in the static
      * frame (it owns the `.ps-stats` class and the rule under the strip), so this
-     * returns the stats only — wrapping them again nested a second `.ps-stats`,
+     * returns the stats only – wrapping them again nested a second `.ps-stats`,
      * and the inner flex row shrink-wrapped to its content, painting a short
      * second line under the real one.
      */
@@ -786,7 +786,7 @@
         btn.disabled = !ready;
         btn.title = ready
             ? 'Print a one-page session sheet (scenario cards, their detection lists, the hand and the inject queue)'
-            : 'Load a scenario first — the sheet prints the cards in play';
+            : 'Load a scenario first – the sheet prints the cards in play';
         if (!ready) return;
 
         if (force) {
@@ -819,7 +819,7 @@
             // suggested PDF filename.
             prevTitle = document.title;
             const name = (controllerObj.scenario.metadata || {}).name;
-            document.title = name ? 'Session Sheet — ' + name : 'Session Sheet';
+            document.title = name ? 'Session Sheet – ' + name : 'Session Sheet';
             // Give the freshly built thumbnails a frame to paint before the
             // browser snapshots the page for the print preview.
             requestAnimationFrame(function () {
@@ -867,7 +867,7 @@
             global.addEventListener('afterprint', restoreTitle);
             // `setupGame()` is the single funnel for starting a game (init,
             // Quick Start and Load all reach it), so wrap it to rebuild the
-            // sheet once every field — including injectQueue — is populated.
+            // sheet once every field – including injectQueue – is populated.
             const board = controller();
             if (board && typeof board.setupGame === 'function') {
                 const originalSetup = board.setupGame;

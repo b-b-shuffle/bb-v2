@@ -249,9 +249,9 @@ const AdminController = {
                 });
                 if (ready) {
                     this.openSaveModal();
-                    Utils.showToast('AI scenario loaded — review, then Save to Library', 'success');
+                    Utils.showToast('AI scenario loaded – review, then Save to Library', 'success');
                 } else {
-                    Utils.showToast('AI scenario loaded — please review before saving', 'success');
+                    Utils.showToast('AI scenario loaded – please review before saving', 'success');
                 }
             }
         } catch (error) {
@@ -936,9 +936,9 @@ const AdminController = {
         if (!container) return;
 
         container.innerHTML = this.procedures.map((card, index) => `
-            <div class="procedure-card${card.enhanced ? ' enhanced' : ''}" data-procedure-index="${index}" title="${Utils.escapeHtml(card.name || 'Procedure')}${card.enhanced ? ' — ENHANCED (+3)' : ''}">
+            <div class="procedure-card${card.enhanced ? ' enhanced' : ''}" data-procedure-index="${index}" title="${Utils.escapeHtml(card.name || 'Procedure')}${card.enhanced ? ' – ENHANCED (+3)' : ''}">
                 <img src="${Utils.assetPath(card.image)}" alt="${Utils.escapeHtml(card.name || 'Procedure')}" onerror="Utils.onImgError(event)">
-                <button type="button" class="proc-random-btn" data-procedure-index="${index}" title="Randomize — swap this procedure" aria-label="Randomize this procedure">
+                <button type="button" class="proc-random-btn" data-procedure-index="${index}" title="Randomize – swap this procedure" aria-label="Randomize this procedure">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <rect x="2" y="2" width="20" height="20" rx="2"/>
                         <circle cx="8" cy="8" r="1.5"/><circle cx="16" cy="8" r="1.5"/>
@@ -1007,7 +1007,7 @@ const AdminController = {
         container.innerHTML = this.injects.length === 0
             ? '<span class="slot-placeholder">Draw to add injects</span>'
             : this.injects.map((card, index) => `
-                <div class="inject-card${index === 0 ? ' is-start' : ''}" data-inject-index="${index}" title="${index === 0 ? 'Starting inject — shown when the game starts' : 'Queued inject #' + (index + 1) + ' — fires on a natural 1/20 or 3 failed rolls'}">
+                <div class="inject-card${index === 0 ? ' is-start' : ''}" data-inject-index="${index}" title="${index === 0 ? 'Starting inject – shown when the game starts' : 'Queued inject #' + (index + 1) + ' – fires on a natural 1/20 or 3 failed rolls'}">
                     <img src="${Utils.assetPath(card.image)}" alt="${Utils.escapeHtml(card.name || 'Inject')}" onerror="Utils.onImgError(event)">
                     <span class="inject-order">${index === 0 ? 'START' : '#' + (index + 1)}</span>
                 </div>
@@ -1025,14 +1025,14 @@ const AdminController = {
         if (!container) return;
 
         container.innerHTML = this.consultants.length === 0
-            ? '<span class="slot-placeholder">Optional — leave empty to let players call anyone from the deck</span>'
+            ? '<span class="slot-placeholder">Optional – leave empty to let players call anyone from the deck</span>'
             : this.consultants.map((card, index) => {
                 const isStart = card.id === this.startingConsultantId;
                 const name = Utils.escapeHtml(card.name || 'Consultant');
                 return `
                 <div class="consultant-card${isStart ? ' is-start' : ''}" data-consultant-index="${index}" title="${name}">
                     <img src="${Utils.assetPath(card.image)}" alt="${name}" onerror="Utils.onImgError(event)">
-                    <button type="button" class="cons-start-btn" data-consultant-index="${index}" title="${isStart ? 'Starting consultant — click to unseat' : 'Seat this consultant when the game starts'}" aria-label="Toggle starting consultant">★</button>
+                    <button type="button" class="cons-start-btn" data-consultant-index="${index}" title="${isStart ? 'Starting consultant – click to unseat' : 'Seat this consultant when the game starts'}" aria-label="Toggle starting consultant">★</button>
                     <button type="button" class="cons-remove-btn" data-consultant-index="${index}" title="Remove from the pool" aria-label="Remove consultant">×</button>
                     ${isStart ? '<span class="cons-start-badge">START</span>' : ''}
                 </div>`;

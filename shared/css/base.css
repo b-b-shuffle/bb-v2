@@ -4,7 +4,7 @@
  *
  * Visual language adopted from Cross-Canvas-Art-Studio (App/static/style.css):
  * a fixed dark, matte "developer tool" theme with a blue/indigo accent.
- * No light theme — the theme toggle was removed.
+ * No light theme – the theme toggle was removed.
  */
 
 /* ===== Self-hosted card font (Teko, SIL OFL 1.1) =====
@@ -63,7 +63,7 @@
   --color-info: #38bdf8;
   --color-info-hover: #0ea5e9;
 
-  /* Card type colors (semantic — kept for gameplay clarity) */
+  /* Card type colors (semantic – kept for gameplay clarity) */
   --color-initial: #ef4444;
   --color-pivot: #f59e0b;
   --color-c2: #b45309;     /* warm amber-brown (retuned from #8b4513 for vividness) */
@@ -686,6 +686,26 @@ a:hover {
   text-align: left;
 }
 
+/* Crawlable site navigation. The radial FAB is built by JavaScript, so these
+   real anchors are the links a crawler can follow from every page. */
+.app-legal-nav {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  font-size: 12.5px;
+}
+
+.app-legal-nav a {
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.15s ease;
+}
+
+.app-legal-nav a:hover { color: var(--color-primary); }
+
 @media (max-width: 760px) {
   .app-legal-content {
     flex-direction: column;
@@ -699,6 +719,7 @@ a:hover {
     text-align: center;
   }
   .app-legal-gh { margin-left: 0; }   /* centre with the rest of the stacked footer */
+  .app-legal-nav { justify-content: center; }
 }
 
 /* Optional page-relevant line inside the shared footer. Only the Player page
@@ -1199,7 +1220,7 @@ body.has-fab .app-legal-content { padding-right: 76px; }
    Card-table polish (opt-in utilities)
    Tactile "physical card table" helpers used by the index /
    player / admin pages. Default appearance of other pages is
-   unchanged — pages opt in by adding the .surface-felt class to
+   unchanged – pages opt in by adding the .surface-felt class to
    <body> and using the shadow tokens below.
    ============================================================ */
 :root {

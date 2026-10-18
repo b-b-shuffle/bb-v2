@@ -1,5 +1,5 @@
 /**
- * CardViewer — shared, full-screen card preview overlay.
+ * CardViewer – shared, full-screen card preview overlay.
  *
  * Lets a user click any B&B card and see it large enough to read, on any page
  * that includes this script:

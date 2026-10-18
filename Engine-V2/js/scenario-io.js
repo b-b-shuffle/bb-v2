@@ -5,8 +5,8 @@
  * This build is a static, read-only demo: the library ships with the site
  * (`shared/demo/`), so the server write helpers (save / update / delete) are gone
  * and the demo API refuses them anyway (see `shared/js/local-api.js`). Import,
- * validation and migration went the same way — there is no way to get a foreign
- * scenario into this build — so what is left is listing, loading and exporting.
+ * validation and migration went the same way – there is no way to get a foreign
+ * scenario into this build – so what is left is listing, loading and exporting.
  */
 
 const ScenarioIO = {

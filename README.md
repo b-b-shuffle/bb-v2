@@ -1,4 +1,4 @@
-# B&B-Shuffle Engine-V2 — live demo (GitHub Pages)
+# B&B-Shuffle Engine-V2 – live demo (GitHub Pages)
 
 Modern, responsive dashboard for conducting [Backdoors & Breaches](https://www.blackhillsinfosec.com/projects/backdoorsandbreaches/) sessions remotely.
 
@@ -31,20 +31,20 @@ Backdoors & Breaches is the property of [Black Hills InfoSec](https://www.blackh
 ## Deploy to GitHub Pages
 
 1. Push this branch to GitHub.
-2. **Settings → Pages → Build and deployment → Source: GitHub Actions** — the
+2. **Settings → Pages → Build and deployment → Source: GitHub Actions** – the
    included workflow (`.github/workflows/pages.yml`) uploads the repository root
    on every push to `main`/`master`. Publishing from a different branch? Edit the
    `branches` list in that file, or run it by hand from the Actions tab.
 3. The site appears at `https://<user>.github.io/<repo>/`.
 
 Prefer no workflow? Choose **Deploy from a branch** in step 2 and pick the branch
-plus `/ (root)` — the site needs no build step either way. `.nojekyll` is committed
+plus `/ (root)` – the site needs no build step either way. `.nojekyll` is committed
 so Pages serves every folder verbatim (Jekyll would otherwise skip paths that
 start with an underscore).
 
 ## License & Attribution
 
-This project is licensed under the **GNU General Public License v3.0** — see [`LICENSE`](LICENSE).
+This project is licensed under the **GNU General Public License v3.0** – see [`LICENSE`](LICENSE).
 
 - [`blackhillsinfosec/play.backdoorsandbreaches.com`](https://github.com/blackhillsinfosec/play.backdoorsandbreaches.com),
 - [`0xJaeg3r/backdoorsandbreaches-socinvader`](https://github.com/0xJaeg3r/backdoorsandbreaches-socinvader),

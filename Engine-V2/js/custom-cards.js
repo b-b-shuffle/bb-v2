@@ -1,9 +1,9 @@
 /**
- * B&B Shuffle — Custom Cards library
+ * B&B Shuffle – Custom Cards library
  * ------------------------------------------------------------------
  * Shows the cards in the "Custom Cards" deck and lets you preview and export
  * them. This build is a read-only demo, so the deck ships with the site and the
- * write controls (enable/disable, duplicate, delete, import) are gone — the demo
+ * write controls (enable/disable, duplicate, delete, import) are gone – the demo
  * API refuses writes in any case (see `shared/js/local-api.js`).
  *
  * Depends on: Utils, CardRenderer, CardViewer, CardFace (all loaded first).
@@ -51,7 +51,7 @@ const CustomCardsLibrary = {
             this.setStatus(this.cards.length ? `${this.cards.length} card${this.cards.length === 1 ? '' : 's'}` : '');
         } catch (e) {
             this.cards = [];
-            this.setStatus('Could not load the custom card deck — ' + e.message, 'err');
+            this.setStatus('Could not load the custom card deck – ' + e.message, 'err');
         }
         this.render();
     },

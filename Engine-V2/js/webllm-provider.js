@@ -59,19 +59,19 @@
     // engine's catalogue once it is loaded, so one that a release has retired is
     // dropped from the pickers instead of failing at download time.
     const MODELS = [
-        { id: 'SmolLM2-360M-Instruct-q4f16_1-MLC', label: 'SmolLM2 360M — smallest & fastest', size: 0.4, tier: 'small' },
-        { id: 'SmolLM2-1.7B-Instruct-q4f16_1-MLC', label: 'SmolLM2 1.7B — balanced (recommended)', size: 1.0, tier: 'balanced' },
-        { id: 'Qwen2.5-0.5B-Instruct-q4f16_1-MLC', label: 'Qwen2.5 0.5B — tiny all-rounder', size: 0.4, tier: 'small' },
-        { id: 'Llama-3.2-1B-Instruct-q4f16_1-MLC', label: 'Llama 3.2 1B — small, good instruction following', size: 0.7, tier: 'small' },
-        { id: 'TinyLlama-1.1B-Chat-v1.0-q4f16_1-MLC', label: 'TinyLlama 1.1B — small chat model', size: 0.7, tier: 'small' },
-        { id: 'Qwen2.5-1.5B-Instruct-q4f16_1-MLC', label: 'Qwen2.5 1.5B — balanced', size: 1.0, tier: 'balanced' },
-        { id: 'gemma-2-2b-it-q4f16_1-MLC', label: 'Gemma 2 2B — careful, well-spoken', size: 1.4, tier: 'balanced' },
-        { id: 'Qwen2.5-3B-Instruct-q4f16_1-MLC', label: 'Qwen2.5 3B — sharper', size: 1.9, tier: 'large' },
-        { id: 'Llama-3.2-3B-Instruct-q4f16_1-MLC', label: 'Llama 3.2 3B — sharper', size: 2.0, tier: 'large' },
-        { id: 'Phi-3.5-mini-instruct-q4f16_1-MLC', label: 'Phi 3.5 mini — reasoning-focused', size: 2.1, tier: 'large' },
-        { id: 'Mistral-7B-Instruct-v0.3-q4f16_1-MLC', label: 'Mistral 7B — best quality, needs a strong GPU', size: 3.7, tier: 'xlarge' },
-        { id: 'Qwen2.5-7B-Instruct-q4f16_1-MLC', label: 'Qwen2.5 7B — best quality, needs a strong GPU', size: 4.3, tier: 'xlarge' },
-        { id: 'DeepSeek-R1-Distill-Qwen-7B-q4f16_1-MLC', label: 'DeepSeek R1 (Qwen 7B) — reasoning, needs a strong GPU', size: 4.4, tier: 'xlarge' }
+        { id: 'SmolLM2-360M-Instruct-q4f16_1-MLC', label: 'SmolLM2 360M – smallest & fastest', size: 0.4, tier: 'small' },
+        { id: 'SmolLM2-1.7B-Instruct-q4f16_1-MLC', label: 'SmolLM2 1.7B – balanced (recommended)', size: 1.0, tier: 'balanced' },
+        { id: 'Qwen2.5-0.5B-Instruct-q4f16_1-MLC', label: 'Qwen2.5 0.5B – tiny all-rounder', size: 0.4, tier: 'small' },
+        { id: 'Llama-3.2-1B-Instruct-q4f16_1-MLC', label: 'Llama 3.2 1B – small, good instruction following', size: 0.7, tier: 'small' },
+        { id: 'TinyLlama-1.1B-Chat-v1.0-q4f16_1-MLC', label: 'TinyLlama 1.1B – small chat model', size: 0.7, tier: 'small' },
+        { id: 'Qwen2.5-1.5B-Instruct-q4f16_1-MLC', label: 'Qwen2.5 1.5B – balanced', size: 1.0, tier: 'balanced' },
+        { id: 'gemma-2-2b-it-q4f16_1-MLC', label: 'Gemma 2 2B – careful, well-spoken', size: 1.4, tier: 'balanced' },
+        { id: 'Qwen2.5-3B-Instruct-q4f16_1-MLC', label: 'Qwen2.5 3B – sharper', size: 1.9, tier: 'large' },
+        { id: 'Llama-3.2-3B-Instruct-q4f16_1-MLC', label: 'Llama 3.2 3B – sharper', size: 2.0, tier: 'large' },
+        { id: 'Phi-3.5-mini-instruct-q4f16_1-MLC', label: 'Phi 3.5 mini – reasoning-focused', size: 2.1, tier: 'large' },
+        { id: 'Mistral-7B-Instruct-v0.3-q4f16_1-MLC', label: 'Mistral 7B – best quality, needs a strong GPU', size: 3.7, tier: 'xlarge' },
+        { id: 'Qwen2.5-7B-Instruct-q4f16_1-MLC', label: 'Qwen2.5 7B – best quality, needs a strong GPU', size: 4.3, tier: 'xlarge' },
+        { id: 'DeepSeek-R1-Distill-Qwen-7B-q4f16_1-MLC', label: 'DeepSeek R1 (Qwen 7B) – reasoning, needs a strong GPU', size: 4.4, tier: 'xlarge' }
     ];
 
     // --------------------------------------------------------------- state
@@ -238,7 +238,7 @@
      * Ask for the discrete GPU, and watch what actually comes back.
      *
      * `powerPreference: 'high-performance'` is the only lever the WebGPU API
-     * gives a page — there is no adapter enumeration — and **Chrome on Windows
+     * gives a page – there is no adapter enumeration – and **Chrome on Windows
      * currently ignores it** (the runtime warns about crbug.com/369219127), so
      * believing the request is not enough: we record the adapter's own descriptor
      * and report it. Wrapping the platform call also covers the engine's own
@@ -633,7 +633,7 @@
     // ---------------------------------------------------------------- panel
     const PANEL_HTML = [
         '<div class="webllm-panel">',
-        '<p class="webllm-lead">Runs entirely in your browser — no API key, and nothing is sent to a server.</p>',
+        '<p class="webllm-lead">Runs entirely in your browser – no API key, and nothing is sent to a server.</p>',
         '<p class="webllm-gpu" data-role="gpu"></p>',
         '<p class="webllm-warning hidden" data-role="warning"></p>',
         '<div class="webllm-actions">',
@@ -657,7 +657,7 @@
         '<button type="button" class="btn btn-ghost btn-sm" data-role="rescan" title="Re-check which models are stored in this browser">Rescan</button>',
         '</div>',
         '<div class="webllm-downloads-list" data-role="downloads-list"></div>',
-        '<p class="webllm-downloads-empty" data-role="downloads-empty">Nothing downloaded yet — pick a model above and download it once.</p>',
+        '<p class="webllm-downloads-empty" data-role="downloads-empty">Nothing downloaded yet – pick a model above and download it once.</p>',
         '</div>',
         '</div>'
     ].join('');
@@ -727,7 +727,7 @@
             // Do not claim "nothing downloaded" before the scan has actually run.
             empty.textContent = checking
                 ? 'Checking for models already stored in this browser…'
-                : 'Nothing downloaded yet — pick a model above and download it once.';
+                : 'Nothing downloaded yet – pick a model above and download it once.';
         }
 
         // Only rebuild when the set or the loaded model actually changed, so a
@@ -754,7 +754,7 @@
         if (snap.status === 'downloading') {
             const pct = snap.progress ? ' ' + snap.progress + '%' : '';
             return 'Loading ' + labelFor(snap.loadingModel || snap.model) + '…' + pct +
-                (snap.text ? ' — ' + snap.text : '');
+                (snap.text ? ' – ' + snap.text : '');
         }
         if (snap.status === 'ready') return labelFor(snap.model) + ' is loaded and ready.';
         if (snap.status === 'error') return 'Could not load the model: ' + snap.error;
@@ -796,7 +796,7 @@
         const base = 'This is the integrated GPU. A page cannot choose another one: WebGPU exposes no adapter '
             + 'list, and Chrome on Windows ignores the "high-performance" request (crbug.com/369219127).';
         if (isWindows()) {
-            return base + ' If chrome://gpu lists a second GPU, the card is there — assign the browser to it: '
+            return base + ' If chrome://gpu lists a second GPU, the card is there – assign the browser to it: '
                 + 'Settings → System → Display → Graphics → add your browser → Options → High performance, '
                 + 'and NVIDIA Control Panel → Manage 3D settings → Program Settings → the browser → '
                 + 'High-performance NVIDIA processor. Chromium also has a Force High Performance GPU flag '

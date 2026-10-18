@@ -52,7 +52,7 @@ const PlayerController = {
         // Scenario Editor (opens admin as a popup window, or an in-page overlay fallback)
         Utils.getElement('gm-mode-btn')?.addEventListener('click', () => Utils.openGM());
 
-        // GM Console — the answer key + remote control surface. Always its own
+        // GM Console – the answer key + remote control surface. Always its own
         // window: it drives this page and the GM keeps it on a second screen.
         Utils.getElement('gm-console-btn')?.addEventListener('click', () => Utils.openGMConsole());
 
@@ -265,7 +265,7 @@ const PlayerController = {
             id: this.quickStartId(),
             version: '1.0',
             exportDate: now,
-            metadata: { name: `Quick Start — ${cfg.name || deckKey}`, author: 'Quick Start', createdAt: now, modifiedAt: now },
+            metadata: { name: `Quick Start – ${cfg.name || deckKey}`, author: 'Quick Start', createdAt: now, modifiedAt: now },
             deck: { key: deckKey, name: cfg.name || deckKey, path: cfg.path },
             scenario,
             procedures,
@@ -410,7 +410,7 @@ const PlayerController = {
         if (btn) {
             btn.textContent = active ? 'Swap' : 'Call';
             btn.title = active
-                ? `Consulting: ${active.name || 'Consultant'} — click to swap`
+                ? `Consulting: ${active.name || 'Consultant'} – click to swap`
                 : 'Call a consultant from this deck';
         }
     },
@@ -482,7 +482,7 @@ const PlayerController = {
     /**
      * Pick a consultant from the picker. Selecting is a done deal: the modal
      * closes. Re-picking the consultant who is already seated just closes the
-     * picker — the selection is already good to go.
+     * picker – the selection is already good to go.
      * @param {Object} card - Consultant card from the deck
      */
     chooseConsultant(card) {
@@ -661,7 +661,7 @@ const PlayerController = {
                 this.scenario = await ScenarioIO.loadFromServer(scenarioId);
             } catch (error) {
                 console.error('Failed to load scenario from server:', error);
-                Utils.showToast('That scenario link could not be loaded — showing the last session instead.', 'error');
+                Utils.showToast('That scenario link could not be loaded – showing the last session instead.', 'error');
             }
         }
 
@@ -678,7 +678,7 @@ const PlayerController = {
             this.setupGame();
             if (dealt) {
                 const name = (this.scenario.metadata && this.scenario.metadata.name) || this.scenario.deck?.name || 'Scenario';
-                Utils.showToast(`${name}: no procedures saved — dealt ${dealt} from the deck`, 'info');
+                Utils.showToast(`${name}: no procedures saved – dealt ${dealt} from the deck`, 'info');
             }
         } else {
             // No game loaded - show empty state and inline-SVG placeholders
@@ -760,7 +760,7 @@ const PlayerController = {
      * Point the board's card backs at the deck in play.
      *
      * The static markup ships the 2.0 art; a deck that names another generation
-     * (`CONFIG.decks[].cardbackPath` — resolved by Utils.cardbackFor) gets its own
+     * (`CONFIG.decks[].cardbackPath` – resolved by Utils.cardbackFor) gets its own
      * backs for the four scenario slots and the inject rail, and the Procedure hand
      * picks it up when it is rendered. The CONSULTANT back is only swapped when the
      * deck actually has consultant cards: a deck without them (core 3.1, for one)
@@ -865,13 +865,13 @@ const PlayerController = {
             // click, and the countdown is the one thing left to read.
             const remaining = GameState.cooldownRemaining(index);
             const blocked = remaining > 0;
-            const cooldownNote = `On cooldown — ${remaining} turn${remaining === 1 ? '' : 's'} until this procedure can be used again`;
+            const cooldownNote = `On cooldown – ${remaining} turn${remaining === 1 ? '' : 's'} until this procedure can be used again`;
             // Every procedure is playable, so every card carries a control and
             // can be put on cooldown; only an enhanced card adds the flat +3.
             // Cooldown updates hide the rendered control while it sits out.
             const chip = `<button type="button" class="proc-arm${isActive ? ' armed' : ''}${card.enhanced ? '' : ' proc-arm-plain'}" data-index="${index}" title="${card.enhanced
-                ? `Enhanced (+3)${isActive ? ' — armed, click to disarm' : ' — click to arm for the next roll'}`
-                : `Use this procedure${isActive ? ' — selected, click to clear' : ' — click to use for the next roll'}`}">${isActive ? (card.enhanced ? '✓ +3' : '✓ Use') : (card.enhanced ? '✦ +3' : '✦ Use')}</button>`;
+                ? `Enhanced (+3)${isActive ? ' – armed, click to disarm' : ' – click to arm for the next roll'}`
+                : `Use this procedure${isActive ? ' – selected, click to clear' : ' – click to use for the next roll'}`}">${isActive ? (card.enhanced ? '✓ +3' : '✓ Use') : (card.enhanced ? '✦ +3' : '✦ Use')}</button>`;
             const token = blocked
                 ? `<span class="proc-token" title="${cooldownNote}" aria-label="${cooldownNote}">${remaining}</span>`
                 : '';
@@ -913,7 +913,7 @@ const PlayerController = {
 
         // A fresh render starts face-down, but a hand the player has already
         // turned over (Solo AI deals it face-up) must not flip back on every
-        // repaint — the revealed state is the player's, not the render's.
+        // repaint – the revealed state is the player's, not the render's.
         const revealBtn = Utils.getElement('reveal-procedures-btn');
         const wasRevealed = !!(revealBtn && revealBtn.dataset.state === 'shown');
         this.setProcedureRevealState(wasRevealed);
@@ -937,13 +937,13 @@ const PlayerController = {
         if (index < 0 || index >= procedures.length) return;
 
         // A card that has already been played cannot be picked again until its
-        // token runs out — say so rather than silently ignoring the click. A
+        // token runs out – say so rather than silently ignoring the click. A
         // toast, not the roll-status line: that line persists until the next
         // roll and would still be naming this card long after it came back.
         if (GameState.isOnCooldown(index)) {
             const remaining = GameState.cooldownRemaining(index);
             Utils.showToast(
-                `${procedures[index].name || 'That procedure'} is on cooldown — ${remaining} turn${remaining === 1 ? '' : 's'} to go.`,
+                `${procedures[index].name || 'That procedure'} is on cooldown – ${remaining} turn${remaining === 1 ? '' : 's'} to go.`,
                 'warning'
             );
             return;
@@ -954,7 +954,7 @@ const PlayerController = {
 
         // Repaint only the cards involved. Re-rendering the whole hand would
         // rebuild it face-down (the render's resting state) and yank the player's
-        // place — selecting a card must highlight it, nothing more.
+        // place – selecting a card must highlight it, nothing more.
         if (previous !== -1) this.updateProcedureSelection(previous);
         this.updateProcedureSelection(index);
     },
@@ -978,8 +978,8 @@ const PlayerController = {
         chip.classList.toggle('armed', isActive);
         chip.textContent = isActive ? (enhanced ? '✓ +3' : '✓ Use') : (enhanced ? '✦ +3' : '✦ Use');
         chip.title = enhanced
-            ? `Enhanced (+3)${isActive ? ' — armed, click to disarm' : ' — click to arm for the next roll'}`
-            : `Use this procedure${isActive ? ' — selected, click to clear' : ' — click to use for the next roll'}`;
+            ? `Enhanced (+3)${isActive ? ' – armed, click to disarm' : ' – click to arm for the next roll'}`
+            : `Use this procedure${isActive ? ' – selected, click to clear' : ' – click to use for the next roll'}`;
     },
 
     /**
@@ -1016,7 +1016,7 @@ const PlayerController = {
                 return;
             }
 
-            const note = `On cooldown — ${remaining} turn${remaining === 1 ? '' : 's'} until this procedure can be used again`;
+            const note = `On cooldown – ${remaining} turn${remaining === 1 ? '' : 's'} until this procedure can be used again`;
             if (!token) {
                 token = document.createElement('span');
                 token.className = 'proc-token';
@@ -1083,7 +1083,7 @@ const PlayerController = {
         this.updateInjectCard();
         const name = this.injectQueue[this.activeInjectIndex]?.name || 'inject';
         Utils.showToast(`Inject: ${name}`, 'warning');
-        this.showRollStatus(`INJECT drawn (${name}) — ${source}`, 'warn');
+        this.showRollStatus(`INJECT drawn (${name}) – ${source}`, 'warn');
 
         // Solo AI (PvE): narrate the inject. The printed card text stays the
         // authority - the Incident Master only sets the scene for it.
@@ -1589,7 +1589,7 @@ const PlayerController = {
                 diceResult.classList.toggle('fail', isCritFail);
             };
             if (headerTumble) {
-                // The big d20 already tumbled — no need for the mini header tumble
+                // The big d20 already tumbled – no need for the mini header tumble
                 diceResult.classList.add('rolling');
                 setTimeout(finish, 640);
             } else {
@@ -1612,9 +1612,9 @@ const PlayerController = {
         if (injected) {
             message = `INJECT drawn (${injected})`;
         } else if (isCritFail) {
-            message = 'Natural 1 — critical failure!';
+            message = 'Natural 1 – critical failure!';
         } else if (isCritSuccess) {
-            message = 'Natural 20 — critical success!';
+            message = 'Natural 20 – critical success!';
         } else if (this.consecutiveFails > 0) {
             message = `Failure streak ${this.consecutiveFails}/3`;
         } else {
@@ -1656,7 +1656,7 @@ const PlayerController = {
 
         // The DETECTION that was just played goes on cooldown, whatever the roll
         // said ("regardless of outcome"). This runs AFTER SoloMaster.onRoll,
-        // which reads the armed procedure to pick its clue — clearing the
+        // which reads the armed procedure to pick its clue – clearing the
         // selection first would leave it narrating a procedure nobody chose.
         const played = this.activeProcIndex;
         if (played >= 0 && this.scenario?.procedures?.[played]) {
@@ -2302,7 +2302,7 @@ const PlayerController = {
 /* Guided tour (?tour=1)                                              */
 /* ------------------------------------------------------------------ */
 // The demo's onboarding: a four-step coach panel that explains the Player board,
-// shown only when the page is opened with `?tour=1` — which is what the Project
+// shown only when the page is opened with `?tour=1` – which is what the Project
 // Home's "Start with the guided tour" tile links to.
 //
 // It is intentionally read-only and stateless: closing it hides the panel for this
@@ -2411,7 +2411,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // `?reset=1` is handled by shared/js/local-api.js, before anything reads
     // storage. Say so, otherwise the clean board just looks like lost work.
     if (window.LocalAPI && window.LocalAPI.resetPerformed) {
-        Utils.showToast('Demo state cleared — this browser starts fresh.', 'info');
+        Utils.showToast('Demo state cleared – this browser starts fresh.', 'info');
     }
 });
 
