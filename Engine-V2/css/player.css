@@ -351,7 +351,7 @@
     }
     
     .player-main {
-        padding: var(--space-4);
+        padding: var(--space-1);
     }
     
     .scenario-row {
@@ -507,7 +507,7 @@
 
 /* ===== 1920x1080 fit (compact) ===== */
 .player-main {
-    padding: var(--space-4);
+    padding: var(--space-1);
     gap: var(--space-4);
     max-width: 1560px;
 }
@@ -2567,7 +2567,18 @@ body.solo-match .fab-container {
 .header-controls { display: none; }
 
 /* ============================================================
-   MOBILE / TABLET SHELL  (phones + tablets, portrait + landscape)
+   MOBILE / TABLET SHELL  (narrow, or short-and-wide)
+
+   Two independent triggers, both about running out of room rather than the
+   window's aspect ratio:
+     - width <= 1024px  : phones and narrow windows, any height;
+     - height <= 700px  : landscape phones/tablets and short windows, up to
+                          1200px wide.
+   A desktop window that is merely wider than it is tall (e.g. 1100x800) keeps
+   the desktop layout, because it has the room for it; the previous
+   `orientation: landscape` test switched at width == height, so the design
+   flipped to the mobile shell the moment the window was widened past its
+   height - even though there was more space, not less.
 
    Below the tablet breakpoint the Player becomes a one-screen app:
    - the header centres and its actions collapse into a menu;
@@ -2585,7 +2596,7 @@ body.solo-match .fab-container {
    layout - the Incident Master spends turns itself and a shell would
    fight it (see js/solo-master.js).
    ============================================================ */
-@media (max-width: 1024px), (orientation: landscape) and (max-width: 1200px) {
+@media (max-width: 1024px), (max-width: 1200px) and (max-height: 700px) {
 
     /* ---- header: ONE line - brand, stats, menu toggle ----
        A phone cannot spare two rows for the header, so the logo shares a row
@@ -2839,18 +2850,14 @@ body.solo-match .fab-container {
 /* ============================================================
    CONTROLS RELOCATED INTO THE HEADER
 
-   The compact landscape shell has room in its header for the
-   roll/action controls, and moving them there frees the row the
-   separate bar was using for the board. The query is therefore
-   exactly the landscape half of the shell above - the same 1200
-   boundary, at ANY height - so the bar and the shell switch
-   together. js/landscape-controls.js adds `body.landscape-controls`
-   on this same query.
-
-   Above 1200 the bar is always its own row, however wide the
-   screen gets.
+   The short shell (height <= 700px, up to 1200px wide) has room in its header
+   for the roll/action controls, and moving them there frees the row the
+   separate bar was using for the board. js/landscape-controls.js adds
+   `body.landscape-controls` on the same query, so the bar and the shell switch
+   together. A window with plenty of height keeps the bar in its own row, even
+   when it is <= 1200px wide - it has the room.
    ============================================================ */
-@media (orientation: landscape) and (max-width: 1200px) {
+@media (max-width: 1200px) and (max-height: 700px) {
     body.landscape-controls .controls-bar { display: none; }
     /* The bar owns the shell grid's first `auto` row; with it gone the two
        survivors take the two rows and the hand keeps the leftover height. */
@@ -2892,7 +2899,7 @@ body.solo-match .fab-container {
    roll<->turn coupling on - the default - the roll already spends the turn and
    adding a strike spends one too. A portrait tablet has the width and keeps
    them at full size. */
-@media (max-width: 700px), (orientation: landscape) and (max-width: 1200px) {
+@media (max-width: 700px), (max-width: 1200px) and (max-height: 700px) {
     /* Coupling ON: pure redundancy, so they go. The checkbox sits in the same
        bar (or the same header row) as them, so unticking brings them back. */
     body:not(.solo-match):has(#turn-couple-cb:checked) #use-turn-btn,
@@ -2913,7 +2920,7 @@ body.solo-match .fab-container {
    The roll/action controls are also relocated INTO the header (js/landscape-
    controls.js adds `body.landscape-controls`), which kills their separate bar
    and hands the freed row to the cards. */
-@media (orientation: landscape) and (max-height: 620px) and (max-width: 1200px) {
+@media (max-width: 1200px) and (max-height: 620px) {
     body:not(.solo-match) .player-header {
         /* This layout turns the toggle into a flex item (covered below), so the
            header does not have to reserve room for it. */
@@ -2954,10 +2961,10 @@ body.solo-match .fab-container {
     /* Headings cost vertical space on a short screen: drop the card labels. */
     body:not(.solo-match) .card-label { display: none; }
 
-    /* The relocated controls are styled by the block above, which now covers every
-       landscape width up to 1200 whatever the height; a short screen only adds
-       this: the hamburger becomes a flex item, so the whole row centres as one
-       group instead of anchoring to the header's right edge. */
+    /* The relocated controls are styled by the block above, which covers every
+       short viewport up to 1200x700; a really short screen only adds this: the
+       hamburger becomes a flex item, so the whole row centres as one group
+       instead of anchoring to the header's right edge. */
     body.landscape-controls .header-menu-btn {
         position: static;
         top: auto;
@@ -3044,7 +3051,7 @@ body.solo-match .fab-container {
    the primary action and the stat chips give width back, labels going but
    titles staying. 900px is where the measured row stops fitting with them; at
    915x412 the full row still fits. */
-@media (orientation: landscape) and (max-height: 620px) and (max-width: 900px) {
+@media (max-width: 900px) and (max-height: 620px) {
     body:not(.solo-match) #roll-dice-btn span { display: none; }
     body:not(.solo-match) #roll-dice-btn { padding-inline: 6px; }
     /* The pips read as strikes on their own; the roll readout keeps its label
@@ -3054,7 +3061,7 @@ body.solo-match .fab-container {
 
 /* Below 700px the row is tighter again, and so is the window it sits in: the
    header row, the logo in it and the hand card all shrink one more notch. */
-@media (orientation: landscape) and (max-height: 620px) and (max-width: 700px) {
+@media (max-width: 700px) and (max-height: 620px) {
     body:not(.solo-match) .player-header {
         /* A shorter row - the header is a sixth of a 270px-tall window and the
            board wants the difference. The logo keeps its 95%-of-the-row rule;
@@ -3081,12 +3088,12 @@ body.solo-match .fab-container {
    convenience, they only take effect on a card, and the GM Console carries the
    same two ops (reveal.set / reveal.procedures). The turn controls are controls
    the table asked for by unticking the box, so they win. */
-@media (orientation: landscape) and (max-height: 620px) and (max-width: 620px) {
+@media (max-width: 620px) and (max-height: 620px) {
     body:not(.solo-match):not(:has(#turn-couple-cb:checked)) .controls-right .controls-right-btn { display: none; }
 }
    head). Only the outer shell needs it. */
 @supports (padding: env(safe-area-inset-bottom)) {
-    @media (max-width: 1024px), (orientation: landscape) and (max-width: 1200px) {
+    @media (max-width: 1024px), (max-width: 1200px) and (max-height: 700px) {
         body:not(.solo-match) .player-main {
             padding-left: max(var(--space-2), env(safe-area-inset-left));
             padding-right: max(var(--space-2), env(safe-area-inset-right));

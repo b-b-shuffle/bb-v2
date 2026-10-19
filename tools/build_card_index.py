@@ -271,14 +271,8 @@ def render_card_index(
             '            <div class="app-legal-content">',
             '                <a class="app-legal-classic" href="https://www.blackhillsinfosec.com/tools/backdoorsandbreaches/classic" target="_blank" rel="noopener noreferrer" title="Backdoors &amp; Breaches – Classic (official site)">',
             '                    <img class="app-legal-logo" src="img/bb-logo-transparent-w.png" alt="Backdoors &amp; Breaches logo" width="2518" height="999">',
-            "                    <span>B&amp;B Classic – play on the official site</span>",
+            "                    <span>B&amp;B Classic – Official Site</span>",
             "                </a>",
-            '                <nav class="app-legal-nav" aria-label="Footer">',
-            f'                    <a href="{html.escape(home, quote=True)}">Home</a>',
-            '                    <a href="../how-to-play.html">How to play</a>',
-            '                    <a href="../Engine-V2/player.html">Player</a>',
-            '                    <a href="catalogue.html">Card catalogue</a>',
-            "                </nav>",
             '                <p class="app-legal-disclaimer">Unofficial community project. Backdoors &amp; Breaches is a game by Black Hills Information Security &amp; Antisyphon Training.</p>',
             '                <a class="app-legal-gh" href="https://github.com/Jonesckevin" target="_blank" rel="noopener noreferrer" title="Jonesckevin on GitHub" aria-label="Jonesckevin on GitHub">',
             "                    <span>Jonesckevin</span>",
@@ -286,6 +280,7 @@ def render_card_index(
             "            </div>",
             "        </footer>",
             "    </div>",
+            '    <script src="js/fab.js"></script>',
             "</body>",
             "</html>",
             "",
@@ -297,7 +292,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Regenerate the static card index")
     parser.add_argument("--src", default=str(Path(__file__).resolve().parent.parent))
     parser.add_argument("--check", action="store_true", help="fail if the committed output is stale")
-    parser.add_argument("--home", default="/", help="href used for the Home footer link")
+    parser.add_argument("--home", default="/", help="legacy: the footer no longer links Home, kept for CLI compatibility")
     args = parser.parse_args()
 
     root = Path(args.src).resolve()
