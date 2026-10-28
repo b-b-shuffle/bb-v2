@@ -189,7 +189,11 @@
         consultant: {
             description: { x: 14, y: 15.2, w: 72.5, h: 11, size: 4.3, align: 'center', weight: 700, color: CONSULTANT_BLUE },
             specialties: { x: 14, y: 32.3, w: 72.5, h: 16, size: BODY, align: 'left', columns: 2, lineHeight: 1.15 },
-            resources:   { x: 14, y: 86, w: 72.5, h: 4.5, size: LINKS, align: 'left', stripProtocol: true },
+            // One row along the bottom edge, like the printed socials: joining the
+            // links keeps them on a single line, which is all this strip of the
+            // card has room for. Both renderers then shrink the row to fit rather
+            // than stacking the links down past the card edge.
+            resources:   { x: 14, y: 86, w: 72.5, h: 4.5, size: LINKS, align: 'left', stripProtocol: true, row: true },
             placements: {
                 right:  { quote: { x: 14, y: 61, w: 33, h: 18, size: 3.5, align: 'left', italic: true, lineHeight: 1.25, color: CONSULTANT_GREEN },
                           portrait: { x: 50, y: 60, w: 36, circle: true } },
@@ -341,6 +345,16 @@
     }
 
     /**
+     * A `row` box prints its entries on one line, separated by a middle dot -
+     * the consultant's website/socials strip. Scenarios and procedures keep one
+     * entry per line, because their boxes are tall enough for the list.
+     */
+    function rowLines(lines, box) {
+        if (!box || !box.row || lines.length < 2) return lines;
+        return [lines.join(' \u00b7 ')];
+    }
+
+    /**
      * Page-relative URL of a card's uploaded artwork.
      *
      * The stored value is repo-relative in one of two shapes - `shared/...`
@@ -396,6 +410,7 @@
         if (ink) el.style.color = ink;
         if (box.weight) el.style.fontWeight = box.weight;
         if (box.italic) el.style.fontStyle = 'italic';
+        if (box.row) el.classList.add('cf-row');
 
         var items = lines || [];
         var cols = box.columns || 1;
@@ -502,6 +517,36 @@
 
             var size = base;
             el.style.fontSize = size.toFixed(2) + 'cqw';
+
+            // A row block keeps its entries on one line while that line stays
+            // legible. Past ~2.6cqw the row would be too small to read, so it
+            // falls back to wrapping and fitting the box height instead of
+            // running off the card edge.
+            if (el.classList.contains('cf-row')) {
+                var row = el.querySelector('.cf-line');
+                if (row) {
+                    row.style.whiteSpace = 'nowrap';
+                    el.style.fontSize = base.toFixed(2) + 'cqw';
+                    var avail = el.clientWidth;
+                    var need = row.scrollWidth;
+                    if (avail && need > avail) {
+                        var fitted = base * (avail / need) * 0.99;
+                        if (fitted >= 2.6) {
+                            el.style.fontSize = fitted.toFixed(2) + 'cqw';
+                        } else {
+                            row.style.whiteSpace = 'normal';
+                            var wrapSize = base;
+                            for (var step2 = 0; step2 < 60 && wrapSize > 2.2; step2++) {
+                                if (el.scrollHeight <= el.clientHeight + 1) break;
+                                wrapSize -= 0.05;
+                                el.style.fontSize = wrapSize.toFixed(2) + 'cqw';
+                            }
+                        }
+                    }
+                }
+                continue;
+            }
+
             // 0.05cqw steps, never below 2.2cqw (the resources row's floor).
             for (var step = 0; step < 60 && size > 2.2; step++) {
                 if (el.scrollHeight <= el.clientHeight + 1) break;
@@ -579,7 +624,7 @@
         var face = document.createElement('div');
         face.className = 'card-face card-face--' + type;
 
-        var links = resourceLines(data, boxes.resources && boxes.resources.stripProtocol);
+        var links = rowLines(resourceLines(data, boxes.resources && boxes.resources.stripProtocol), boxes.resources);
 
         // Artwork decides how much room the list gets. A consultant has no
         // artwork panel - its picture is the circular portrait (or the wide
@@ -798,6 +843,30 @@
         var floor = W * 0.022;                 // the 2.2cqw floor in fitBlocks()
         var out = [];
 
+        // A row box is one measured line, shrunk by width - the consultant's
+        // socials stay on the bottom edge like the printed card. If one line
+        // would have to shrink below ~2.6cqw to fit, fall through to the normal
+        // wrap-and-fit path so the links stay readable instead of vanishing.
+        if (box.row) {
+            var row = lines.join(' \u00b7 ');
+            ctx.font = (box.italic ? 'italic ' : '') + (box.weight || 400) + ' ' + size + 'px ' + FONT;
+            var rowWidth = ctx.measureText(row).width;
+            var rowFits = rowWidth <= maxWidth || rowWidth <= 0;
+            var rowSize = rowWidth > 0 ? size * (maxWidth / rowWidth) * 0.99 : size;
+            if (rowFits || rowSize >= W * 0.026) {
+                if (!rowFits) {
+                    size = rowSize;
+                    ctx.font = (box.italic ? 'italic ' : '') + (box.weight || 400) + ' ' + size + 'px ' + FONT;
+                }
+                ctx.fillStyle = box.color || color || INK;
+                ctx.textBaseline = 'top';
+                ctx.textAlign = box.align === 'center' ? 'center' : 'left';
+                var rowX = box.align === 'center' ? W * (box.x + box.w / 2) / 100 : W * box.x / 100;
+                ctx.fillText(row, rowX, H * box.y / 100);
+                return;
+            }
+        }
+
         // Shrink until the wrapped text fits the box - the same rule fitBlocks()
         // applies in the DOM, so the PNG matches what the preview shows.
         for (var attempt = 0; attempt < 24; attempt++) {
@@ -974,7 +1043,7 @@
         var ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0, W, H);
 
-        var links = resourceLines(data, boxes.resources && boxes.resources.stripProtocol);
+        var links = rowLines(resourceLines(data, boxes.resources && boxes.resources.stripProtocol), boxes.resources);
         var imageBox = clearOfLinks(boxes.artwork || boxes.portrait, boxes.resources, links.length > 0);
         var hasArt = !!(imageBox && data.image);
 
