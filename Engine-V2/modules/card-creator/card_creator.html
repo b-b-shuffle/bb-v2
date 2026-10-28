@@ -211,10 +211,13 @@
                         <div class="cc-field" style="margin-top:12px" id="cc-artwork-place-field">
                             <label class="cc-label">Placement</label>
                             <div class="cc-seg" id="cc-artwork-seg">
-                                <label><input type="radio" name="cc-artwork" value="illustration" checked> Illustration panel</label>
-                                <label><input type="radio" name="cc-artwork" value="banner"> Top banner</label>
+                                <label><input type="radio" name="cc-artwork" value="wide"> Wide</label>
+                                <label><input type="radio" name="cc-artwork" value="center"> Center</label>
+                                <label><input type="radio" name="cc-artwork" value="left"> Left</label>
+                                <label><input type="radio" name="cc-artwork" value="right" checked> Right</label>
                                 <label><input type="radio" name="cc-artwork" value="none"> No image</label>
                             </div>
+                            <p class="cc-hint">Wide and Center put the list above the image; Left and Right keep the list beside it.</p>
                         </div>
                     </div>
 
@@ -266,7 +269,7 @@
     <script src="../../../shared/js/local-api.js"></script>
     <script src="../../js/utils.js"></script>
     <script src="../../js/card-renderer.js"></script>
-    <script src="../../js/card-face.js?v=4"></script>
+    <script src="../../js/card-face.js?v=9"></script>
     <script src="../../js/webllm-provider.js"></script>
     <script src="../../js/ai-client.js"></script>
     <script src="card_creator.js"></script>

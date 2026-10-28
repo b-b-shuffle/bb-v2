@@ -67,7 +67,7 @@ const CardCreator = {
             quote: '',
             resources: [],
             image: '',
-            artwork: 'illustration',
+            artwork: 'right',
             style: 'template'
         };
     },
@@ -200,7 +200,13 @@ const CardCreator = {
             const input = document.querySelector(`input[name="${name}"][value="${value}"]`);
             if (input) input.checked = true;
         };
-        check('cc-artwork', c.artwork || 'illustration');
+        // Cards saved before the four-way choice exist with 'illustration' or
+        // 'banner'; CardFace maps those onto right/wide.
+        const placement = (typeof CardFace !== 'undefined' && CardFace.placementFor)
+            ? CardFace.placementFor(c.artwork)
+            : (c.artwork || 'right');
+        this.card.artwork = placement;
+        check('cc-artwork', placement);
         this.paintSeg('cc-artwork-seg');
 
         this.renderChips('detection');
@@ -232,16 +238,13 @@ const CardCreator = {
         this.el['cc-quote-field']?.classList.toggle('cc-hidden', !isConsultant);
         // The scenario, procedure and consultant templates all print an image.
         this.el['cc-artwork-section']?.classList.toggle('cc-hidden', !(isScenario || isProcedure || isConsultant));
-        // A consultant's picture is always the circular portrait, so the
-        // panel/banner/none placement choice does not apply to it.
-        this.el['cc-artwork-place-field']?.classList.toggle('cc-hidden', isConsultant);
 
         this.setHint('cc-description-hint', isConsultant
             ? 'Printed centred in bold blue - the effect the consultant grants.'
             : (type === 'inject' ? 'Printed under the NOTES heading.' : 'Prints under the card title.'));
         this.setHint('cc-artwork-hint', isConsultant
-            ? 'Printed as a circular portrait beside the quote - a head-and-shoulders shot works best.'
-            : 'Printed in the panel beside the TOOLS list.');
+            ? 'A head-and-shoulders shot works best: Left/Right print it as a circle beside the quote, Wide as a banner.'
+            : 'Printed in the panel below the heading, beside or under the list.');
     },
 
     setHint(id, text) {
