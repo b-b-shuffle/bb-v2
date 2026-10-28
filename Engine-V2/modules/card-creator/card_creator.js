@@ -37,14 +37,15 @@ const CardCreator = {
 
     cacheElements() {
         const ids = [
-            'cc-type', 'cc-id', 'cc-name', 'cc-description',
+            'cc-type', 'cc-id', 'cc-name', 'cc-description', 'cc-description-hint',
             'cc-detection-field', 'cc-detection-chips', 'cc-detection-input', 'cc-detection-suggest',
             'cc-tools-field', 'cc-tools-chips', 'cc-tools-input',
             'cc-notes-field', 'cc-notes',
             'cc-specialties-field', 'cc-specialties-chips', 'cc-specialties-input',
+            'cc-quote-field', 'cc-quote',
             'cc-resources', 'cc-add-resource',
             'cc-drop', 'cc-image-input', 'cc-thumb', 'cc-thumb-img', 'cc-image-clear',
-            'cc-artwork-section', 'cc-artwork-seg',
+            'cc-artwork-section', 'cc-artwork-seg', 'cc-artwork-hint', 'cc-artwork-place-field',
             'cc-preview', 'cc-export-png', 'cc-copy-json',
             'cc-new-btn', 'cc-preview-status', 'cc-form-status',
             'cc-ai', 'cc-ai-mode', 'cc-ai-theme', 'cc-ai-difficulty', 'cc-ai-context',
@@ -63,6 +64,7 @@ const CardCreator = {
             tools: [],
             notes: '',
             specialties: [],
+            quote: '',
             resources: [],
             image: '',
             artwork: 'illustration',
@@ -77,7 +79,7 @@ const CardCreator = {
     bindEvents() {
         const onInput = () => { this.readForm(); this.scheduleRender(); };
 
-        ['cc-name', 'cc-description', 'cc-notes', 'cc-id'].forEach(id => {
+        ['cc-name', 'cc-description', 'cc-notes', 'cc-id', 'cc-quote'].forEach(id => {
             this.el[id]?.addEventListener('input', onInput);
         });
 
@@ -178,6 +180,7 @@ const CardCreator = {
         this.card.name = this.el['cc-name']?.value || '';
         this.card.description = this.el['cc-description']?.value || '';
         this.card.notes = this.el['cc-notes']?.value || '';
+        this.card.quote = this.el['cc-quote']?.value || '';
         this.card.resources = this.readResources();
     },
 
@@ -191,6 +194,7 @@ const CardCreator = {
         if (this.el['cc-name']) this.el['cc-name'].value = c.name || '';
         if (this.el['cc-description']) this.el['cc-description'].value = c.description || '';
         if (this.el['cc-notes']) this.el['cc-notes'].value = c.notes || '';
+        if (this.el['cc-quote']) this.el['cc-quote'].value = c.quote || '';
 
         const check = (name, value) => {
             const input = document.querySelector(`input[name="${name}"][value="${value}"]`);
@@ -219,13 +223,30 @@ const CardCreator = {
         const type = this.card.type;
         const isScenario = this.SCENARIO_TYPES.includes(type);
         const isProcedure = type === 'procedure';
+        const isConsultant = type === 'consultant';
 
         this.el['cc-detection-field']?.classList.toggle('cc-hidden', !isScenario);
         this.el['cc-tools-field']?.classList.toggle('cc-hidden', !(isScenario || isProcedure));
         this.el['cc-notes-field']?.classList.toggle('cc-hidden', type !== 'inject');
-        this.el['cc-specialties-field']?.classList.toggle('cc-hidden', type !== 'consultant');
-        // Only the scenario and procedure templates carry an artwork panel.
-        this.el['cc-artwork-section']?.classList.toggle('cc-hidden', !(isScenario || isProcedure));
+        this.el['cc-specialties-field']?.classList.toggle('cc-hidden', !isConsultant);
+        this.el['cc-quote-field']?.classList.toggle('cc-hidden', !isConsultant);
+        // The scenario, procedure and consultant templates all print an image.
+        this.el['cc-artwork-section']?.classList.toggle('cc-hidden', !(isScenario || isProcedure || isConsultant));
+        // A consultant's picture is always the circular portrait, so the
+        // panel/banner/none placement choice does not apply to it.
+        this.el['cc-artwork-place-field']?.classList.toggle('cc-hidden', isConsultant);
+
+        this.setHint('cc-description-hint', isConsultant
+            ? 'Printed centred in bold blue - the effect the consultant grants.'
+            : (type === 'inject' ? 'Printed under the NOTES heading.' : 'Prints under the card title.'));
+        this.setHint('cc-artwork-hint', isConsultant
+            ? 'Printed as a circular portrait beside the quote - a head-and-shoulders shot works best.'
+            : 'Printed in the panel beside the TOOLS list.');
+    },
+
+    setHint(id, text) {
+        const el = this.el[id];
+        if (el) el.textContent = text;
     },
 
     /* ------------------------------------------------------------------ */
@@ -568,6 +589,7 @@ const CardCreator = {
             tools: this.card.tools,
             notes: this.card.notes || '',
             specialties: this.card.specialties,
+            quote: this.card.quote || '',
             // Marks the card as template-composed: every display surface renders
             // it live from this key instead of using `image` as the face.
             template: this.card.type,
