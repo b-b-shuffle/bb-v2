@@ -5,6 +5,7 @@
     { "file": "how-to-play.html", "url": "/how-to-play.html" },
     { "file": "Engine-V2/player.html", "url": "/Engine-V2/player.html" },
     { "file": "Engine-V2/scenario-library.html", "url": "/Engine-V2/scenario-library.html" },
+    { "file": "Engine-V2/deck-builder.html", "url": "/Engine-V2/deck-builder.html" },
     { "file": "shared/catalogue.html", "url": "/shared/catalogue.html" },
     { "file": "shared/card-index.html", "url": "/shared/card-index.html" },
     { "file": "Engine-V2/modules/card-creator/card_creator.html", "url": "/Engine-V2/modules/card-creator/card_creator.html" },
