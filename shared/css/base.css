@@ -1538,12 +1538,28 @@ body.has-fab .app-legal-content { padding-right: 76px; }
 /* Stagger every other row so the repetition reads as a texture, not a grid. */
 .card-face .cf-wm-row:nth-child(odd) { padding-left: 7%; }
 
-/* GitHub signature, printed in the transparent margin below the card. */
+/* B&B logo, printed at the left of the blank bottom margin, aligned with the
+   card's text column. The artwork's background is opaque white, so
+   `mix-blend-mode: multiply` drops it out and leaves only the ink - the canvas
+   twin does the same. LOGO_HEIGHT / LOGO_LEFT in Engine-V2/js/card-face.js
+   match the height and left set inline on the element. */
+.card-face .cf-logo {
+  position: absolute;
+  top: 95.5%;
+  transform: translateY(-50%);
+  width: auto;
+  max-width: none;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+/* GitHub signature, printed in the bottom margin, pinned to the right. */
 .card-face .cf-footer {
   position: absolute;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   gap: 0.8cqw;
   color: #6b7280;
   text-decoration: none;

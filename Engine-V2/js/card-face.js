@@ -246,9 +246,20 @@
     /* Signature + watermark                                               */
     /* ------------------------------------------------------------------ */
 
-    // The footer sits in the transparent margin UNDER the printed card - the one
-    // strip of a template that no content block claims.
-    var FOOTER_BOX = { x: 14, y: 93.3, w: 72.5, h: 5.6, size: 2.1, align: 'center' };
+    // The footer sits in the blank white margin along the bottom of every
+    // template (~3.7%-96.6% wide, ~90%-97.9% tall) - the one strip no content
+    // block claims. The logo sits at the left edge of that strip, aligned with
+    // the card's text column; the signature is pinned to the right end.
+    var FOOTER_BOX = { x: 15, y: 92.8, w: 42, h: 5.4, size: 2.1, align: 'left' };
+    var SIGNATURE_BOX = { x: 62, y: 93.3, w: 28, h: 4.2, size: 2.1, align: 'right' };
+    // The logo is sized to that strip's height, as a percent of the face WIDTH.
+    // The art is 2.5:1 with a thin ~8% transparent margin on each side; the ink
+    // is 3.17:1, so a 5%-of-width box prints 15.8% wide and stays well clear of
+    // the signature. The source file is fully opaque white, so both renderers
+    // knock its background out with a multiply blend.
+    var LOGO_FILE = ROOT + 'shared/img/bb-logo-transparent.png';
+    var LOGO_HEIGHT = 5;
+    var LOGO_LEFT = 8.5;
     var SIGNATURE = 'JonesCKevin';
     var SIGNATURE_URL = 'https://github.com/Jonesckevin';
     var WATERMARK = 'Backdoors & Breaches';
@@ -281,7 +292,19 @@
         return wm;
     }
 
-    /** The GitHub signature link printed in the card's bottom margin. */
+    /** The B&B logo printed at the left of the bottom margin. */
+    function footerLogo() {
+        var img = document.createElement('img');
+        img.className = 'cf-logo';
+        img.src = LOGO_FILE;
+        img.alt = '';
+        img.draggable = false;
+        img.style.height = LOGO_HEIGHT + 'cqw';
+        img.style.left = LOGO_LEFT + '%';
+        return img;
+    }
+
+    /** The GitHub signature link printed in the card's bottom margin, at the right. */
     function footerBlock() {
         var a = document.createElement('a');
         a.className = 'cf-footer';
@@ -676,8 +699,10 @@
         // reads as a texture rather than as copy.
         face.appendChild(watermarkBlock());
 
+        face.appendChild(footerLogo());
+
         var footer = footerBlock();
-        boxStyle(footer, FOOTER_BOX);
+        boxStyle(footer, SIGNATURE_BOX);
         face.appendChild(footer);
 
         observeFace(face);
@@ -948,11 +973,40 @@
         ctx.restore();
     }
 
-    /** Canvas twin of footerBlock() - GitHub mark + signature, centred. */
-    function drawFooter(ctx, W, H) {
-        var size = W * FOOTER_BOX.size / 100;
-        var cx = W * (FOOTER_BOX.x + FOOTER_BOX.w / 2) / 100;
+    /**
+     * Canvas twin of footerLogo() - the B&B logo at the left of the bottom margin.
+     *
+     * The PNG has an opaque white background, and a canvas cannot multiply
+     * blend straight onto a destination that is already opaque white, so the
+     * logo is rendered to a scratch canvas and multiplied in - white drops out
+     * and the printed ink keeps its colour.
+     */
+    function drawFooterLogo(ctx, logo, W, H) {
+        var dh = W * LOGO_HEIGHT / 100;
+        var dw = dh * ((logo.naturalWidth || logo.width || 2.5) / (logo.naturalHeight || logo.height || 1));
+        var cx = W * LOGO_LEFT / 100 + dw / 2;
         var cy = H * (FOOTER_BOX.y + FOOTER_BOX.h / 2) / 100;
+
+        var scratch = document.createElement('canvas');
+        scratch.width = Math.ceil(dw);
+        scratch.height = Math.ceil(dh);
+        var sctx = scratch.getContext('2d');
+        if (!sctx) return;
+        sctx.fillStyle = '#ffffff';
+        sctx.fillRect(0, 0, scratch.width, scratch.height);
+        sctx.drawImage(logo, 0, 0, scratch.width, scratch.height);
+
+        ctx.save();
+        ctx.globalCompositeOperation = 'multiply';
+        ctx.drawImage(scratch, cx - dw / 2, cy - dh / 2, dw, dh);
+        ctx.restore();
+    }
+
+    /** Canvas twin of footerBlock() - GitHub mark + signature, right-aligned. */
+    function drawFooter(ctx, W, H) {
+        var size = W * SIGNATURE_BOX.size / 100;
+        var right = W * (SIGNATURE_BOX.x + SIGNATURE_BOX.w) / 100;
+        var cy = H * (SIGNATURE_BOX.y + SIGNATURE_BOX.h / 2) / 100;
 
         ctx.save();
         ctx.globalAlpha = 0.78;
@@ -964,7 +1018,7 @@
         var textW = ctx.measureText(SIGNATURE).width;
         var mark = size * 1.5;
         var gap = size * 0.5;
-        var x = cx - (mark + gap + textW) / 2;
+        var x = right - (mark + gap + textW);
 
         if (typeof Path2D !== 'undefined') {
             ctx.save();
@@ -1082,8 +1136,11 @@
         if (boxes.quote && data.quote) drawBlock(ctx, boxes.quote, String(data.quote).split(/\r?\n/), INK, W, H);
         if (boxes.resources && links.length) drawBlock(ctx, boxes.resources, links, INK, W, H);
 
-        // Same order as the DOM: template, artwork, text, watermark, footer.
+        // Same order as the DOM: template, artwork, text, watermark, logo, footer.
         drawWatermark(ctx, W, H);
+        try {
+            drawFooterLogo(ctx, await loadImage(LOGO_FILE), W, H);
+        } catch (_) { /* the logo is decoration; never fail an export over it */ }
         drawFooter(ctx, W, H);
         stampHiddenSignature(ctx, W, H);
 
